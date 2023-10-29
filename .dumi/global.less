@@ -1,0 +1,88 @@
+@import url('./theme/styles/variables.less');
+.dumi-default-icon > svg {
+  height: 25px !important;
+}
+
+body {
+  color: @c-text;
+  @{dark-selector} & {
+    color: @c-text-dark;
+  }
+}
+
+.dumi-default-previewer-meta {
+  border-top: none !important;
+}
+.dumi-default-content {
+  .markdown {
+    @{dark-selector} & {
+      color: @c-text-dark;
+    }
+  }
+}
+
+.dumi-default-content:not([data-no-sidebar]) {
+  box-shadow: none !important;
+  @{dark-selector} & {
+    background-color: @c-site-bg-dark !important;
+  }
+}
+.dumi-default-previewer {
+  border: none !important;
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+  .boxShaow();
+  border-radius: 15px !important;
+  padding-top: 25px;
+  .dumi-default-previewer-demo {
+    padding: 0;
+    padding-left: 25px;
+    padding-bottom: 15px;
+   
+    input {
+      min-width: 150px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1.5px solid @c-border;
+      outline: none;
+      transition: transform 0.3s ;
+      box-shadow: 0px 0px 20px -18px;
+      font-size: 16px;
+      &:focus {
+        border-color:  @c-primary;
+      }
+    
+      &:hover {
+        border-color:  @c-primary;
+        transform: scale(0.95);
+      }
+    }
+    select {
+      cursor: pointer;
+      width: 120px;
+      height: 30px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+  }
+  .dumi-default-source-code {
+    margin-top: 10px;
+  }
+  .dumi-default-previewer-actions {
+    border-bottom: none !important;
+  }
+}
+
+#root .dumi-default-doc-layout {
+  background-color: @c-site-bg ;
+  @{dark-selector} & {
+    background-color: @c-site-bg-dark;
+  }
+}
+
+
+.dumi-default-container.markdown{
+  margin-top: 20px !important;
+}
+
+h2 { a{ display: none; } }

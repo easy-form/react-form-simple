@@ -1,0 +1,26 @@
+@import url('../../theme/styles/variables.less');
+
+.button {
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 0;
+  letter-spacing: 1.5px;
+  font-size: 12px;
+  transition: all .5s ease;
+  background-color: @c-btn-bg-primary;
+  cursor: pointer;
+  color: @c-white;
+ }
+ 
+ .button:hover {
+  letter-spacing: 3px;
+  box-shadow: @c-primary-boxShaow-button;
+ }
+ 
+ .button:active {
+  letter-spacing: 3px;
+  box-shadow: none;
+  // transform: translateY(2px);
+  transition: 100ms;
+ }
+

@@ -1,0 +1,23 @@
+@import url('../../../theme/styles/variables.less');
+
+.theme-atom-one-dark-wrap {
+  margin-left: 150px;
+  width: 525px;
+  .theme-atom-one-dark {
+    .boxShaow();
+    background-color: @c-site-bg;
+    padding: 15px 10px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 0;
+    transition: all .3s;
+    @{dark-selector} & {
+      background-color: @c-site-bg-dark;
+    };
+  }
+  @media @mobile, @tablet {
+    display: none;
+  }
+}

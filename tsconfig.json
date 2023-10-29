@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [
+        ".dumi/tmp/*"
+      ],
+      "react-form-simple": [
+        "src"
+      ],
+      "react-form-simple/*": [
+        "src/*",
+        "*"
+      ],
+      "@components/*": [
+        ".dumi/component/*",
+        "*"
+      ]
+    }
+  },
+  "include": [
+    ".dumirc.ts",
+    "src/**/*",
+    "global.d.ts",
+    "demos/**/*",
+    "docs/demos/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
