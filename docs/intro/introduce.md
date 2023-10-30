@@ -1,5 +1,5 @@
 ---
-title: 介绍
+title: 文档
 ---
 
 ## <Mdh>快速入门</Mdh>
@@ -15,7 +15,7 @@ title: 介绍
 - 灵活的使用方式, 灵活的页面布局组合, 开发者可以根据自己的喜好和场景使用某种方式以及内置布局。在大多数场景下, 无需开发者手动布局。
 - 简约的 API 设计, 在操作表单的过程中, 简单的只需要引入两个 API, 就可以完成大部分工作。
 - 高度可扩展的表单接口, 在一些复杂需求或者定制化场景中, 开发者可以自行定制表单的控制逻辑。
-- 能轻易集成在基于 react 的 ui 库中。
+- 轻易集成在第三方 UI 中。
 - 完整的类型推断。
 
 #### 安装
@@ -36,12 +36,14 @@ npm install react-form-simple
 
 ## <Mdh>受控输入</Mdh>
 
-只需要两行代码便能创建一个受控表单项。下面的例子展示了 useForm 的用法。 useForm 暴露出的 **modal** 模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来渲染, 它不会重新引起视图的刷新, 即使的它的数据是最新的。
+只需要两行代码便能创建一个受控表单项。下面的例子展示了 useForm 的用法。 并在加载完 2s 后, 改变输入框的值。
+
+useForm 暴露出的 **modal** 表单模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来在表单外部渲染, 它不会重新引起视图的刷新, 即使的它的值是最新的。
 <code src="../demos/_controller.tsx"></code>
 
 ## <Mdh>订阅最新值</Mdh>
 
-使用 useSubscribe 来订阅整个表单的更新。这会将所订阅的值实时渲染在视图里。但是不推荐在父级组件中来订阅, 因为这会引起整个渲染树的更新, 推荐的做法是将它订阅在只需要用到的组件中, 可以通过 props 透传, 也可以将它注入到全局状态管理中
+使用 useSubscribe 来订阅表单项或者整个表单的更新。这会将所订阅的值实时渲染在视图里。但是不推荐在父级组件中来订阅, 因为这会引起整个渲染树的更新, 推荐的做法是只用在需要订阅的地方, 可以通过 props 透传, 也可以将它注入到全局状态管理中。
 <code src="../demos/_controller_sub.tsx"></code>
 
 ## <Mdh>监听表单</Mdh>
@@ -49,16 +51,53 @@ npm install react-form-simple
 使用**useWatch**监听表单变化。
 <code src="../demos/_watch.tsx"></code>
 
-## 校验
+## <Mdh>表单校验</Mdh>
+
+传入 rules 校验规则就可以对表单项进行校验。给 render 的 options 参数传入 trigger 属性以让表单项支持更多的校验方式。
+支持的校验方式有:
+
+- change
+- blur
+- manual
+
+默认是 change
 
 <code src="../demos/_vaild.tsx"></code>
 
-## <Mdh>组件用法</Mdh>
+## <Mdh>集成第三方 ui</Mdh>
 
-**react-form-simple** 暴露出两个组件`Form`和`FormItem`来提供给开发人员使用组件形式来创建表单。
+#### 集成 material-ui
+
+下面是一个集成 **material-ui** 的例子。只需要将控件给 render 就行, 不需要额外的逻辑。
+<code src="../demos/_ui.tsx"></code>
+
+#### <div style="margin-top: 15px">集成 Ant Design</div>
+
+下面是一个集成 **Ant Design** 的例子。同样的只需要将控件给 render 就行。>
+
+<code src="../demos/_ui_antd.tsx"></code>
+
+## <Mdh>动态表单</Mdh>
+
+通过直接给数组赋值, 然后调用 setState 方法手动刷新视图实现动态表单。因为改变 modal 的数据不会在表单外部引起视图刷新。
+<code src="../demos/_dymic.tsx"></code>
+
+还有另外一种方法也可以实现动态表单
+<code src="../demos/_dymic_01.tsx"></code>
+
+不管是哪种方式, render 方法的第一个参数如果是多层级的话应该都要 以 **.** 分隔
+
+## <Mdh>表单性能测试</Mdh>
+
+<code src="../demos/_performance_test.tsx"></code>
+
+<!-- ## <Mdh>组件调用</Mdh>
+
+除了调用 **render** 方法渲染, react-form-simple 还暴露出两个组件 **Form** 和 **FormItem** 来提供给开发人员使用组件形式来创建表单。
+
 <code src="../demos/_basic_formItem.tsx"></code>
 可以传入 **ref** 和 **bindId** 对 FormItem 里的内容进行校验和赋值。bindId 是用来标识 FormItem 项的唯一, 要使 FormItem 受控, bindId 是必须的。一旦传入 bindId, 组件内部就会维护它自身的所有状态
 
 <code src="../demos/_controll_formItem.tsx"></code>
 
-可以看到, 传入了 bindId 和 rule, 表单项项会自动进行校验。 FormItem 会自动将内部的状态变成可受控的, 在外部根本不需要关系受控过程。开发者需要做的, 就是将这些状态如何应用。
+可以看到, 传入了 bindId 和 rule, 表单项项会自动进行校验。 FormItem 会自动将内部的状态变成可受控的, 在外部根本不需要关系受控过程。开发者需要做的, 就是将这些状态如何应用。 -->

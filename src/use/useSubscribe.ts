@@ -3,26 +3,32 @@ import { useEffect, useState } from 'react';
 import { UseSubscribeNamespace } from 'react-form-simple/types/use';
 import { useControllerRef } from 'react-form-simple/use/useControllerRef';
 
-const s = {
-  datas: [] as Array<() => void>,
-  get() {
-    return s.datas;
-  },
-  set(cb: () => void) {
-    s.datas.push(cb);
-  },
-  emit() {
-    const subscribeCbs = s.get();
-    subscribeCbs.forEach((fn) => void fn?.());
-  },
+const subscribeObject = () => {
+  const object = {
+    datas: [] as Array<() => void>,
+    get() {
+      return object.datas;
+    },
+    set(cb: () => void) {
+      object.datas.push(cb);
+    },
+    emit() {
+      const subscribeCbs = object.get();
+      subscribeCbs.forEach((fn) => void fn?.());
+    },
+  };
+  return object;
 };
 
 export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
   modal: T;
-}): UseSubscribeNamespace.UseSubscribeReturnType<T, typeof s> => {
+}): UseSubscribeNamespace.UseSubscribeReturnType<
+  T,
+  ReturnType<typeof subscribeObject>
+> => {
   const { modal } = options;
 
-  const subscribes = useControllerRef(s);
+  const subscribes = useControllerRef(subscribeObject());
 
   const useSubscribe: UseSubscribeNamespace.UseSubscribe<T> = (cb) => {
     const [state, setState] = useState();
@@ -37,7 +43,7 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
 
   useEffect(() => {
     setTimeout(() => {
-      s.emit();
+      subscribes.emit();
     });
   }, []);
 

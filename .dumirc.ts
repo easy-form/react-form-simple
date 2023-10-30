@@ -23,7 +23,7 @@ export default defineConfig({
       'EXPANDBTN',
     ],
     collpaseCode: true,
-    onlyShowToc: true,
+    onlyShowToc: false,
   },
   alias: {
     'react-form-simple': path.resolve(__dirname, './', 'src'),

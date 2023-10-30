@@ -7,9 +7,9 @@ export default function App() {
     name: '',
     age: '',
   });
-  const renderName = render('name', { rules: { required: 'Ple' } })(<input />);
+  const renderName = render('name')(<input className="input" />);
 
-  const renderAge = render('age')(<input />);
+  const renderAge = render('age')(<input className="input" />);
 
   const renderSubmit = (
     <Button onClick={() => void console.log(modal)}>submit</Button>

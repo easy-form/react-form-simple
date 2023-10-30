@@ -8,7 +8,6 @@ const Mdh = (props: MdLabelProps) => {
   const { children, ...rests } = props;
   return (
     <MdLabel
-      // align="center"
       {...rests}
       style={{ display: 'inline-block', ...rests?.style }}
       className="mdh-label"

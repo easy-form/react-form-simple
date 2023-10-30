@@ -1,32 +1,30 @@
 import React from 'react';
+import type { GlobalProps } from 'react-form-simple/types/form';
 
 export type ControlProps = {
   children: any;
-  value?: any;
-  useEvtentsValue?: boolean;
-  onChange?: (...args: any[]) => void;
-  onBlur?: (...args: any[]) => void;
-  getFormatValue?: (...args: any) => any;
-  formatValue?: (...args: any) => any;
-};
+} & GlobalProps.GetContentOptions;
 
 export const Controller: React.FC<ControlProps> = ({
   children,
-  value,
+  attrs,
   ...rests
 }) => {
+  const { value, onChange, onBlur, ...restAttrs } = attrs;
   return React.Children.map(children, (child) => {
     return React.cloneElement(child, {
-      ...rests,
       value: child?.props?.value ?? value,
-      onChange(...args: any[]) {
-        rests?.onChange?.(...args);
-        child?.props?.onChange?.(...args);
+      onChange(e: any, ...args: any[]) {
+        onChange?.(e, ...args);
+        child?.props?.onChange?.(e, ...args);
       },
-      onBlur(...args: any[]) {
-        rests?.onBlur?.(...args);
-        child?.props?.onBlur?.(...args);
+      onBlur(e: any, ...args: any[]) {
+        onBlur?.();
+        child?.props?.onBlur?.(e, ...args);
       },
+      ...restAttrs,
+      ...rests,
+      ...child?.props,
     });
   });
 };

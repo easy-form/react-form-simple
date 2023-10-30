@@ -10,6 +10,15 @@
   background-color: @c-btn-bg-primary;
   cursor: pointer;
   color: @c-white;
+  &.plain-button {
+    background: none;
+    border: 1px solid @c-primary;
+    font-weight: bold;
+    color: @c-text;
+    @{dark-selector} & {
+      color: @c-text-dark !important;
+    };
+  }
  }
  
  .button:hover {

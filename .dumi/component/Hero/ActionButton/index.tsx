@@ -17,6 +17,7 @@ export const GetStarted = () => (
 export const Github = () => {
   return (
     <Button
+      plain
       className="github-button"
       onClick={() => {
         history.push('/intro/introduce');

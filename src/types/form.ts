@@ -128,6 +128,19 @@ export namespace GlobalProps {
   export type BindId = any;
 
   export type BindIds = (string | number | boolean)[];
+
+  export type GetContentOptions = {
+    modal: Record<string, any>;
+    bindId: string;
+    isError: boolean;
+    attrs: {
+      onChange: (e: any, tagType?: TagType) => void;
+      onBlur: () => void;
+      value: any;
+      readOnly: boolean | undefined;
+      checked: boolean;
+    };
+  } & Apis.FormItemApis;
   /**
    * To make a form controlled, you need to pass in a context
    * This will be exposed to the user so that he can customize the form control, and will also be integrated into useForm in the library.
@@ -196,7 +209,7 @@ export namespace GlobalProps {
     /**
      * @description 表单项样式
      */
-    formItemSx?: React.CSSProperties;
+    formItemStyle?: React.CSSProperties;
     /**
      * @description 触发校验事件
      * @default change
@@ -306,20 +319,7 @@ export namespace GlobalProps {
      * @description 表单项内容渲染回调函数
      * @resetType ({ modal, bindId }) => ReactNode
      */
-    getContent?: (
-      options: {
-        modal: Record<string, any>;
-        bindId: string;
-        isError: boolean;
-        attrs: {
-          onChange: (e: any, tagType?: TagType) => void;
-          onBlur: () => void;
-          value: any;
-          readOnly: boolean | undefined;
-          checked: boolean;
-        };
-      } & Apis.FormItemApis,
-    ) => ReactNode;
+    getContent?: (options: GetContentOptions) => ReactNode;
     /**
      * @description 自定义只读状态文案显示
      */

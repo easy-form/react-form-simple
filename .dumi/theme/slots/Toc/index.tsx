@@ -1,7 +1,8 @@
 import { Scrollspy as ScrollSpy } from '@makotot/ghostui/src/Scrollspy';
 import {
-  history,
   Link,
+  history,
+  useAppData,
   useLocation,
   useRouteMeta,
   useSiteData,
@@ -16,21 +17,30 @@ import React, {
 } from 'react';
 import './index.less';
 
-const Toc: FC = () => {
+const Toc: FC = ({ path }: any) => {
   const { pathname, search, hash } = useLocation();
   const meta = useRouteMeta();
   const tabMeta = useTabMeta();
   const { loading } = useSiteData();
   const prevIndexRef = useRef(0);
   const [sectionRefs, setSectionRefs] = useState<RefObject<HTMLElement>[]>([]);
+
+  const { routes } = useAppData();
+
+  const keysToExtract = ['docs/intro/advanced', 'docs/intro/introduce'];
+
+  const silebarDatas = keysToExtract
+    .map((k) => routes[k])
+    .find((k) => `/${k.path}` === path);
+
   const memoToc = React.useMemo(() => {
-    let toc = meta.toc;
+    let toc = silebarDatas?.meta?.toc || [];
     if (tabMeta) {
       toc = tabMeta.toc;
     }
     // only render h2 ~ h4
     return toc.filter(({ depth }) => depth > 1 && depth < 4);
-  }, [meta, tabMeta]);
+  }, [silebarDatas, tabMeta]);
 
   useEffect(() => {
     // wait for page component ready (DOM ready)

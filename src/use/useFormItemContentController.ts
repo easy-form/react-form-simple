@@ -83,6 +83,8 @@ export function useFormItemContentController(
     },
   });
 
+  const value = getProxyValue(modalValue, bindId) ?? '';
+
   const renderContent = getContent?.({
     modal: modalValue,
     bindId: bindId as string,
@@ -96,8 +98,8 @@ export function useFormItemContentController(
       onBlur: () => {
         onBlur?.();
       },
-      value: getProxyValue(modalValue, bindId) ?? '',
-      checked: isMeaningful(getProxyValue(modalValue, bindId)),
+      value,
+      checked: Boolean(value),
     },
     isError,
     ...apis,

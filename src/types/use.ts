@@ -13,7 +13,14 @@ export namespace UseFormNamespace {
   /**
    * useForm and its controller need public properties
    */
-  export interface ShareConfig extends Partial<FormItemProps> {}
+  export interface ShareConfig extends Partial<FormItemProps> {
+    defineProps?: (
+      options: GlobalProps.GetContentOptions,
+    ) => Record<
+      string,
+      GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions] | any
+    >;
+  }
 
   /**
    * useForm Return value type

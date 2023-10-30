@@ -29,7 +29,7 @@ export const FormItem = React.forwardRef<
     labelPosition = 'row',
     labelWidth,
     labelStyle,
-    formItemSx,
+    formItemStyle,
     contentSx,
     fullWidth,
     bindId,
@@ -91,9 +91,7 @@ export const FormItem = React.forwardRef<
     () =>
       !customErrTips && (
         <FormItemErrorTxt
-          off={() => {
-            setError('');
-          }}
+          off={() => setError('')}
           errorSx={errorSx}
           subscribe={globalDatas.subscribe}
         />
@@ -163,7 +161,7 @@ export const FormItem = React.forwardRef<
           marginRight: '20px',
         },
 
-        ...formItemSx,
+        ...formItemStyle,
       }}
     >
       {renderFormItemLabel}

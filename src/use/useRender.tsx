@@ -1,7 +1,8 @@
 import React from 'react';
 import { Apis, FormItem } from 'react-form-simple';
 import { Controller } from 'react-form-simple/template/Controller';
-import { UseFormNamespace } from 'react-form-simple/types/use';
+import type { GlobalProps } from 'react-form-simple/types/form';
+import type { UseFormNamespace } from 'react-form-simple/types/use';
 import { getProxyValue } from 'react-form-simple/utils/controller';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
@@ -34,7 +35,7 @@ export const useRender = <T extends UseFormNamespace.ShareConfig>(
   ) => {
     Reflect;
     const mergeConfig = { ...config, ...singleConfig };
-    const { key, modal, contextProps, ...rests } = mergeConfig;
+    const { key, modal, contextProps, defineProps, ...rests } = mergeConfig;
 
     const defaultValue = getProxyValue(modal, bindId);
 
@@ -49,9 +50,14 @@ export const useRender = <T extends UseFormNamespace.ShareConfig>(
           defaultValue={defaultValue}
           bindId={bindId}
           contextProps={contextProps}
-          getContent={({ attrs }) => (
-            <Controller {...attrs}>{reactNode}</Controller>
-          )}
+          getContent={(options) => {
+            const { attrs } = options;
+            const controllerprops = {
+              attrs,
+              ...defineProps?.(options),
+            } as GlobalProps.GetContentOptions;
+            return <Controller {...controllerprops}>{reactNode}</Controller>;
+          }}
           {...otherProps}
           {...rests}
           ref={(ref) => {

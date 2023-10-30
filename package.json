@@ -2,30 +2,27 @@
   "name": "use-react-form",
   "version": "0.0.1",
   "description": "A form library for quickly controlling react form input",
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "start": "npm run dev",
-    "dev": "dumi dev",
-    "build": "father build",
-    "build:watch": "father dev",
-    "docs:build": "dumi build",
-    "prepare": "husky install && dumi setup",
-    "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
-    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepublishOnly": "father doctor && npm run build",
-    "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
-    "tsup": "tsup"
-  },
-  "authors": [
-    "wed97land@outlook.com"
-  ],
-  "license": "MIT",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev",
+    "tsup": "tsup"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -35,25 +32,15 @@
     "*.{md,json}": [
       "prettier --write --no-error-on-unmatched-pattern"
     ],
-    "*.{css,less}": [
-      "stylelint --fix",
-      "prettier --write"
-    ],
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --parser=typescript --write"
-    ]
+    "*.{css,less}": [],
+    "*.{js,jsx}": [],
+    "*.{ts,tsx}": []
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+  "dependencies": {
+    "@emotion/css": "^11.11.2",
+    "lodash": "^4.17.21",
+    "proxy-polyfill": "^0.3.2",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@codesandbox/sandpack-react": "^2.9.0",
@@ -80,10 +67,14 @@
     "stylelint": "^14.9.1",
     "tsup": "^7.2.0"
   },
-  "dependencies": {
-    "@emotion/css": "^11.11.2",
-    "lodash": "^4.17.21",
-    "proxy-polyfill": "^0.3.2",
-    "react-transition-group": "^4.4.5"
-  }
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wed97land@outlook.com"
+  ]
 }

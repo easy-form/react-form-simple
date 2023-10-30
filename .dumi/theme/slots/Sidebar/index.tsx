@@ -33,9 +33,7 @@ const Sidebar: FC = () => {
                 <NavLink to={child.link} title={child.title} end>
                   {child.title}
                 </NavLink>
-                {child.link === pathname && meta.frontmatter.toc === 'menu' && (
-                  <Toc />
-                )}
+                {meta.frontmatter.toc === 'menu' && <Toc path={child.link} />}
               </dd>
             ))}
           </dl>

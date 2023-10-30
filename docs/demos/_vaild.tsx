@@ -3,12 +3,16 @@ import React from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, validate } = useForm({ name: '', age: '' });
+  const { render, validate, modal } = useForm({ name: '', age: '' });
 
-  const renderName = render('name', { rules: { required: 'Please Input' } })(
-    <input />,
-  );
+  const renderName = render('name', {
+    rules: { required: 'Please Input' },
+    requireIndicator: true,
+    label: 'name',
+  })(<input className="input" />);
+
   const renderAge = render('age', {
+    label: 'age',
     rules: [
       { required: 'Please Input' },
       {
@@ -20,12 +24,13 @@ export default function App() {
         },
       },
     ],
-  })(<input />);
+  })(<input className="input" />);
 
   const renderSubmit = (
     <Button
-      onClick={() => {
-        validate();
+      onClick={async () => {
+        await validate();
+        console.log(modal);
       }}
     >
       Submit
