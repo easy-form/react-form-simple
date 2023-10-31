@@ -68,7 +68,9 @@ useForm 暴露出的 **modal** 表单模型数据永远是最新的, 在表单�
 
 #### 集成 material-ui
 
-下面是一个集成 **material-ui** 的例子。只需要将控件给 render 就行, 不需要额外的逻辑。
+下面是一个集成 **material-ui** 的例子。只需要将控件给 render 就行。
+
+然后给 name 表单项定义了不为空的校验, 当值为空的时候, 会有错误提示且输入框会变红。
 <code src="../demos/_ui.tsx"></code>
 
 #### <div style="margin-top: 15px">集成 Ant Design</div>
@@ -79,10 +81,10 @@ useForm 暴露出的 **modal** 表单模型数据永远是最新的, 在表单�
 
 ## <Mdh>动态表单</Mdh>
 
-通过直接给数组赋值, 然后调用 setState 方法手动刷新视图实现动态表单。因为改变 modal 的数据不会在表单外部引起视图刷新。
+通过直接给数组赋值, 然后调用 setState 方法手动刷新视图实现动态表单。调用 setState 方法的目的是因为直接改变 modal 的数据不会在表单外部引起视图刷新。
 <code src="../demos/_dymic.tsx"></code>
 
-还有另外一种方法也可以实现动态表单
+还可以不调用 setState 方法, 用另外一种方法也可以实现动态表单
 <code src="../demos/_dymic_01.tsx"></code>
 
 不管是哪种方式, render 方法的第一个参数如果是多层级的话应该都要 以 **.** 分隔
@@ -90,14 +92,3 @@ useForm 暴露出的 **modal** 表单模型数据永远是最新的, 在表单�
 ## <Mdh>表单性能测试</Mdh>
 
 <code src="../demos/_performance_test.tsx"></code>
-
-<!-- ## <Mdh>组件调用</Mdh>
-
-除了调用 **render** 方法渲染, react-form-simple 还暴露出两个组件 **Form** 和 **FormItem** 来提供给开发人员使用组件形式来创建表单。
-
-<code src="../demos/_basic_formItem.tsx"></code>
-可以传入 **ref** 和 **bindId** 对 FormItem 里的内容进行校验和赋值。bindId 是用来标识 FormItem 项的唯一, 要使 FormItem 受控, bindId 是必须的。一旦传入 bindId, 组件内部就会维护它自身的所有状态
-
-<code src="../demos/_controll_formItem.tsx"></code>
-
-可以看到, 传入了 bindId 和 rule, 表单项项会自动进行校验。 FormItem 会自动将内部的状态变成可受控的, 在外部根本不需要关系受控过程。开发者需要做的, 就是将这些状态如何应用。 -->

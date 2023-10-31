@@ -8,12 +8,12 @@ export default function App() {
   });
   const { fields } = modal;
 
-  const renderFields = fields.map((f, i) =>
+  const renderFields = fields.map((field, i) =>
     render(`fields.${i}.value`, {
       label: `name${i}`,
       labelPosition: 'top',
       rules: { required: 'Please Input' },
-      key: f.uid,
+      key: field.uid,
     })(<input className="input" />),
   );
 

@@ -85,29 +85,29 @@ export function useFormItemContentController(
 
   const value = getProxyValue(modalValue, bindId) ?? '';
 
-  const renderContent = getContent?.({
-    modal: modalValue,
-    bindId: bindId as string,
-    attrs: {
-      readOnly,
-      onChange: (e, tagType) => {
-        const _value = getEventCbValue(e, tagType, formatChangeValue);
-        methods.set(_value);
-        onChange?.(_value);
+  const renderContent =
+    getContent?.({
+      modal: modalValue,
+      bindId: bindId as string,
+      attrs: {
+        readOnly,
+        onChange: (e, tagType) => {
+          const _value = getEventCbValue(e, tagType, formatChangeValue);
+          methods.set(_value);
+          onChange?.(_value);
+        },
+        onBlur: () => {
+          onBlur?.();
+        },
+        value,
+        checked: Boolean(value),
       },
-      onBlur: () => {
-        onBlur?.();
-      },
-      value,
-      checked: Boolean(value),
-    },
-    isError,
-    ...apis,
-  });
+      isError,
+      ...apis,
+    }) || null;
 
   return {
     renderContent,
-    modal: modalValue,
   };
 }
 

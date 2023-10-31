@@ -1,33 +1,38 @@
 import React from 'react';
-import { Apis, FormItem } from 'react-form-simple';
+import { FormItem } from 'react-form-simple';
 import { Controller } from 'react-form-simple/template/Controller';
 import type { GlobalProps } from 'react-form-simple/types/form';
-import type { UseFormNamespace } from 'react-form-simple/types/use';
+import type {
+  UseFormNamespace,
+  UseRenderNamespace,
+} from 'react-form-simple/types/use';
 import { getProxyValue } from 'react-form-simple/utils/controller';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
-const useFormItemRef = () => {
-  const formItems = useControllerRef({
-    datas: {} as Record<string, Apis.FormItemApis>,
-    get() {
-      return formItems.datas;
-    },
-    set(key: string, ref: Apis.FormItemApis) {
-      formItems.datas[key] = ref;
-    },
-    setValue(key: string, value: any) {
-      const f = formItems.get();
-      f?.[key]?.setValue?.(value);
-    },
-  });
-  return { formItems };
-};
+// const useFormItemRef = () => {
+//   const formItems = useControllerRef({
+//     datas: {} as Record<string, Apis.FormItemApis>,
+//     get() {
+//       return formItems.datas;
+//     },
+//     set(key: string, ref: Apis.FormItemApis) {
+//       formItems.datas[key] = ref;
+//     },
+//     setValue(key: string, value: any) {
+//       const f = formItems.get();
+//       f?.[key]?.setValue?.(value);
+//     },
+//   });
+//   return { formItems };
+// };
 
-export const useRender = <T extends UseFormNamespace.ShareConfig>(
-  config?: T & { modal: Record<string, any> },
-) => {
-  const { formItems } = useFormItemRef();
+export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
+  // const { formItems } = useFormItemRef();
+
+  const { globalDatas } = config;
+
+  const { bindIdApis } = globalDatas;
 
   const render: UseFormNamespace.UseFormReturnType['render'] = (
     bindId,
@@ -60,9 +65,9 @@ export const useRender = <T extends UseFormNamespace.ShareConfig>(
           }}
           {...otherProps}
           {...rests}
-          ref={(ref) => {
-            formItems.set(bindId, ref as Apis.FormItemApis);
-          }}
+          // ref={(ref) => {
+          //   formItems.set(bindId, ref as Apis.FormItemApis);
+          // }}
         />
       );
     };
@@ -70,7 +75,8 @@ export const useRender = <T extends UseFormNamespace.ShareConfig>(
 
   const exportMethods = useControllerRef({
     set(key: string, value: any) {
-      formItems.setValue(key, value);
+      bindIdApis.get(key)?.setValue(value);
+      // formItems.setValue(key, value);
     },
   });
 

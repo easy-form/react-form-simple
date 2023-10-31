@@ -35,8 +35,9 @@ export const useContextApi = () => {
       apis.set(uid, rests);
       bindIdApis.set(bindId, rests);
     },
-    destory({ uid }) {
+    destory({ uid, bindId }) {
       apis.delete(uid);
+      bindIdApis.delete(bindId);
     },
   });
 
@@ -58,6 +59,18 @@ export const useContextApi = () => {
     },
     reapplyValidator(bindId) {
       executeMethodFromApis(bindId, 'reapplyValidator');
+    },
+    setValue(bindId, value) {
+      const api = bindIdApis.get(bindId);
+      if (api) {
+        api.setValue(value);
+      }
+    },
+    setValues(values) {
+      if (!values || typeof values !== 'object') return;
+      Object.entries(values).forEach(([key, value]) => {
+        overlayApis.setValue(key, value);
+      });
     },
   });
 

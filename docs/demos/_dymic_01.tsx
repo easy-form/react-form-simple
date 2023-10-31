@@ -7,8 +7,8 @@ export default function App() {
   const [fields, setFields] = useState([{ value: '', uid: 1 }]);
   modal.fields = fields as any;
 
-  const renderFields = fields.map((f, i) =>
-    render(`fields.${i}.value`, { labelPosition: 'top', key: f.uid })(
+  const renderFields = fields.map((field, i) =>
+    render(`fields.${i}.value`, { labelPosition: 'top', key: field.uid })(
       <input className="input" />,
     ),
   );

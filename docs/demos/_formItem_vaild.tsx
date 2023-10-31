@@ -1,22 +1,16 @@
 import Button from '@components/Button';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { FormItem, FormItemApis } from 'react-form-simple';
 
-function App() {
+export default function App() {
   const formItemRef = useRef<FormItemApis>(null);
-  useEffect(() => {
-    formItemRef.current?.setValue('name123');
-  }, []);
   return (
     <>
       <FormItem
         ref={formItemRef}
         rules={{ required: 'Please Input' }}
-        bindId="name111"
-        getContent={({ attrs }) => (
-          <input placeholder="Please Input" {...attrs} />
-        )}
-        label="name"
+        getContent={({ attrs }) => <input {...attrs} className="input" />}
+        bindId="name"
       />
       <Button
         onClick={() => {
@@ -28,5 +22,3 @@ function App() {
     </>
   );
 }
-
-export default App;

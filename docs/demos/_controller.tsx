@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, modal } = useForm({ name: 'name' });
+  const { render, modal, reset } = useForm({ name: 'name' });
 
   const renderName = render('name')(<input className="input" />);
 

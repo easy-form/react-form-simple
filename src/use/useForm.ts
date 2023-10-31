@@ -15,7 +15,8 @@ const useForm = <T extends Record<string, any>>(
 ) => {
   const proxyTarget = useRef(modal || {});
 
-  const { contextProps, overlayApis, useFormExtraApis } = useContextApi();
+  const { contextProps, overlayApis, useFormExtraApis, globalDatas } =
+    useContextApi();
 
   const { useWatch, watchInstance } = usePrivateWatch({ modal });
 
@@ -56,11 +57,12 @@ const useForm = <T extends Record<string, any>>(
     ...config,
     modal: proxyModal,
     contextProps: _contextProps,
+    globalDatas,
   });
 
   return {
     modal: proxyModal,
-    contextProps,
+    contextProps: _contextProps,
     render,
     useSubscribe,
     useWatch,

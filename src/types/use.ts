@@ -117,3 +117,10 @@ export namespace UseWatchNamespace {
     (options?: WatchChangeCbProps): void;
   }
 }
+
+export namespace UseRenderNamespace {
+  export interface UseRenderOptions extends UseFormNamespace.ShareConfig {
+    modal: Record<string, any>;
+    globalDatas: Record<string, any>;
+  }
+}

@@ -8,14 +8,14 @@ import { debounce, isArray, isObject } from 'lodash';
 import { GlobalProps, GlobalRules } from 'react-form-simple/types/form';
 import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
-const initialValueSymbol = Symbol('initialValue');
+const defaultValueSymbol = Symbol('defaultValue');
 
 export const useFormItemController = (
   options: {} & GlobalProps.FormItemProps,
 ) => {
   const {
     onError,
-    initialValue = initialValueSymbol,
+    defaultValue = defaultValueSymbol,
     trigger = 'change',
     bindId,
     rules,
@@ -26,7 +26,7 @@ export const useFormItemController = (
     uid: getUuid(),
     subscribe: new Subscribe(),
     formUtil: new FormUtil({
-      initialValue,
+      defaultValue,
       onErr(err) {
         globalDatas.subscribe.emit('onErr', err);
       },
@@ -117,13 +117,15 @@ export const useFormItemController = (
       return isMeaningful(ret) ? Promise.reject(ret) : Promise.resolve();
     },
     reset() {
-      if (initialValueSymbol !== initialValue) {
-        formUtil.reset();
+      if (contextProps?.reset) {
         contextProps?.reset?.({
           bindId: globalDatas.bindId,
           uid: globalDatas.uid,
-          value: initialValue,
+          value: defaultValue,
         });
+      }
+      if (defaultValueSymbol !== defaultValue) {
+        formUtil.reset();
       }
     },
     clearValidate() {

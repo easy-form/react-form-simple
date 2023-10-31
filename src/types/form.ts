@@ -67,6 +67,20 @@ export namespace Apis {
      * @returns bindId Re-apply form items. If not passed, the entire form will be re-applied for verification.
      */
     reapplyValidator: (bindId?: ValidateBindIds) => void;
+
+    /**
+     * Set form item value
+     * @param bindId
+     * @returns
+     */
+    setValue: (bindId: any, value: any) => void;
+
+    /**
+     * Set values uniformly for form items
+     * @param bindId
+     * @returns
+     */
+    setValues: (values: Record<string, any>) => void;
   }
   /**
    * The form unit item interface is integrated, so functional operations are based on these interfaces.
@@ -295,11 +309,7 @@ export namespace GlobalProps {
      */
     customErrTips?: boolean;
     /**
-     * @description 初始值，设置该值reset时才能被重置
-     */
-    initialValue?: any;
-    /**
-     * @description 默认值
+     * @description 默认值, 设置该值reset时才能被重置
      */
     defaultValue?: any;
     /**

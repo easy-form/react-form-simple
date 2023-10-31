@@ -29,7 +29,7 @@ type FormUtilTypes = {
   trigger?: Trigger;
 } & {
   bindId?: GlobalProps.BindId;
-  initialValue?: Record<string, any>;
+  defaultValue?: Record<string, any>;
   onErr: (msg: string | null) => void;
 };
 
@@ -37,10 +37,10 @@ class FormUtil {
   readonly formvalidate: Formvalidate = new Formvalidate();
   bindId: GlobalProps.BindId;
   trigger: Trigger = [];
-  initialValue: any = {};
+  defaultValue: any = {};
   rules: Rules = [];
   constructor(public configOptions?: FormUtilTypes) {
-    this.initialValue = this.configOptions?.initialValue;
+    this.defaultValue = this.configOptions?.defaultValue;
     if (!isEmpty(this.configOptions)) {
       this.replace(this.configOptions as FormUtilTypes);
     }
@@ -72,7 +72,7 @@ class FormUtil {
       updateProxyValue(
         modal,
         this.bindId as string | number,
-        this.initialValue,
+        this.defaultValue,
       );
     }
   }

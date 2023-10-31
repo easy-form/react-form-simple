@@ -147,7 +147,6 @@ export const FormItem = React.forwardRef<
       key={uid}
       className={formItemClass?.join(' ') || ''}
       sx={{
-        alignSelf: 'flex-start',
         marginBottom: '25px',
         ...(fullWidth
           ? {
@@ -160,7 +159,6 @@ export const FormItem = React.forwardRef<
           alignItems: 'center',
           marginRight: '20px',
         },
-
         ...formItemStyle,
       }}
     >

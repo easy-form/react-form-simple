@@ -56,7 +56,8 @@ const Toc: FC = ({ path }: any) => {
 
   return sectionRefs.length ? (
     <ScrollSpy sectionRefs={sectionRefs}>
-      {({ currentElementIndexInViewport }) => {
+      {(o) => {
+        const { currentElementIndexInViewport } = o;
         // for keep prev item active when no item in viewport
         if (currentElementIndexInViewport > -1)
           prevIndexRef.current = currentElementIndexInViewport;
@@ -66,7 +67,8 @@ const Toc: FC = ({ path }: any) => {
             {memoToc
               .filter(({ depth }) => depth > 1 && depth < 4)
               .map((item, i) => {
-                const link = `${search}#${encodeURIComponent(item.id)}`;
+                const link = `${path}${search}#${encodeURIComponent(item.id)}`;
+
                 const activeIndex =
                   currentElementIndexInViewport > -1
                     ? currentElementIndexInViewport
@@ -82,7 +84,9 @@ const Toc: FC = ({ path }: any) => {
                         }
                       }}
                       title={item.title}
-                      {...(activeIndex === i ? { className: 'active' } : {})}
+                      {...(activeIndex === i && path === pathname
+                        ? { className: 'active' }
+                        : {})}
                     >
                       {item.title}
                     </Link>

@@ -1,4 +1,4 @@
-import React, { CSSProperties, useImperativeHandle, useMemo } from 'react';
+import React, { useImperativeHandle, useMemo } from 'react';
 
 import 'react-form-simple/style/form.less';
 
@@ -11,7 +11,7 @@ import { Box } from './Box';
 
 const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
   ({ children, ...restProps }, ref) => {
-    const { formStyle, direction = 'column', ...rests } = restProps;
+    const { formStyle, direction = 'row', ...rests } = restProps;
 
     const { overlayApis, contextProps } = useFormController();
 
@@ -19,14 +19,9 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
       ...overlayApis,
     }));
 
-    const _formStyle: CSSProperties = useMemo(
-      () => ({
-        display: 'flex',
-        flexWrap: 'wrap',
-        ...formStyle,
-        flexDirection: direction,
-      }),
-      [formStyle, direction],
+    const formClasses = useMemo(
+      () => ['control-form', `control-form_${direction}`],
+      [direction],
     );
 
     return (
@@ -34,7 +29,7 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
         {...rests}
         contextProps={{ ...contextProps, ...rests.contextProps }}
       >
-        <Box className="control-form" sx={{ ..._formStyle }}>
+        <Box className={formClasses.join(' ')} sx={{ ...formStyle }}>
           {children}
         </Box>
       </DataContainer>
