@@ -1,0 +1,36 @@
+@import url('../styles/variables.less');
+
+.mixin() {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 50%;
+  width: 260px;
+  height: 1px;
+  background: lighten(@c-primary, 40%);
+}
+
+.mdh-label {
+  position: relative;
+  // margin-bottom: 20px;
+  margin-top: 30px;
+  .icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-right: -8px;
+    transform: translate(100%, -50%);
+  }
+  // &::before {
+  //   .mixin();
+  //   margin-left: -10px;
+  //   transform: translate(-100%, -50%);
+    
+  // }
+  // &::after {
+  //   .mixin();
+  //   margin-right: -10px;
+  //   right: 0;
+  //   transform: translate(100%, -50%);
+  // }
+}

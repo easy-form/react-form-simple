@@ -1,0 +1,32 @@
+.alert-enter {
+  transform: scaleY(0.5);
+  transform-origin: top;
+  opacity: 0;
+}
+.alert-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 0.3s;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  transform: scaleY(0.5);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.control-form {
+ &_row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+ }
+ &_column {
+  display: block;
+  .control-form-item {
+    width: 100%;
+    }
+  }
+}

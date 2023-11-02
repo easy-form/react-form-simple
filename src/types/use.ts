@@ -13,7 +13,22 @@ export namespace UseFormNamespace {
   /**
    * useForm and its controller need public properties
    */
-  export interface ShareConfig extends Partial<FormItemProps> {
+  export interface ShareConfig
+    extends Omit<
+      Partial<FormItemProps>,
+      | 'bindId'
+      | 'children'
+      | 'getContent'
+      | 'rules'
+      | 'onError'
+      | 'defaultValue'
+      | 'requireIndicator'
+      | 'label'
+    > {
+    /**
+     * @resetType Function
+     * @description 在表单项内部状态发生改变需要根据这些状态定义相应的prop传给渲染控件的时候调用。
+     */
     defineProps?: (
       options: GlobalProps.GetContentOptions,
     ) => Record<
@@ -29,6 +44,7 @@ export namespace UseFormNamespace {
    */
   export type UseFormReturnType<T = null> = {
     /**
+     * @description 定义表单项的生命周期，在以组件形式受控渲染或者定制化表单时需要用到这个。
      * Gives the context attribute to FormItem,The type is the same as FormItem contexProps
      * This usually does not need to display the FormItem, because it is already passed by default in my useForm. This is needed when the user customizes the form logic
      */
@@ -37,6 +53,8 @@ export namespace UseFormNamespace {
      * Render form item contents method, this is used by the user
      * This method is usually used because it is usually used when using useForm
      * The first argument is the bindId binding, and the second argument is the property given to FormItem
+     * @description 表单项渲染函数，接受两个参数，第一个参数为表单项字段，第二个参数为表单项配置。
+     * @resetType (bindId: any, [config]) => (parameter: ReactNode) => ReactNode
      */
     render: (
       bindId: any,
@@ -46,7 +64,8 @@ export namespace UseFormNamespace {
      * This method is used when the user needs to subscribe to the latest value of the form value
      * If the latest values are changed externally in real time, rendering performance will be affected in the case of a large amount of data, especially in the case of dynamic forms, which can become very clunky
      * So the rendering of the latest value is only given to the user where it is needed to subscribe
-     * Although the latest values are not rendered, changes to the model are up to date
+     * Although the latest values are not rendered, changes to the model are up to date、
+     * @description 订阅表单项或者整个表单的hook函数。
      */
     useSubscribe: UseSubscribeNamespace.UseSubscribeReturnType<
       T,

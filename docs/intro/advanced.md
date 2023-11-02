@@ -1,15 +1,18 @@
 ---
 title: 进阶用法
 order: 1
+# nav: 进阶用法
 ---
 
-文档之前提到的用法已经满足大多数场景。但是如果需要定制化表单，就需要一些额外的逻辑，定制化表单的逻辑也非常简单，只需要要创建一个普通对象按照约定就可以完全使你的表单受控。
-
-另外，除了上面提到的调用 redner 方法渲染控件之外, **react-form-simple** 还暴露出两个组件 **Form** 和 **FormItem** 来提供给开发人员使用组件形式来创建表单。render 方法和组件用法可以自由组合使用。
-
-创建定制化表单时也许会用到**Form** 或 **FormItem**。
-
 ## <Mdh>组件形式</Mdh>
+
+文档之前提到的用法已经满足大多数场景。但是在习惯用组件形式来渲染视图的开发人员来说，可以使用 **Form** 或者 **FormItem** 来更加直观的渲染页面。
+
+**react-form-simple** 暴露出了两个组件 **Form** 和 **FormItem** 来提供给开发人员使用组件形式来创建表单。在需要定制化表单，或者处理一些额外的逻辑的时候，这两个组件将非常有用。
+
+在定制化表单的时候，只需要要创建一个普通对象按照约定传给 **Form** 或者 **FormItem** 就可以使你的表单正常工作和受控。你可以基于此创建属于开发人员自己的 _useForm_。
+
+另外，render 方法可以和 _Form_ 和 _FormItem_ 一起自由组合搭配使用。
 
 下面的例子展示了 **FormItem** 的基本用法。
 
@@ -17,7 +20,7 @@ order: 1
 
 另外, 下面的 **getContent** 方法返回的参数就是 render 的 **defineProps** 方法 (用法请看[集成第三方 ui](/intro/introduce#集成第三方-ui))返回的参数。参数会返回表单项的一些状态和值。使用 **FormItem** 时可以在 **getContent** 应用这些状态和值，使用 render 函数时可以在 defineProps 里应用这些状态和值，来做你任何想做的事。
 
-说白了, render 方法就是对 FormItem 组件的集成。
+说白了, render 方法就是对 _FormItem_ 组件的集成。
 <code src="../demos/_basic_formItem.tsx"></code>
 
 #### Form 应用
@@ -37,15 +40,15 @@ order: 1
 
 <code src="../demos/_basic_form.tsx"></code>
 
-## 组件校验
+## <Mdh>组件校验</Mdh>
 
 传入 **bindId** 和 **rules** 就可对表单项进行校验。
 
 **bindId** 是用来标识该表单项项的唯一, 要使表单项受控, **bindId** 是必须的。一旦传入 **bindId**, 组件内部就会维护它自身的所有状态。
 
-表单项受控后，在外部根本不需要关心受控的过程和逻辑。开发者需要做的, 就是将这些状态如何在外部应用。
+表单项受控后，开发者在外部不需要关心受控的过程和逻辑。开发者需要做的, 就是将这些状态如何在外部应用。
 
-**注意：** 如果有多个表单项需要校验，那就需要定义多个 ref。可以使用 Form 组件将它们包裹。
+**注意：** 如果有多个表单项需要校验，那就需要定义多个 ref。如果需要统一校验，可以使用 Form 组件将它们包裹。
 
 <code src="../demos/_formItem_vaild.tsx"></code>
 
@@ -53,7 +56,7 @@ order: 1
 
 <code src="../demos/_form_vaild.tsx"></code>
 
-## 外部受控
+## <Mdh>外部受控</Mdh>
 
 通过传入 **contextProps** 可以将组件与 useForm 关联起来。
 
@@ -66,12 +69,12 @@ order: 1
 
 <code src="../demos/_form_controller.tsx"></code>
 
-## 组合使用
+## <Mdh>组合使用</Mdh>
 
 在渲染一个表单的时候，可以使用 render 函数单独渲染，可以使用 FormItem 单独渲染，甚至可以将它们都包裹在一个 **Form** 里，这完全取决于你的个人喜好和需求。
 <code src="../demos/_combination.tsx"></code>
 
-## 定制化表单
+## <Mdh>定制化表单</Mdh>
 
 你可以传入一个普通的表单对象完全自定义表单的受控逻辑来定制化你的表单，而无需依赖于 **useForm** hook。
 

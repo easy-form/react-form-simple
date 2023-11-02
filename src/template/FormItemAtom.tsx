@@ -87,13 +87,13 @@ export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
 });
 
 type FormItemErrorTxtProps = {
-  errorSx?: FormItemProps['errorSx'];
+  errorStyle?: FormItemProps['errorStyle'];
   off?: () => void;
   subscribe: InstanceType<typeof Subscribe>;
 };
 
 export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
-  const { errorSx, off, subscribe } = props;
+  const { errorStyle, off, subscribe } = props;
   const errRef = useRef(null);
 
   const datas = useController({ errorMessage: '', err: false });
@@ -127,7 +127,7 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
             color: '#f56c6c',
             position: 'absolute',
             fontSize: '14px',
-            ...errorSx,
+            ...errorStyle,
           }}
         >
           {errorMessage}

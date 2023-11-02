@@ -1,5 +1,4 @@
 import React from 'react';
-import { BoxProps } from './box';
 export type ReactNode = React.ReactNode;
 
 /**
@@ -204,16 +203,16 @@ export namespace GlobalProps {
    */
   export type FormShareProps = {
     /**
-     * @description 错误提示信息样式
+     * @description 错误提示信息样式，支持对象嵌套写法
      */
-    errorSx?: React.CSSProperties;
+    errorStyle?: React.CSSProperties;
     /**
      * @description 标签位置
      * @default row
      */
     labelPosition?: 'row' | 'top';
     /**
-     * @description 标签样式
+     * @description 标签样式，支持对象嵌套写法
      */
     labelStyle?: React.CSSProperties;
     /**
@@ -221,7 +220,7 @@ export namespace GlobalProps {
      */
     labelWidth?: string | number;
     /**
-     * @description 表单项样式
+     * @description 表单项样式，支持对象嵌套写法
      */
     formItemStyle?: React.CSSProperties;
     /**
@@ -230,39 +229,31 @@ export namespace GlobalProps {
      */
     trigger?: Triggers['trigger'];
     /**
-     * @description 内容样式
+     * @description 表单项内容样式，支持对象嵌套写法
      */
-    contentSx?: React.CSSProperties;
+    contentStyle?: React.CSSProperties;
     /**
-     * @description 宽度是否撑满整行
+     * @description 表单项宽度是否撑满整行
      * @default false
      */
     fullWidth?: boolean;
     /**
-     * @description 是否关闭校验不通过时边框标红
-     * @default false
-     */
-    closeErrorLine?: boolean;
-    /**
-     * @ignore true
+     * @description 定义表单项的生命周期，在以组件形式受控渲染或者定制化表单时需要用到这个。
      */
     contextProps?: ContextProps;
     /**
-     * @description 表单是否只读
+     * @description 表单项是否只读，会将这个属性传递给表单项的渲染控件，如果控件支持readOnly属性，则会自动将控件变为主读，如果不支持，需要自定义只读内容。
      * @default false
      */
     readOnly?: boolean;
     /**
-     * @description 只读状态下内容样式
-     */
-    readOnlyTextSx?: BoxProps['sx'];
-    /**
-     * @description 只读状态下默认显示内容
+     * @description 只读状态下显示的内容
      * @default -
      */
-    readOnlyDefaultText?: ReactNode;
+    readOnlyText?: ReactNode;
     /**
-     * @description 格式化控件的value值, 默认取的是标准事件对象里的value ,即e.target.value,如果你的控件是这个上面做了一层封装，可以传入这个方法，那么react-form-simple的表单项将会获取你这个方法的返回值。
+     * @resetType Function
+     * @description 格式化控件的value值, react-form-simple的内部表单项默认取的是标准事件对象里的value ,即e.target.value, 如果你的控件是这个上面做了一层封装返回的不是标准事件对象，需要传入这个方法，react-form-simple的内部表单项将会获取你这个方法的返回值。
      * @descriptionEn The value value of the formatted control defaults to the value in the standard event object, i.e. e.target.value. If your control has a layer of encapsulation on top of this, you can pass in this method, and the form item of the react form simple will obtain the return value of your method.
      */
     formatChangeValue?: (event: Event) => any;
@@ -273,15 +264,16 @@ export namespace GlobalProps {
    */
   export type FormProps = FormShareProps & {
     /**
-     * @description 表单样式
+     * @description 表单样式，支持对象嵌套写法
      */
     formStyle?: React.CSSProperties;
     /**
      * @description 表单内容
+     * @ignore true
      */
     children?: ReactNode;
     /**
-     * @description 布局方向
+     * @description 表单布局方向
      * @default column
      */
     direction?: 'row' | 'column';
@@ -292,46 +284,47 @@ export namespace GlobalProps {
    */
   export type FormItemProps = {
     /**
-     * @description 表单项校验规则
+     * @description 表单项校验规则，如果为空数组或者不传，表单项将不会校验。
      */
     rules?: GlobalRules.Rules;
     /**
-     * @description 表单项绑定Id
+     * @description 表单项绑定的字段名，用来标识表单项的唯一性，如果存在useForm，需要与useForm里的字段名对应。要使表单项受控，这个必传。
      */
     bindId?: BindId;
     /**
-     * @description 表单项校验不通过回调函数
+     * @description 表单项校验不通过时的回调函数。
      */
     onError?: (msg: string, name?: string) => void;
     /**
-     * @description 是否自定义错误信息提示，为true后组件默认不会显示错误信息
+     * @description 是否自定义错误信息提示，为true后表单项默认不会显示错误信息。将会交给外部处理。
      * @default false
      */
     customErrTips?: boolean;
     /**
-     * @description 默认值, 设置该值reset时才能被重置
+     * @description 表单项内容显示的默认值, 需要设置该值，reset时才能被重置。
      */
     defaultValue?: any;
     /**
-     * @description 必填项指示器
+     * @description 必填表单项指示器。
      * @default *
      */
     requireIndicator?: boolean;
     /**
-     * @description 表单内容
+     * @description 表单内容。
+     * @ignore true
      */
     children?: ReactNode;
     /**
-     * @description 表单项标签
+     * @description 表单项标签。
      */
     label?: string;
     /**
-     * @description 表单项内容渲染回调函数
-     * @resetType ({ modal, bindId }) => ReactNode
+     * @resetType Function
+     * @description 表单项内容渲染回调函数。定制化表单时使表单受控时，这个属性必不可少。使用useForm的话，在内部已经对FormItem做了一层集成。
      */
     getContent?: (options: GetContentOptions) => ReactNode;
     /**
-     * @description 自定义只读状态文案显示
+     * @description 只读状态显示的内容。
      */
     readOnlyText?: ReactNode;
   } & FormShareProps;

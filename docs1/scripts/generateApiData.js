@@ -1,0 +1,137 @@
+const docgen = require('react-docgen-typescript');
+const path = require('path');
+const fs = require('fs');
+
+const isMeaningful = (val) => val !== '' && val !== undefined && val !== null;
+
+/** root name  */
+function getRootName() {
+  return path.basename(path.resolve(__dirname, '..'));
+}
+
+/** 格式化注释内容 */
+function descriptionPaster(data) {
+  if (data) {
+    const regex = /@(\w+)\s+([^\n]+)/g;
+    const result = {};
+    [...data.matchAll(regex)].forEach((match) => {
+      const [_, key, value] = match;
+      result[key] = value.trim();
+    });
+    return result;
+  }
+  return null;
+}
+
+/** 生成写入文件名字 */
+function generateFileName(filePath) {
+  const projectRootName = getRootName();
+  const regexString = `${projectRootName}\/(.*?)\.tsx`;
+  const pattern = new RegExp(regexString);
+
+  const match = filePath?.match(pattern);
+
+  console.log(match);
+
+  if (match) {
+    const fileName = match[1];
+    if (fileName) {
+      return fileName.replace(/\//g, '_');
+    }
+  } else {
+    console.log('无法匹配改路径');
+  }
+  return null;
+}
+
+/** 生成写入文件的内容 */
+function generateWriteContent(datas) {
+  const modifiedObject = Object.fromEntries(
+    Object.entries(datas)
+      .map(([key, value]) => {
+        const { parent, declarations, required, description, ...rest } = value;
+        const modifiedValue = {
+          ...rest,
+          tags: descriptionPaster(description),
+        };
+        return [key, modifiedValue];
+      })
+      .filter(([, value]) => !value?.tags?.ignore),
+  );
+  return modifiedObject;
+}
+
+/** 写入文件方法 */
+function writeFileSync(fileName, props) {
+  const outputDir = path.resolve(__dirname, '../.dumi/metadata/apis');
+  const outputFilePath = path.join(outputDir, `${fileName}.json`);
+  const content = generateWriteContent(props);
+  // 将要写入的数据
+  const writeData = JSON.stringify(content, null, 2);
+  // 确保目录存在，如果不存在则创建它
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  try {
+    // 将数据写入文件
+    fs.writeFileSync(outputFilePath, writeData, 'utf-8');
+    console.log('success!');
+  } catch (error) {
+    console.error('写入文件时出错：', error);
+  }
+}
+
+/** 格式化 */
+function main() {
+  const tsConfigParser = docgen.withCustomConfig(
+    path.resolve(__dirname, '../tsconfig.json'),
+    {
+      propFilter: {
+        skipPropsWithName: ['key', 'ref'],
+      },
+      propFilter(prop, component) {
+        if (!prop.declarations) return false;
+        if (prop.declarations !== undefined && prop.declarations.length > 0) {
+          const hasPropAdditionalDescription = prop.declarations.find(
+            (declaration) => {
+              return !declaration.fileName.includes('node_modules');
+            },
+          );
+
+          return Boolean(hasPropAdditionalDescription);
+        }
+
+        return true;
+      },
+      shouldRemoveUndefinedFromOptional: true,
+    },
+  );
+
+  const componentPathParamer = process.argv[2];
+
+  const appointParseComponentName = process.argv[3];
+
+  const componentPath = path.resolve(__dirname, `../${componentPathParamer}`);
+
+  const docs = tsConfigParser.parse(componentPath);
+
+  let doscInstance = null;
+  if (isMeaningful(appointParseComponentName)) {
+    doscInstance = docs?.find(
+      (v) => v.displayName === appointParseComponentName,
+    );
+  } else {
+    doscInstance = docs?.[0];
+  }
+
+  if (doscInstance) {
+    const fileName = generateFileName(doscInstance.filePath);
+
+    writeFileSync(fileName, doscInstance.props);
+  } else {
+    console.log(docs);
+  }
+}
+
+main();

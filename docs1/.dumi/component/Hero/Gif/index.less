@@ -1,0 +1,25 @@
+@import url('../../../theme/styles/variables.less');
+
+.hero-gif {
+  width: 75%;
+  margin: auto;
+  text-align: center;
+  .video {
+    width: 100%;
+    display: block;
+    background: @c-site-defaule-bg;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: @c-normal-boxShaow-deep;
+    @{dark-selector} & {
+      box-shadow: @c-normal-boxShaow-dark;
+    };
+   
+  }
+  & + & {
+    margin-top: 120px;
+  }
+  @media @mobile, @tablet {
+   width: 100%;   
+  }
+}

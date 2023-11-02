@@ -1,0 +1,52 @@
+{
+  "contextProps": {
+    "defaultValue": null,
+    "name": "contextProps",
+    "type": {
+      "name": "ContextProps"
+    },
+    "tags": {}
+  },
+  "render": {
+    "defaultValue": null,
+    "name": "render",
+    "type": {
+      "name": "(bindId: any, config?: (ShareConfig & { key?: string | number | boolean | symbol | undefined; }) | undefined) => (parameter: ReactNode) => ReactNode"
+    },
+    "tags": {
+      "description": "渲染函数"
+    }
+  },
+  "useSubscribe": {
+    "defaultValue": null,
+    "name": "useSubscribe",
+    "type": {
+      "name": "UseSubscribe<null>"
+    },
+    "tags": {}
+  },
+  "useWatch": {
+    "defaultValue": null,
+    "name": "useWatch",
+    "type": {
+      "name": "UseWatch<null>"
+    },
+    "tags": {}
+  },
+  "modal": {
+    "defaultValue": null,
+    "name": "modal",
+    "type": {
+      "name": "null"
+    },
+    "tags": {}
+  },
+  "setState": {
+    "defaultValue": null,
+    "name": "setState",
+    "type": {
+      "name": "() => Dispatch<unknown>"
+    },
+    "tags": {}
+  }
+}

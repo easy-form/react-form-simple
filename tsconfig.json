@@ -27,8 +27,8 @@
     ".dumirc.ts",
     "src/**/*",
     "global.d.ts",
-    "demos/**/*",
-    "docs/demos/**/*"
+    "docs/demos/**/*",
+    "docs/apiDemos/**/*"
   ],
   "exclude": [
     "node_modules"

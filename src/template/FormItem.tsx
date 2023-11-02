@@ -25,12 +25,12 @@ export const FormItem = React.forwardRef<
   const assigns = { ...restContextProps, ...restProps };
 
   const {
-    errorSx,
+    errorStyle,
     labelPosition = 'row',
     labelWidth,
     labelStyle,
     formItemStyle,
-    contentSx,
+    contentStyle,
     fullWidth,
     bindId,
     label,
@@ -39,8 +39,6 @@ export const FormItem = React.forwardRef<
     contextProps,
     readOnly,
     readOnlyText,
-    readOnlyTextSx,
-    readOnlyDefaultText,
     defaultValue,
     formatChangeValue,
   } = assigns;
@@ -92,11 +90,11 @@ export const FormItem = React.forwardRef<
       !customErrTips && (
         <FormItemErrorTxt
           off={() => setError('')}
-          errorSx={errorSx}
+          errorStyle={errorStyle}
           subscribe={globalDatas.subscribe}
         />
       ),
-    [customErrTips, errorSx],
+    [customErrTips, errorStyle],
   );
 
   const renderFormItemLabel = useMemo(
@@ -114,11 +112,9 @@ export const FormItem = React.forwardRef<
   );
 
   const contentProps = {
-    contentSx,
+    contentStyle,
     readOnly,
     readOnlyText,
-    readOnlyTextSx,
-    readOnlyDefaultText,
     bindId,
     subscribe,
     contextProps,
