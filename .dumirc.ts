@@ -1,8 +1,12 @@
 import { defineConfig } from 'dumi';
 import path from 'path';
 
+const repo = 'react-form-simple ';
+
 export default defineConfig({
   outputPath: 'docs-dist',
+  base: process.env.NODE_ENV === 'production' ? `/${repo}/` : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? `/${repo}/` : '/',
   resolve: {
     docDirs: ['docs'],
   },
