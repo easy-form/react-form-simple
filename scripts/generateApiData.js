@@ -1,6 +1,10 @@
+/**
+ * npm run  genAPI xx=xxx1 xx2=xxx2
+ */
 const docgen = require('react-docgen-typescript');
 const path = require('path');
 const fs = require('fs');
+const formatEnvArgs = require('./formatEnvArgs');
 
 const isMeaningful = (val) => val !== '' && val !== undefined && val !== null;
 
@@ -83,7 +87,7 @@ function writeFileSync(fileName, props) {
 }
 
 /** 格式化 */
-function main() {
+function main(componentPathParamer) {
   const tsConfigParser = docgen.withCustomConfig(
     path.resolve(__dirname, '../tsconfig.json'),
     {
@@ -108,22 +112,11 @@ function main() {
     },
   );
 
-  const componentPathParamer = process.argv[2];
-
-  const appointParseComponentName = process.argv[3];
-
   const componentPath = path.resolve(__dirname, `../${componentPathParamer}`);
 
   const docs = tsConfigParser.parse(componentPath);
 
-  let doscInstance = null;
-  if (isMeaningful(appointParseComponentName)) {
-    doscInstance = docs?.find(
-      (v) => v.displayName === appointParseComponentName,
-    );
-  } else {
-    doscInstance = docs?.[0];
-  }
+  const doscInstance = docs?.[0];
 
   if (doscInstance) {
     const fileName = generateFileName(doscInstance.filePath);
@@ -134,4 +127,41 @@ function main() {
   }
 }
 
-main();
+function start() {
+  const envs = formatEnvArgs(process.argv.slice(2));
+  const pathUrl = envs.path;
+  if (envs.all) {
+    const directoryPath = path.join(__dirname, '../docs/apiDemos');
+
+    // 使用 fs.readdir 读取目录内容
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        console.error('读取目录失败', err);
+        return;
+      }
+
+      files.forEach((file) => {
+        // 将文件名拼接到 ./docs/ 前面，形成相对路径
+        const relativePath = path.join('./docs', 'apiDemos', file);
+
+        // 使用 fs.stat 获取文件信息
+        fs.stat(path.join(directoryPath, file), (err, stats) => {
+          if (err) {
+            console.error('获取文件信息失败', err);
+            return;
+          }
+
+          // 判断是否为文件
+          if (stats.isFile()) {
+            console.log('相对路径:', relativePath);
+            main(relativePath);
+          }
+        });
+      });
+    });
+    return;
+  }
+  main(pathUrl);
+}
+
+start();

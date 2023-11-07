@@ -10,15 +10,15 @@ import { usePrivateSubscribe } from './useSubscribe';
 import { usePrivateWatch } from './useWatch';
 
 const useForm = <T extends Record<string, any>>(
-  modal?: T,
+  model?: T,
   config?: UseFormNamespace.ShareConfig,
 ) => {
-  const proxyTarget = useRef(modal || {});
+  const proxyTarget = useRef(model || {});
 
   const { contextProps, overlayApis, useFormExtraApis, globalDatas } =
     useContextApi();
 
-  const { useWatch, watchInstance } = usePrivateWatch({ modal });
+  const { useWatch, watchInstance } = usePrivateWatch({ model });
 
   const debounceWatch = useCallback(
     debounce(() => {
@@ -27,7 +27,7 @@ const useForm = <T extends Record<string, any>>(
     [],
   );
 
-  const proxyModal = createObserverForm(
+  const proxymodel = createObserverForm(
     proxyTarget.current as T,
     ({ path, value }) => {
       set(path, value);
@@ -40,28 +40,28 @@ const useForm = <T extends Record<string, any>>(
   );
 
   const { subscribes, useSubscribe } = usePrivateSubscribe<T>({
-    modal: proxyModal as T,
+    model: proxymodel as T,
   });
 
   const _contextProps: GlobalProps.ContextProps = {
     ...contextProps,
     updated({ bindId, value }) {
-      updateProxyValue(proxyModal, bindId, value);
+      updateProxyValue(proxymodel, bindId, value);
     },
     reset({ bindId, value }) {
-      updateProxyValue(proxyModal, bindId, value);
+      updateProxyValue(proxymodel, bindId, value);
     },
   };
 
   const { render, set } = useRender({
     ...config,
-    modal: proxyModal,
+    model: proxymodel,
     contextProps: _contextProps,
     globalDatas,
   });
 
   return {
-    modal: proxyModal,
+    model: proxymodel,
     contextProps: _contextProps,
     render,
     useSubscribe,

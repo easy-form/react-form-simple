@@ -9,7 +9,7 @@ export default defineConfig({
   themeConfig: {
     name: 'React-form-simple',
     logo: '/logo.png',
-    footer: false,
+    footer: true,
     lastUpdated: false,
     socialLinks: {
       github: 'https://github.com/easy-form/react-form-simple',

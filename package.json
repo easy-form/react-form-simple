@@ -17,7 +17,8 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepublishOnly": "father doctor && npm run build",
     "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
-    "genAPI": "node ./scripts/generateApiData.js"
+    "genAPI": "node ./scripts/generateApiData.js",
+    "genAPIAll": "npm run genAPI all=1"
   },
   "authors": [
     "wed97land@outlook.com"
@@ -81,9 +82,8 @@
     "react": "^18.0.0",
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.0.0",
-    "react-hook-form": "^7.47.0",
-    "stylelint": "^14.9.1",
-    "tsup": "^7.2.0"
+    "simplebar-react": "^3.2.4",
+    "stylelint": "^14.9.1"
   },
   "dependencies": {
     "@emotion/css": "^11.11.2",

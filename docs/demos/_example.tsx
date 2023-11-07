@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, modal } = useForm({
+  const { render, model } = useForm({
     name: '',
     age: '',
   });
@@ -12,7 +12,7 @@ export default function App() {
   const renderAge = render('age')(<input className="input" />);
 
   const renderSubmit = (
-    <Button onClick={() => void console.log(modal)}>submit</Button>
+    <Button onClick={() => void console.log(model)}>submit</Button>
   );
   return (
     <>

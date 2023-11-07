@@ -3,10 +3,10 @@ import React from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { modal, render, setState, validate } = useForm({
+  const { model, render, setState, validate } = useForm({
     fields: [{ value: '', uid: 1 }],
   });
-  const { fields } = modal;
+  const { fields } = model;
 
   const renderFields = fields.map((field, i) =>
     render(`fields.${i}.value`, {
@@ -22,8 +22,8 @@ export default function App() {
       {renderFields}
       <Button
         onClick={() => {
-          const len = modal.fields.length;
-          modal.fields.push({ value: len + '', uid: len + 1 });
+          const len = model.fields.length;
+          model.fields.push({ value: len + '', uid: len + 1 });
           setState();
         }}
       >
@@ -34,7 +34,7 @@ export default function App() {
         style={{ marginLeft: '15px' }}
         onClick={() => {
           validate();
-          console.log(modal);
+          console.log(model);
         }}
       >
         submit

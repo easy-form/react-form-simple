@@ -1,4 +1,34 @@
 {
+  "rules": {
+    "defaultValue": null,
+    "name": "rules",
+    "type": {
+      "name": "Rules"
+    },
+    "tags": {
+      "description": "表单项校验规则，如果为空数组或者不传，表单项将不会校验。"
+    }
+  },
+  "bindId": {
+    "defaultValue": null,
+    "name": "bindId",
+    "type": {
+      "name": "any"
+    },
+    "tags": {
+      "description": "表单项绑定的字段名，用来标识表单项的唯一性，如果存在useForm，需要与useForm里的字段名对应。要使表单项受控，这个必传。"
+    }
+  },
+  "onError": {
+    "defaultValue": null,
+    "name": "onError",
+    "type": {
+      "name": "((msg: string, name?: string) => void)"
+    },
+    "tags": {
+      "description": "表单项校验不通过时的回调函数。"
+    }
+  },
   "customErrTips": {
     "defaultValue": {
       "value": "false"
@@ -9,6 +39,51 @@
     },
     "tags": {
       "description": "是否自定义错误信息提示，为true后表单项默认不会显示错误信息。将会交给外部处理。"
+    }
+  },
+  "defaultValue": {
+    "defaultValue": null,
+    "name": "defaultValue",
+    "type": {
+      "name": "any"
+    },
+    "tags": {
+      "description": "表单项内容显示的默认值，reset时存在该值当前表单项才能被重置。使用useForm的话，在内部默认使用了defaultValue。可以在调用render的时候传入defaultValue覆盖它。使用FormItem组件的时候，需要手动传入。"
+    }
+  },
+  "requireIndicator": {
+    "defaultValue": {
+      "value": "*"
+    },
+    "name": "requireIndicator",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "description": "必填表单项指示器。"
+    }
+  },
+  "label": {
+    "defaultValue": null,
+    "name": "label",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "表单项标签。"
+    }
+  },
+  "getContent": {
+    "defaultValue": null,
+    "name": "getContent",
+    "type": {
+      "name": "((options: GetContentOptions) => ReactNode)"
+    },
+    "tags": {
+      "resetType": "(options: Options) => ReactNode",
+      "infoPath": "docs_apiDemos_getContent",
+      "infoTitle": "getContent 具体参数",
+      "description": "使用 FormItem 组件形式创建一个受控表单项时，需要传入这个方法，方法返回需要渲染的内容。getContent 的参数包含有该表单项的 API、该表单项的模型数据、校验状态以及符合原生属性的 attrs，开发者可以针对这些参数做相应的逻辑处理。在参数返回的表单项 API 中，开发者可以直接调用来触发该表单项的对应事件以达到更精确更细度的控制。"
     }
   },
   "readOnlyText": {
@@ -107,6 +182,19 @@
     },
     "tags": {
       "description": "表单项宽度是否撑满整行"
+    }
+  },
+  "contextProps": {
+    "defaultValue": null,
+    "name": "contextProps",
+    "type": {
+      "name": "ContextProps"
+    },
+    "tags": {
+      "resetType": "Object",
+      "infoTitle": "contextProps具体参数",
+      "infoPath": "docs_apiDemos_contextProps",
+      "description": "表单项选项式生命周期。对整个表单进行依赖收集的地方，可以在这里对表单项做一些更加精确的控制。使用 useForm 时，通常不会需要这个。使用 FormItem 或者 Form 时或者定制化表单时，需要用到这个。当 useForm 与 Form 或者 FormItem 结合使用的时候，需要将 useForm 暴露出的 contextProps 传递给组件来进行依赖收集，也可以在你的代码里做一层代理执行某些逻辑后，在执行 contextProps 里的生命周期达到自定义的控制。"
     }
   },
   "readOnly": {

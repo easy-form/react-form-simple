@@ -10,24 +10,24 @@ import {
 export default function App() {
   const formRef = useRef<FormApis>(null);
 
-  const modal = useRef({
+  const model = useRef({
     name: '',
     age: '',
   }) as any;
 
   const contextProps = useRef<ContextProps>({
     updated({ bindId, value }) {
-      modal.current[bindId] = value;
+      model.current[bindId] = value;
     },
     reset({ bindId }) {
-      modal.current[bindId] = '';
+      model.current[bindId] = '';
       formRef.current?.setValue(bindId, '');
     },
   });
 
   useEffect(() => {
     const values = { name: 'name', age: 'age' };
-    modal.current = values;
+    model.current = values;
     formRef.current?.setValues(values);
   }, []);
 
@@ -71,7 +71,7 @@ export default function App() {
       <FormItem label=" ">
         <Button
           onClick={() => {
-            console.log(modal.current);
+            console.log(model.current);
           }}
         >
           submit

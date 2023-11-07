@@ -1,0 +1,58 @@
+{
+  "mounted": {
+    "defaultValue": null,
+    "name": "mounted",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; }) => void)"
+    },
+    "tags": {
+      "description": "每个表单项挂载之后执行的生命周期。在渲染中只会执行一次。可以在这里对表单项执行依赖收集或者初始化操作。回调出一个options对象，里面包含该表单项的bindId和该表单项的uid。",
+      "param": "options form uid"
+    }
+  },
+  "apiEffect": {
+    "defaultValue": null,
+    "name": "apiEffect",
+    "type": {
+      "name": "((options: ApiEffectOptions) => void)"
+    },
+    "tags": {
+      "description": "表单项api或者bindId发生变动后触发的方法，初始化会执行一次。一般不会发生变动，可以在这里对api进行收集。",
+      "resetType": "(options: Options) => void",
+      "infoPath": "docs_apiDemos_apiEffect",
+      "infoTitle": "Options具体参数"
+    }
+  },
+  "updated": {
+    "defaultValue": null,
+    "name": "updated",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; value: any; }) => void)"
+    },
+    "tags": {
+      "description": "表单项监听控件value发生改变时触发的方法，<strong>只有当手动去输入的时候，这个方法才会执行</strong>。可以在这里对自定义的外部表单model数据进行赋值。以达到受控的效果。",
+      "param": "The value returned by the form item content change event callback,If it is an original form tag, the entire event object will be called back."
+    }
+  },
+  "reset": {
+    "defaultValue": null,
+    "name": "reset",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; value: any; }) => void)"
+    },
+    "tags": {
+      "description": "调用表单reset方法时触发的方法。可以在这里给表单项赋值默认值。"
+    }
+  },
+  "destory": {
+    "defaultValue": null,
+    "name": "destory",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; }) => void)"
+    },
+    "tags": {
+      "description": "表单项销毁时触发的方法。",
+      "param": "options will return the form uid"
+    }
+  }
+}

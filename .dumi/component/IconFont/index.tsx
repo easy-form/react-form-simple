@@ -1,6 +1,6 @@
 import React from 'react';
 
-const iconfontHref = '//at.alicdn.com/t/c/font_4298426_q1apsz2axwc.js';
+const iconfontHref = '//at.alicdn.com/t/c/font_4298426_qj8munh1qi.js';
 
 const scriptId = 'react-form-simple-icon-iconfont';
 

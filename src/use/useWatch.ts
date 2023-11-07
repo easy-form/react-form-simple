@@ -4,8 +4,8 @@ import { UseWatchNamespace } from 'react-form-simple/types/use';
 import { useControllerRef } from 'react-form-simple/use/useControllerRef';
 import { isEqual } from 'react-form-simple/utils/util';
 
-export function usePrivateWatch<T>(options: { modal: T }) {
-  const { modal } = options;
+export function usePrivateWatch<T>(options: { model: T }) {
+  const { model } = options;
   const watchInstance = useControllerRef({
     datas: [] as Array<UseWatchNamespace.WatchChangeCb>,
     ret: new WeakMap(),
@@ -30,7 +30,7 @@ export function usePrivateWatch<T>(options: { modal: T }) {
       const fun: UseWatchNamespace.WatchChangeCb = (options) => {
         const { isInitEmit = false } = options || {};
 
-        const ret = _subScripeFun?.({ modal });
+        const ret = _subScripeFun?.({ model });
 
         if (isInitEmit) {
           preRets = cloneDeep(ret);

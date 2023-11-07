@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, modal } = useForm({ fields: [] });
+  const { render, model } = useForm({ fields: [] });
   const [fields, setFields] = useState([{ value: '', uid: 1 }]);
-  modal.fields = fields as any;
+  model.fields = fields as any;
 
   const renderFields = fields.map((field, i) =>
     render(`fields.${i}.value`, { labelPosition: 'top', key: field.uid })(
@@ -18,7 +18,7 @@ export default function App() {
       {renderFields}
       <Button
         onClick={() => {
-          const len = modal.fields.length;
+          const len = model.fields.length;
           setFields((pre) => [...pre, { value: len + '', uid: len + 1 }]);
         }}
       >
@@ -28,7 +28,7 @@ export default function App() {
         plain
         style={{ marginLeft: '15px' }}
         onClick={() => {
-          console.log(modal);
+          console.log(model);
         }}
       >
         submit

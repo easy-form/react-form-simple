@@ -21,12 +21,12 @@ const subscribeObject = () => {
 };
 
 export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
-  modal: T;
+  model: T;
 }): UseSubscribeNamespace.UseSubscribeReturnType<
   T,
   ReturnType<typeof subscribeObject>
 > => {
-  const { modal } = options;
+  const { model } = options;
 
   const subscribes = useControllerRef(subscribeObject());
 
@@ -34,7 +34,7 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
     const [state, setState] = useState();
     useEffect(() => {
       subscribes.set(() => {
-        setState(cb({ modal: cloneDeep(modal) }));
+        setState(cb({ model: cloneDeep(model) }));
       });
     }, []);
 

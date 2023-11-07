@@ -4,7 +4,7 @@ import type { UseFormNamespace } from 'react-form-simple/types/use';
 export default function App(props: UseFormNamespace.ShareConfig) {
   const {
     render,
-    modal,
+    model,
     setState,
     setValue,
     setValues,

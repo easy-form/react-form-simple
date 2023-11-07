@@ -1,14 +1,161 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useController } from 'react-form-simple/use/useController';
 import { isMeaningful } from 'react-form-simple/utils/util';
 
+import { IconFont } from '@components/IconFont';
+import { IconButton, Popover, Tooltip } from '@mui/material';
 import { useIntl } from 'dumi';
 import React from 'react';
+import { ScrollBar } from '../../component/ScrollBar';
 import './customAPI.less';
 
 interface CustomAPI {
   path: string;
+  title?: string;
+  ignoreFields?: any[];
 }
+
+function useJSONContent() {
+  const getTableData = (path: any) => {
+    try {
+      const ret = require(`../../metadata/apis/${path}.json`);
+
+      return Object.entries(ret || {});
+    } catch (error) {
+      console.error(`Error loading JSON file: ${error}`);
+      return [];
+    }
+  };
+
+  const getTableDataAll = (paths: any) => {
+    return Object.fromEntries(
+      paths.map(([name, path]: any) => [name, getTableData(path)]),
+    );
+  };
+
+  return {
+    getTableData,
+    getTableDataAll,
+  };
+}
+
+function TooltipInfo({ path, ignoreFields, tags }: any) {
+  const { getTableData } = useJSONContent();
+
+  const infoDatas = getTableData(path) as any;
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
+
+  const open = Boolean(anchorEl);
+
+  const renderTbody = infoDatas?.map(([_name, prop]: any, index: number) => {
+    return (
+      <Tbody
+        key={_name}
+        ignoreFields={ignoreFields}
+        name={_name}
+        prop={prop}
+        index={index}
+      />
+    );
+  });
+
+  return (
+    <>
+      <Tooltip
+        title={<span style={{ fontSize: '14px' }}>{tags?.infoTitle}</span>}
+        placement="top"
+      >
+        <IconButton
+          className="more-icon"
+          onClick={(e) => {
+            setAnchorEl(e.currentTarget as any);
+          }}
+        >
+          <IconFont name="info" size={22} />
+        </IconButton>
+      </Tooltip>
+
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => {
+          setAnchorEl(null);
+        }}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'left',
+        }}
+        className="popover-container"
+      >
+        <ScrollBar className="markdown popover-wrap" noEvent>
+          {renderTbody}
+        </ScrollBar>
+      </Popover>
+    </>
+  );
+}
+
+const StickyHeader = React.forwardRef(({ data, title, onClick }: any, ref) => {
+  const [active, setActive] = useState(0);
+
+  useImperativeHandle(ref, () => ({
+    setActive(index: number) {
+      setActive(index);
+    },
+  }));
+
+  const getItemClasses = (index: number) =>
+    [
+      'api-sticky-header-item',
+      index === active && 'api-sticky-header-item_active',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+  const renderLi = data?.map(([name, prop]: any, index: number) => (
+    <Tooltip
+      key={name}
+      title={
+        <span
+          dangerouslySetInnerHTML={{ __html: prop?.tags?.description }}
+          style={{ fontSize: '14px', lineHeight: 2 }}
+        />
+      }
+      placement="right"
+    >
+      <div
+        className={getItemClasses(index)}
+        onClick={() => {
+          onClick?.(name);
+          setActive(index);
+        }}
+      >
+        {name}
+      </div>
+    </Tooltip>
+  ));
+  return (
+    <div className="api-sticky-header">
+      <ScrollBar>
+        <div className="title">{title}</div>
+        <div>{renderLi}</div>
+      </ScrollBar>
+    </div>
+  );
+});
 
 const APIType: any = (props: any) => {
   const intl = useIntl();
@@ -16,22 +163,11 @@ const APIType: any = (props: any) => {
   const [isResetWrite, setIsResetWrite] = useState(false);
 
   useEffect(() => {
-    const isResetWrite = !!tags?.link || !!tags?.resetType;
+    const isResetWrite = !!tags?.resetType;
     setIsResetWrite(isResetWrite);
   }, [props]);
 
   const getResetType = useCallback((tags) => {
-    if (tags?.link) {
-      return (
-        <a
-          href={tags?.link}
-          target="_blank"
-          style={{ textDecoration: 'none', fontSize: '14px', color: 'red' }}
-        >
-          {tags?.linkName || '跳转'}
-        </a>
-      );
-    }
     if (tags?.resetType) {
       return <code>{tags?.resetType}</code>;
     }
@@ -50,6 +186,7 @@ const APIType: any = (props: any) => {
         {intl.formatMessage({ id: 'api.component.type' })}:
       </span>
       <span style={{ fontWeight: 'bold' }}>{renderContent}</span>
+      {tags?.infoPath && <TooltipInfo path={tags?.infoPath} tags={tags} />}
     </div>
   );
 };
@@ -58,14 +195,25 @@ const Name = ({ name }: any) => {
   return <div className="name">{name}</div>;
 };
 
-const Desc = ({ desc }: any) => {
+const Desc = ({ desc, tags }: any) => {
   const intl = useIntl();
+
   return (
     <div className="desc">
-      <span className="desc-txt">
-        {intl.formatMessage({ id: 'api.component.description' })}:
-      </span>
-      <span>{desc}</span>
+      <div>
+        <span className="desc-txt">
+          {intl.formatMessage({ id: 'api.component.description' })}:
+        </span>
+        <span
+          dangerouslySetInnerHTML={{ __html: desc }}
+          className="desc-info"
+        />
+      </div>
+      {tags?.link && (
+        <div>
+          <span dangerouslySetInnerHTML={{ __html: tags?.link }}></span>
+        </div>
+      )}
     </div>
   );
 };
@@ -92,64 +240,159 @@ const APIDefault = (props: any) => {
   );
 };
 
-function CustomAPI(props: CustomAPI) {
-  const { path } = props;
-
-  const datas = useController({ tableData: null });
-
-  const tableData: any[] = Object.entries(datas.tableData || {});
-
-  useEffect(() => {
-    const fetchJsonData = async () => {
-      try {
-        const response = require(`../../metadata/apis/${path}.json`);
-        datas.tableData = response;
-      } catch (error) {
-        console.error(`Error loading JSON file: ${error}`);
-      }
+const Tbody = React.forwardRef(
+  ({ name, prop, ignoreFields, title }: any, ref) => {
+    const elementIsVisibleInViewport = (el: any, partiallyVisible = false) => {
+      const { top, left, bottom, right } = el.getBoundingClientRect();
+      const { innerHeight, innerWidth } = window;
+      return partiallyVisible
+        ? ((top > 0 && top < innerHeight) ||
+            (bottom > 0 && bottom < innerHeight)) &&
+            ((left > 0 && left < innerWidth) ||
+              (right > 0 && right < innerWidth))
+        : top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
     };
-    if (path) {
-      fetchJsonData();
-    }
-  }, [path]);
 
-  const renderTbody = tableData.map(([name, prop]) => {
+    const boxRef = useRef<any>(null);
+
+    useImperativeHandle(ref, () => ({
+      elementIsVisibleInViewport() {
+        return elementIsVisibleInViewport(boxRef.current, true);
+      },
+      smoothScroll() {
+        boxRef.current?.scrollIntoView?.({ behavior: 'smooth' });
+      },
+    }));
+
+    const isShowInfo = (key: string) => {
+      if (!ignoreFields) {
+        return true;
+      }
+      const ignoreFieldSet = Object.fromEntries(
+        ignoreFields.split(',').map((i: any) => i.split(':')),
+      );
+      return ignoreFieldSet[title] !== key;
+    };
+
     return (
-      <div key={name} className="item">
-        <Name name={name} />
-        <APIType {...prop} name={name} />
-        <Desc desc={prop?.tags?.description || '--'} />
-        <APIDefault {...prop} name={name} />
+      <div key={name} className="api-item" ref={boxRef}>
+        {isShowInfo('name') && <Name name={name} />}
+        {isShowInfo('type') && <APIType {...prop} name={name} />}
+        {isShowInfo('desc') && (
+          <Desc desc={prop?.tags?.description || '--'} tags={prop?.tags} />
+        )}
+        {isShowInfo('default') && <APIDefault {...prop} name={name} />}
       </div>
     );
-    // return (
-    //   <tr key={name}>
-    //     <td style={{ minWidth: '120px' }}>{name}</td>
-    //     <td style={{ minWidth: '140px' }}>{prop?.tags?.description || '--'}</td>
-    //     <td style={{ width: '160px' }}>
-    //       <APIType {...prop} />
-    //     </td>
-    //     <td style={{ minWidth: '80px' }}>
-    //       <APIDefault {...prop} name={name} />
-    //       {/* <code>{prop?.defaultValue?.value || '-'}</code> */}
-    //     </td>
-    //   </tr>
-    // );
-  });
+  },
+);
+
+function TbodyWrap({ path, ignoreFields, name, index }: any) {
+  const tbodyRef = useRef({} as any);
+
+  const datas = useController({ tableData: [] });
+
+  const { getTableData } = useJSONContent();
+
+  const stickyHeaderRef = useRef<any>(null);
+
+  const isScrollingWithMouse = useRef(false);
+
+  useEffect(() => {
+    const indexs: any = {};
+    const scroll = () => {
+      if (isScrollingWithMouse.current) {
+        Object.entries(tbodyRef.current).forEach(
+          ([name, value]: any, index) => {
+            const isElementIsVisibleInViewport =
+              value.elementIsVisibleInViewport();
+            if (isElementIsVisibleInViewport) {
+              indexs[name] = index;
+            } else {
+              indexs[name] = -1;
+            }
+            const indexsValue = Object.values(indexs);
+            stickyHeaderRef.current?.setActive?.(
+              indexsValue.length === 0 ? -1 : Math.max(...(indexsValue as any)),
+            );
+          },
+        );
+      }
+      isScrollingWithMouse.current = false;
+    };
+    const wheel = () => {
+      isScrollingWithMouse.current = true;
+    };
+    window.addEventListener('scroll', scroll);
+
+    window.addEventListener('wheel', wheel);
+
+    return () => {
+      window.removeEventListener('scroll', scroll);
+      window.removeEventListener('wheel', wheel);
+    };
+  }, []);
+
+  useEffect(() => {
+    datas.tableData = getTableData(path) as any;
+  }, [path]);
+
+  const renderTbody = datas.tableData?.map(
+    ([_name, prop]: any, index: number) => {
+      return (
+        <Tbody
+          key={_name}
+          ignoreFields={ignoreFields}
+          name={_name}
+          title={name}
+          prop={prop}
+          index={index}
+          ref={(ref) => {
+            tbodyRef.current[_name] = ref;
+          }}
+        />
+      );
+    },
+  );
+
+  return (
+    <div className="tbody" data-index={index}>
+      <div style={{ flex: 1 }}>
+        <div className="tbody-title">
+          <span className="tbody-title-txt">{name}</span>
+        </div>
+        <div>{renderTbody}</div>
+      </div>
+      {datas.tableData?.length > 0 && (
+        <StickyHeader
+          data={datas.tableData}
+          title={name}
+          ref={stickyHeaderRef}
+          onClick={(name: string) => {
+            tbodyRef.current[name]?.smoothScroll();
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function CustomAPI(props: CustomAPI) {
+  const { path, ignoreFields } = props;
+
+  const paths = path.split(',').map((ret) => ret?.split(':'));
 
   return (
     <div className="markdown custom-api">
-      {/* <Table>
-        <thead>
-          <tr>
-            <th>{intl.formatMessage({ id: 'api.component.name' })}</th>
-            <th>{intl.formatMessage({ id: 'api.component.description' })}</th>
-            <th>{intl.formatMessage({ id: 'api.component.type' })}</th>
-            <th>{intl.formatMessage({ id: 'api.component.default' })}</th>
-          </tr>
-        </thead>
-      </Table> */}
-      {renderTbody}
+      {paths.map(([name, path], index) => (
+        <TbodyWrap
+          key={name}
+          name={name}
+          path={path}
+          ignoreFields={ignoreFields}
+          index={index}
+        />
+      ))}
     </div>
   );
 }

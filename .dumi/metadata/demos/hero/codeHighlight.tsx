@@ -1,7 +1,7 @@
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, modal } = useForm({ name: '' });
+  const { render, model } = useForm({ name: '' });
   //@ts-ignore
   const renderName = render('name')(<input />);
 
@@ -9,7 +9,7 @@ export default function App() {
     //@ts-ignore
     <button
       onClick={() => {
-        console.log({ modal });
+        console.log({ model });
       }}
     >
       submit

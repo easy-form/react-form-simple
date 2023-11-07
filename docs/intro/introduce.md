@@ -39,7 +39,9 @@ npm install react-form-simple
 
 只需要两行代码便能创建一个受控表单项。下面的例子展示了 useForm 的用法。 并在加载完 2s 后, 改变输入框的值。
 
-useForm 暴露出的 _modal_ 表单模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来在表单外部渲染, 它不会重新引起视图的刷新, 即使的它的值是最新的。
+useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来在表单外部渲染, 它不会重新引起视图的刷新, 即使的它的值是最新的。
+
+更过*render*配置请看<a href="/intro/api#useform">useForm 参数</a>
 <code src="../demos/_controller.tsx"></code>
 
 ## <Mdh>订阅最新值</Mdh>
@@ -50,6 +52,8 @@ useForm 暴露出的 _modal_ 表单模型数据永远是最新的, 在表单提�
 ## <Mdh>监听表单</Mdh>
 
 使用 _useWatch_ 监听表单变化。
+
+更多介绍请看 <a href="/intro/api#useform">useForm</a>
 <code src="../demos/_watch.tsx"></code>
 
 ## <Mdh>表单校验</Mdh>
@@ -87,7 +91,7 @@ useForm 暴露出的 _modal_ 表单模型数据永远是最新的, 在表单提�
 
 ## <Mdh>动态表单</Mdh>
 
-通过直接给数组赋值, 然后调用 _setState_ 方法手动刷新视图实现动态表单。调用 _setState_ 方法的目的是因为直接改变 modal 的数据不会在表单外部引起视图重新渲染。
+通过直接给数组赋值, 然后调用 _setState_ 方法手动刷新视图实现动态表单。调用 _setState_ 方法的目的是因为直接改变 model 的数据不会在表单外部引起视图重新渲染。
 <code src="../demos/_dymic.tsx"></code>
 
 还可以不调用 setState 方法，用另外一种方法也可以实现动态表单

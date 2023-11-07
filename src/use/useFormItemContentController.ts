@@ -54,7 +54,7 @@ export function useFormItemContentController(
     formatChangeValue,
   } = options;
 
-  const _modal = useController({
+  const _model = useController({
     value: convertStringToObject(bindId, defaultValue),
   });
 
@@ -62,7 +62,7 @@ export function useFormItemContentController(
 
   const { isError } = status;
 
-  const { value: modalValue } = _modal;
+  const { value: modelValue } = _model;
 
   useEffect(() => {
     subscribe.on('update', (value) => {
@@ -74,20 +74,20 @@ export function useFormItemContentController(
   }, []);
 
   useEffect(() => {
-    formUtil.replace({ modal: modalValue });
-  }, [modalValue]);
+    formUtil.replace({ model: modelValue });
+  }, [modelValue]);
 
   const methods = useControllerRef({
     set(value: any) {
-      updateProxyValue(modalValue, bindId as string, value);
+      updateProxyValue(modelValue, bindId as string, value);
     },
   });
 
-  const value = getProxyValue(modalValue, bindId) ?? '';
+  const value = getProxyValue(modelValue, bindId) ?? '';
 
   const renderContent =
     getContent?.({
-      modal: modalValue,
+      model: modelValue,
       bindId: bindId as string,
       attrs: {
         readOnly,

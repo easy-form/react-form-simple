@@ -1,0 +1,106 @@
+{
+  "model": {
+    "defaultValue": null,
+    "name": "model",
+    "type": {
+      "name": "Record<string, any>"
+    },
+    "tags": {
+      "ResetType": "Object",
+      "description": "当前表单项的表单模型数据，只包含当前表单项的value，这个value是可控的，可以直接通过model[bindId]=xxx来触发当前表单项的重新渲染。如果需要使用更多的表单字段，请使用useForm暴露出的model或者useSubscribe订阅字段。"
+    }
+  },
+  "bindId": {
+    "defaultValue": null,
+    "name": "bindId",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "当前表单项的表单字段。"
+    }
+  },
+  "isError": {
+    "defaultValue": null,
+    "name": "isError",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "description": "当前表单项的校验状态，有校验不通过的情况下为true。"
+    }
+  },
+  "attrs": {
+    "defaultValue": null,
+    "name": "attrs",
+    "type": {
+      "name": "GetContentOptionsAttrs"
+    },
+    "tags": {
+      "infoTitle": "attrs具体参数",
+      "resetType": "Object",
+      "infoPath": "docs_apiDemos_getContentAttrs",
+      "description": "控件基本属性，在表单项渲染中，会将如上属性传递给你的UI控件。如果你的UI控件不是基于这些属性，请使用FormItem针对你的UI做一层封装。"
+    }
+  },
+  "clearValidate": {
+    "defaultValue": null,
+    "name": "clearValidate",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
+      "description": "清除校验信息，只是清除校验时产生的错误，校验器依然存在。"
+    }
+  },
+  "removeValidator": {
+    "defaultValue": null,
+    "name": "removeValidator",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
+      "description": "移除校验器。调用此方法后，表单项后续的校验将不会触发。"
+    }
+  },
+  "setValue": {
+    "defaultValue": null,
+    "name": "setValue",
+    "type": {
+      "name": "(value?: any) => void"
+    },
+    "tags": {
+      "description": "设置表单项的内部的value，将会将所设置的value传给渲染控件，以达到受控，使用useForm时，这个API通常会用不到。"
+    }
+  },
+  "reapplyValidator": {
+    "defaultValue": null,
+    "name": "reapplyValidator",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
+      "description": "重新添加校验器。当调用removeValidator后，如果需要重新校验，可以调用这个方法。"
+    }
+  },
+  "validate": {
+    "defaultValue": null,
+    "name": "validate",
+    "type": {
+      "name": "() => Promise<unknown>"
+    },
+    "tags": {
+      "description": "表单校验。返回一个Promise，如果全部校验通过，会执行<strong>.then()</strong>，否则会执行<strong>.catch()</strong>并将错误信息在<strong>.catch</strong>(err => {})里返回出来。"
+    }
+  },
+  "reset": {
+    "defaultValue": null,
+    "name": "reset",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
+      "description": "重置表单，只有当表单项传入了defaultValue时，该表单项才能被reset。使用useForm时，内部已经默认使用defaultValue。也可以在render函数的参数里传入defaultValue覆盖默认值。使用FormItem的时候需要手动传入。"
+    }
+  }
+}

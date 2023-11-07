@@ -7,11 +7,11 @@ export default function App() {
   const renderName = render('name')(<input className="input" />);
   const renderAge = render('age')(<input className="input" />);
 
-  const subscribeModal = useSubscribe(({ modal }) => modal);
+  const subscribemodel = useSubscribe(({ model }) => model);
 
-  const subscribeAge = useSubscribe(({ modal }) => modal.age);
+  const subscribeAge = useSubscribe(({ model }) => model.age);
 
-  console.log({ subscribeModal, subscribeAge });
+  console.log({ subscribemodel, subscribeAge });
 
   return (
     <>

@@ -4,15 +4,19 @@ import type { UseFormNamespace } from './types/use';
 
 import useForm from './use/useForm';
 
-/**
- * Export all FormItem properties for ease of use by the user
- */
-export type FormItemProps = GlobalProps.FormItemProps;
+/** */
+
+export type FormProps = GlobalProps.FormProps;
 
 /**
  * Export all Form apis for use by the user
  */
 export type FormApis = Apis.FormApis;
+
+/**
+ * Export all FormItem properties for ease of use by the user
+ */
+export type FormItemProps = GlobalProps.FormItemProps;
 
 /**
  * Export all Form apis for use by the user

@@ -5,6 +5,7 @@
 
 body {
   color: @c-text;
+  // overflow: hidden !important;
   @{dark-selector} & {
     color: @c-text-dark;
   }
@@ -12,6 +13,9 @@ body {
 
 
 .dumi-default-content {
+  // height: calc(100vh - 70px);
+  // overflow: auto;
+  // min-height:auto !important;
   .markdown {
     ul {
       li + li {
@@ -26,6 +30,18 @@ body {
       margin-bottom: 25px;
     }
     h2, h4 { a{ display: none; } }
+    a {
+      font-weight: bold;
+      margin-left: 5px;
+      color: @c-primary;
+      font-size: 15px;
+      @{dark-selector} & {
+        color: @c-primary-dark;
+      }
+    }
+  }
+  .dumi-default-content-footer {
+    display: none;
   }
 }
 

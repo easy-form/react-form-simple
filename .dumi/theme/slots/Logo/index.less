@@ -32,6 +32,9 @@
   .logo-text {
     color: @c-primary;
     font-size: 40px;
+    @{dark-selector} & {
+      color: @c-primary-dark;
+    }
     @media @mobile {
      font-size: 28px;
     }

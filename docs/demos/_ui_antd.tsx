@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, modal, validate } = useForm(
+  const { render, model, validate } = useForm(
     { name: '', select: 'jack', checkbox: true },
     { labelPosition: 'top' },
   );
@@ -40,7 +40,7 @@ export default function App() {
     <Button
       onClick={async () => {
         await validate();
-        console.log(modal);
+        console.log(model);
       }}
     >
       Submit

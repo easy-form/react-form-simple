@@ -3,7 +3,7 @@ import React from 'react';
 import { FormItem, useForm } from 'react-form-simple';
 
 export default function App() {
-  const { contextProps, modal, validate } = useForm({
+  const { contextProps, model, validate } = useForm({
     name: '',
     age: 'age',
   });
@@ -11,14 +11,14 @@ export default function App() {
   return (
     <>
       <FormItem
-        defaultValue={modal.name}
+        defaultValue={model.name}
         rules={{ required: 'Please Input' }}
         bindId="name"
         getContent={({ attrs }) => <input {...attrs} className="input" />}
         contextProps={contextProps}
       />
       <FormItem
-        defaultValue={modal.age}
+        defaultValue={model.age}
         rules={{ required: 'Please Select' }}
         bindId="age"
         getContent={({ attrs }) => {
@@ -36,7 +36,7 @@ export default function App() {
       <Button
         onClick={async () => {
           await validate();
-          console.log(modal);
+          console.log(model);
         }}
       >
         Submit

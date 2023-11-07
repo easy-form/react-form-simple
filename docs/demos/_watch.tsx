@@ -8,7 +8,7 @@ export default function App() {
   const renderAge = render('age')(<input className="input" />);
 
   useWatch(
-    ({ modal }) => [modal?.name, modal?.age],
+    ({ model }) => [model?.name, model?.age],
     (value, preValue) => {
       console.log({ value, preValue });
     },

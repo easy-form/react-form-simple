@@ -40,9 +40,9 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
   ) => {
     Reflect;
     const mergeConfig = { ...config, ...singleConfig };
-    const { key, modal, contextProps, defineProps, ...rests } = mergeConfig;
+    const { key, model, contextProps, defineProps, ...rests } = mergeConfig;
 
-    const defaultValue = getProxyValue(modal, bindId);
+    const defaultValue = getProxyValue(model, bindId);
 
     const otherProps: Record<string, any> = {};
     if (isMeaningful(key)) {

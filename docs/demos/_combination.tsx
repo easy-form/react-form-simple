@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, FormItem, useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, contextProps, modal } = useForm({
+  const { render, contextProps, model } = useForm({
     name: 'name',
     age: 'age',
     select: 'age',
@@ -13,12 +13,12 @@ export default function App() {
         <FormItem
           bindId="name"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
-          defaultValue={modal.name}
+          defaultValue={model.name}
         />
         <FormItem
           bindId="age"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
-          defaultValue={modal.age}
+          defaultValue={model.age}
         />
         {render('select')(
           <select>

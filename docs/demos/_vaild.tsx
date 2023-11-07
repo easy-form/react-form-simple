@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, validate, modal } = useForm({ name: '', age: '' });
+  const { render, validate, model } = useForm({ name: '', age: '' });
 
   const renderName = render('name', {
     rules: { required: 'Please Input' },
@@ -30,7 +30,7 @@ export default function App() {
     <Button
       onClick={async () => {
         await validate();
-        console.log(modal);
+        console.log(model);
       }}
     >
       Submit

@@ -25,7 +25,7 @@ class Formvalidate {
 }
 
 type FormUtilTypes = {
-  modal?: Record<string, any>;
+  model?: Record<string, any>;
   trigger?: Trigger;
 } & {
   bindId?: GlobalProps.BindId;
@@ -56,29 +56,29 @@ class FormUtil {
     return this;
   }
 
-  public getModal() {
-    const { modal } = this.configOptions || {};
-    return modal;
+  public getmodel() {
+    const { model } = this.configOptions || {};
+    return model;
   }
 
-  public getValue(modal: any) {
+  public getValue(model: any) {
     return this.formvalidate.isMeaningful(this.bindId)
-      ? getProxyValue(modal, this.bindId as string | number)
+      ? getProxyValue(model, this.bindId as string | number)
       : null;
   }
   public reset() {
-    const modal = this.getModal();
+    const model = this.getmodel();
     if (this.bindId) {
       updateProxyValue(
-        modal,
+        model,
         this.bindId as string | number,
         this.defaultValue,
       );
     }
   }
   public validate(rule: RulesSingle) {
-    const modal = this.getModal();
-    const value = this.getValue(modal);
+    const model = this.getmodel();
+    const value = this.getValue(model);
     const { required, validator } = rule;
     let msg: number | string | null | undefined | boolean = null;
     if (Boolean(required) && !this.formvalidate.required(value)) {

@@ -78,10 +78,10 @@ export const useFormItemController = (
         return shareErrRet;
       },
       vaild(rule: GlobalRules.RulesSingle) {
-        const modal = formUtil.getModal();
+        const model = formUtil.getmodel();
         const bindId = globalDatas.bindId;
         const noneVaildErr =
-          !isMeaningful(modal) || !isObject(modal) || !isMeaningful(bindId);
+          !isMeaningful(model) || !isObject(model) || !isMeaningful(bindId);
         if (noneVaildErr) {
           formUtil.updateErr('');
           return true;
