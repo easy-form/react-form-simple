@@ -1,7 +1,7 @@
 import { defineConfig } from 'dumi';
 import path from 'path';
 
-const repo = 'react-form-simple ';
+const repo = 'react-form-simple';
 
 export default defineConfig({
   outputPath: 'docs-dist',
