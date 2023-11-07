@@ -12,7 +12,7 @@
   "homepage": "https://easy-form.github.io/react-form-simple/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/easy-form/react-form-simple"
+    "url": "https://github.com/easy-form/react-form-simple.git"
   },
   "license": "MIT",
   "module": "dist/index.js",
