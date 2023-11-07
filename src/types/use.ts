@@ -147,5 +147,6 @@ export namespace UseRenderNamespace {
   export interface UseRenderOptions extends UseFormNamespace.ShareConfig {
     model: Record<string, any>;
     globalDatas: Record<string, any>;
+    contextProps: GlobalProps.ContextProps;
   }
 }
