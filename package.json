@@ -2,31 +2,40 @@
   "name": "use-react-form",
   "version": "0.0.1",
   "description": "A form library for quickly controlling react form input",
+  "keywords": [
+    "react",
+    "form",
+    "react-form",
+    "simple",
+    "hook"
+  ],
+  "homepage": "https://easy-form.github.io/react-form-simple/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easy-form/react-form-simple"
+  },
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "start": "npm run dev",
-    "dev": "dumi dev",
-    "build": "father build",
-    "build:watch": "father dev",
-    "docs:build": "dumi build",
-    "prepare": "husky install && dumi setup",
-    "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
-    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepublishOnly": "father doctor && npm run build",
-    "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
-    "genAPI": "node ./scripts/generateApiData.js",
-    "genAPIAll": "npm run genAPI all=1"
-  },
-  "authors": [
-    "wed97land@outlook.com"
-  ],
-  "license": "MIT",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "genAPI": "node ./scripts/generateApiData.js",
+    "genAPIAll": "npm run genAPI all=1",
+    "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -49,12 +58,11 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+  "dependencies": {
+    "@emotion/css": "^11.11.2",
+    "lodash": "^4.17.21",
+    "proxy-polyfill": "^0.3.2",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@codesandbox/sandpack-react": "^2.9.0",
@@ -85,10 +93,14 @@
     "simplebar-react": "^3.2.4",
     "stylelint": "^14.9.1"
   },
-  "dependencies": {
-    "@emotion/css": "^11.11.2",
-    "lodash": "^4.17.21",
-    "proxy-polyfill": "^0.3.2",
-    "react-transition-group": "^4.4.5"
-  }
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wed97land@outlook.com"
+  ]
 }
