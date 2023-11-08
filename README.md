@@ -1,4 +1,6 @@
-<p style="text-align:center; font-size: 32px; color: hsl(261deg 80% 48%); font-weight: bold">react-form-simple</p>
+<p align="center" style=" font-size: 32px;  font-weight: bold">
+<font color="red">react-form-simple</font>
+</p>
 
 <p align="center">A form library for quickly controlling react form input<p>
 
