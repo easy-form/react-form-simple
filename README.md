@@ -1,6 +1,4 @@
-<p align="center" style=" font-size: 32px;  font-weight: bold">
-<font color="red">react-form-simple</font>
-</p>
+# <div align="center">react-form-simp</div>
 
 <p align="center">A form library for quickly controlling react form input<p>
 
@@ -47,22 +45,21 @@ yarn add react-form-simple
 
 使用`render`函数创建表单项
 
-```
+```js
 import { useForm } from 'react-form-simple';
 
 const { render } = useForm(fields, [config]);
-
 ```
 
 使用组件形式创建表单项
 
-```
+```js
 import { Form, FormItem } from 'react-form-simple';
 ```
 
 ## demo
 
-```
+```js
 import Button from '@components/Button';
 import React from 'react';
 import { useForm } from 'react-form-simple';
@@ -77,7 +74,7 @@ export default function App() {
   const renderAge = render('age')(<input className="input" />);
 
   const renderSubmit = (
-    <Button onClick={() =>  console.log(model)}>submit</Button>
+    <Button onClick={() => console.log(model)}>submit</Button>
   );
   return (
     <>
