@@ -1,4 +1,4 @@
-# <div align="center">react-form-simp</div>
+# <div align="center">react-form-simple</div>
 
 <p align="center">A form library for quickly controlling react form input<p>
 
