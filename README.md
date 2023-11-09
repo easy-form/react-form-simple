@@ -1,6 +1,11 @@
-# <div align="center">react-form-simple</div>
+<div align="center">
+<a href="https://easy-form.github.io/react-form-simple" target="_black">
+  <img src="https://i.postimg.cc/RV1jWgNy/readme-logo.png" alt="React-form-simple logo" width="80%">
+</a>
+</div>
 
-<p align="center">A form library for quickly controlling react form input<p>
+<br />
+<br />
 
 <div align="center">
 
