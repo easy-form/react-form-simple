@@ -3,7 +3,8 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
-      - master
+      - 'chore/**'
+      - 'feat/**'
   pull_request:
     branches:
       - master
@@ -123,6 +124,7 @@ jobs:
 
       # ------------------ publish -------------
       - name: Publish
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
             npm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
