@@ -114,6 +114,7 @@ jobs:
 
       # Create git tag
       - name: Create Git Tag
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         uses: azu/action-package-version-to-git-tag@v2
         with:
           version: ${{ env.CURRENT_VERSION }}
@@ -140,7 +141,7 @@ jobs:
       # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: github.event.pull_request.merged == true
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -155,7 +156,7 @@ jobs:
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@v6
-        if: github.event.pull_request.merged == true
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
