@@ -27,7 +27,7 @@
       "@release-it/conventional-changelog": {
         "header": "# Changelog",
         "preset": {
-          "name": "angular",
+          "name": "conventionalcommits",
           "types": [
             {
               "type": "feat",
