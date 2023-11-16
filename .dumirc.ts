@@ -36,3 +36,4 @@ export default defineConfig({
   codeSplitting: { jsStrategy: 'granularChunks' },
   title: 'react-form-simple',
 });
+ 
