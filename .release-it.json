@@ -1,0 +1,44 @@
+{
+    "github": {
+      "release": true,
+      "comments": {
+        "submit": true,
+        "issue": ":rocket: _This issue has been resolved in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
+        "pr": ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._"
+      },
+      "releaseName": "Release v${version}"
+    }, 
+    "git": {
+        "commitMessage": "chore(release): v${version}",
+        "push": true,
+        "commit": true,
+        "tag": true,
+        "requireCommits": false,
+        "requireCleanWorkingDir": false,
+        "requireBranch": "main",
+        "tagName": "v${version}"
+    },
+    "npm": { 
+        "publish": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "header": "# Changelog",
+        "preset": {
+          "name": "angular",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            }
+        ]
+        },
+        "infile": "CHANGELOG.md"
+      }
+    } 
+  }
+   

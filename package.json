@@ -1,6 +1,6 @@
 {
   "name": "react-form-simple",
-  "version": "0.0.1",
+  "version": "1.0.8",
   "description": "A form library for quickly controlling react form input",
   "keywords": [
     "react",
@@ -34,7 +34,8 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "release": "release-it"
   },
   "commitlint": {
     "extends": [
@@ -91,7 +92,9 @@
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.0.0",
     "simplebar-react": "^3.2.4",
-    "stylelint": "^14.9.1"
+    "stylelint": "^14.9.1",
+    "release-it": "^16.2.1",
+    "@release-it/conventional-changelog": "7.0.2"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
