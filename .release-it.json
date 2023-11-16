@@ -20,7 +20,8 @@
         "tagName": "v${version}"
     },
     "npm": { 
-        "publish": true
+        "publish": true,
+        "ignoreVersion": true
     },
     "plugins": {
       "@release-it/conventional-changelog": {
