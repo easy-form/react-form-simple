@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/easy-form/react-form-simple/compare/v0.2.0...v1.0.0) (2023-11-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* first release version
+
+### Features
+
+* add first release version v1.2.0 ([3eda5c4](https://github.com/easy-form/react-form-simple/commit/3eda5c49ab1b1bb0b98b5db2b95a1daa919ce3a0))
+
 ## [0.2.0](https://github.com/easy-form/react-form-simple/compare/v0.1.0...v0.2.0) (2023-11-16)
 
 
