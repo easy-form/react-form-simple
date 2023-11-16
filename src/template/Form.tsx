@@ -1,6 +1,6 @@
 import React, { useImperativeHandle, useMemo } from 'react';
 
-import 'react-form-simple/style/form.less';
+import 'react-form-simple/style/form.css';
 
 import type { Apis, GlobalProps } from 'react-form-simple/types/form';
 

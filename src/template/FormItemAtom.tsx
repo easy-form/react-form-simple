@@ -11,7 +11,7 @@ import type { GlobalProps } from 'react-form-simple/types/form';
 
 import useController from 'react-form-simple/use/useController';
 import type { Subscribe } from 'react-form-simple/utils/subscribe';
-import '../style/form.less';
+import '../style/form.css';
 
 type FormItemProps = GlobalProps.FormItemProps;
 
