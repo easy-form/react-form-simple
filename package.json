@@ -1,6 +1,6 @@
 {
   "name": "react-form-simple",
-  "version": "1.0.2",
+  "version": "0.2.0",
   "description": "A form library for quickly controlling react form input",
   "keywords": [
     "react",
@@ -107,4 +107,3 @@
     "wed97land@outlook.com"
   ]
 }
-  
