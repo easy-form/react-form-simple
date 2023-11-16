@@ -16,7 +16,7 @@
         "tag": true,
         "requireCommits": false,
         "requireCleanWorkingDir": false,
-        "requireBranch": "main",
+        "requireBranch": "master",
         "tagName": "v${version}"
     },
     "npm": { 
