@@ -16,14 +16,10 @@ export const GetStarted = () => (
 
 export const Github = () => {
   return (
-    <Button
-      plain
-      className="github-button"
-      onClick={() => {
-        history.push('/intro/introduce');
-      }}
-    >
-      Github
+    <Button plain className="github-button">
+      <a href="https://github.com/easy-form/react-form-simple" target="blank">
+        Github
+      </a>
     </Button>
   );
 };

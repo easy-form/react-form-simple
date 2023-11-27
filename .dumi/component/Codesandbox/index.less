@@ -1,5 +1,7 @@
 @import url('../../theme/styles/variables.less');
 
+
+
 .react-form-simple-codesandbox {
   width: 75%;
   margin: auto;
@@ -13,9 +15,12 @@
     border: none;
     box-shadow: @c-normal-boxShaow-deep;
     border-radius: 6px;
+    @{dark-selector} & {
+      box-shadow: none;
+    }
   }
   @{dark-selector} & {
-    box-shadow: @c-normal-boxShaow-dark;
+    // box-shadow: @c-normal-boxShaow-dark;
     .sp-preview, .sp-preview-container {
       background: transparent;
     }

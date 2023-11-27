@@ -14,6 +14,9 @@
     "type": "git",
     "url": "https://github.com/easy-form/react-form-simple.git"
   },
+  "registry": [
+    "https://registry.npmjs.org"
+  ],
   "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +31,8 @@
     "doctor": "father doctor",
     "genAPI": "node ./scripts/generateApiData.js",
     "genAPIAll": "npm run genAPI all=1",
-    "genHeroDemo": "node ./.dumi/metadata/scripts/convertTsToJson.js",
+    "genHeroDemo": "node ./.dumi/metadata/scripts/convertHeroDemo.js",
+    "genSand": "node ./.dumi/metadata/scripts/convertSandpack.js",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",

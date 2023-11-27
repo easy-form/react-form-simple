@@ -21,23 +21,27 @@ const formatCode = (code) => {
   return formattedCode;
 };
 
-const tsFilePath = path.join(__dirname, '../demos/hero/codeHighlight.tsx');
-const jsonFilePath = path.join(__dirname, '../demos/hero/format.json');
+const main = (sourceUrl, genUrl) => {
+  const tsFilePath = path.join(__dirname, sourceUrl);
+  const jsonFilePath = path.join(__dirname, genUrl);
 
-const tsCode = readFile(tsFilePath);
+  const tsCode = readFile(tsFilePath);
 
-if (tsCode) {
-  const formattedCode = formatCode(tsCode);
+  if (tsCode) {
+    const formattedCode = formatCode(tsCode);
 
-  const dataToSave = {
-    content: formattedCode,
-  };
+    const dataToSave = {
+      content: formattedCode,
+    };
 
-  fs.writeFile(jsonFilePath, JSON.stringify(dataToSave, null, 2), (err) => {
-    if (err) {
-      console.error(`Error writing JSON file: ${err}`);
-    } else {
-      console.log(`JSON file saved as ${jsonFilePath}`);
-    }
-  });
-}
+    fs.writeFile(jsonFilePath, JSON.stringify(dataToSave, null, 2), (err) => {
+      if (err) {
+        console.error(`Error writing JSON file: ${err}`);
+      } else {
+        console.log(`JSON file saved as ${jsonFilePath}`);
+      }
+    });
+  }
+};
+
+module.exports = main;
