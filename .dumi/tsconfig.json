@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "include": [
-    "theme/builtins/**/*"   
+    "theme/builtins/**/*",
+    "metadata/demos/**/*"
   ],
 }

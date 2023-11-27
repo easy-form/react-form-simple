@@ -13,7 +13,7 @@ export const CodeLight = () => {
     if (!codeRef.current) return;
     const codeElement = codeRef.current as HTMLElement;
     const codeText =
-      require('../../../metadata/demos/hero/format.json').content;
+      require('../../../metadata/demos/format/codeHighlight.json').content;
 
     let index = 0;
     const timer = setInterval(() => {

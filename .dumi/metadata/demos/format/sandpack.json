@@ -1,0 +1,3 @@
+{
+  "content": "import { useForm } from 'react-form-simple';\r\nexport default function App() {\r\n  const { render, model } = useForm({ name: '' });\r\n  const renderName = render('name')(<input />);\r\n  const renderSubmit = (\r\n    <button\r\n      onClick={() => {\r\n        console.log(model);\r\n      }}\r\n    >\r\n      submit\r\n    </button>\r\n  );\r\n  return (\r\n    <>\r\n      {renderName}\r\n      {renderSubmit}\r\n    </>\r\n  );\r\n}\r\n"
+}

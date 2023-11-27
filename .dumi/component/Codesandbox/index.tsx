@@ -1,8 +1,9 @@
 import { Sandpack } from '@codesandbox/sandpack-react';
 import { atomDark } from '@codesandbox/sandpack-themes';
 import React, { useEffect } from 'react';
-import designSystemRaw from '../../../design-system/build-sandpack';
 import './index.less';
+
+const sandpack = require('../../metadata/demos/format/sandpack.json');
 
 export function ReactFormSandpack() {
   useEffect(() => {
@@ -17,35 +18,23 @@ export function ReactFormSandpack() {
       <Sandpack
         template="react"
         theme={atomDark}
-        files={{
-          '/App.js': `
- 
-          export default function Sample() {
-            return (
-              <>
-                111
-              </>
-            );
-          }
-          `,
-          '/node_modules/@internals/design-system/package.json': {
-            hidden: true,
-            code: JSON.stringify({
-              name: '@design-system',
-              main: './index.js',
-            }),
-          },
-          '/node_modules/@internals/design-system/index.js': {
-            hidden: true,
-            code: designSystemRaw,
+        customSetup={{
+          dependencies: {
+            'react-form-simple': 'latest',
           },
         }}
+        files={{
+          '/App.js': sandpack.content,
+        }}
         options={{
+          recompileMode: 'immediate',
           showRefreshButton: false,
           showLineNumbers: true,
           editorHeight: 500,
           initMode: 'user-visible',
           showInlineErrors: true,
+          showConsole: true,
+          autoReload: true,
         }}
       />
     </div>

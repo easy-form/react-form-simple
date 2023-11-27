@@ -41,7 +41,7 @@ npm install react-form-simple
 
 useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来在表单外部渲染, 它不会重新引起视图的刷新, 即使的它的值是最新的。
 
-更过*render*配置请看<a href="/intro/api#useform">useForm 参数</a>
+更多*render*配置请看<a href="/intro/api#useform">useForm 参数</a>
 <code src="../demos/_controller.tsx"></code>
 
 ## <Mdh>订阅最新值</Mdh>
