@@ -1,15 +1,15 @@
 import React from 'react';
 
-// import { ReactFormSandpack } from '@components/Codesandbox';
-// import { GetStarted, Github } from '@components/Hero/ActionButton';
-// import { CodeLight } from '@components/Hero/CodeLight';
-// import { Desc } from '@components/Hero/Desc';
-// import { Feature } from '@components/Hero/Feature';
+import { ReactFormSandpack } from '@components/Codesandbox';
+import { GetStarted, Github } from '@components/Hero/ActionButton';
+import { CodeLight } from '@components/Hero/CodeLight';
+import { Desc } from '@components/Hero/Desc';
+import { Feature } from '@components/Hero/Feature';
 
 export default function App() {
   return (
     <div>
-      <div
+      {/* <div
         style={{
           textAlign: 'center',
           marginTop: '60px',
@@ -30,9 +30,8 @@ export default function App() {
         >
           A form library for quickly controlling react form input
         </div>
-      </div>
-      {/* <A /> */}
-      {/* <div
+      </div> */}
+      <div
         style={{
           display: 'flex',
           marginTop: '60px',
@@ -65,7 +64,7 @@ export default function App() {
           </div>
           <ReactFormSandpack />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
