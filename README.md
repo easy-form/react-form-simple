@@ -11,7 +11,7 @@
 [![NPM version](https://img.shields.io/npm/v/react-form-simple.svg?style=flat)](https://npmjs.org/package/react-form-simple) [![NPM downloads](http://img.shields.io/npm/dm/react-form-simple.svg?style=flat)](https://npmjs.org/package/react-form-simple) ![Static Badge](https://img.shields.io/badge/react-libaray-blue) ![Static Badge](https://img.shields.io/badge/react-form-blue) ![Static Badge](https://img.shields.io/badge/typescript-8A2BE2) ![NPM](https://img.shields.io/npm/l/react-form-simple) ![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/react-form-simple/1.0.1) ![npm bundle size (version)](https://img.shields.io/bundlephobia/min/react-form-simple/1.0.1)
 
 <div>
-  English | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.md">简体中文</a>
+  English | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.zh-EN.md">简体中文</a>
 </div>
 
 </div>
