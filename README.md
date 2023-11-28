@@ -38,7 +38,7 @@
 
 - Highly scalable form interface for easy customization of forms.
 
-- Easily integrate third-party UI
+- Easily integrate third-party UI.
 - Full type inference.
 
 
