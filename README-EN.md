@@ -5,7 +5,6 @@
 </div>
 
 <br />
-<br />
 
 <div align="center">
 
@@ -42,7 +41,6 @@
 - Easy integration with third-party UI.
 - Complete type inference.
 
-<br />
 
 ## 📦 Installing
 
@@ -58,7 +56,6 @@ Using Yarn
 yarn add react-form-simple
 ```
 
-<br />
 
 ## 🔨 Usage
 
@@ -76,7 +73,6 @@ Create form items in component form
 import { Form, FormItem } from 'react-form-simple';
 ```
 
-<br />
 
 ## 💻 Demo
 
@@ -107,7 +103,6 @@ export default function App() {
 }
 ```
 
-<br />
 
 ## 🎧 Watch
 
