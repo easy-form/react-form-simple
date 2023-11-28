@@ -19,7 +19,7 @@
 ![npm bundle size (version)](https://img.shields.io/bundlephobia/min/react-form-simple/1.0.1)
 
 <div>
-  简体中文 | <a href="http://www.baidu.com">English</a>
+  简体中文 | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.md">English</a>
 </div>
 
 </div>
@@ -29,7 +29,7 @@
 ## 📚 Documentation
 
 - [English](http://www.baidu.com)
-- [简体中文](http://www.baidu.com)
+- [简体中文](https://easy-form.github.io/react-form-simple)
 
 ## ✨ Features
 
