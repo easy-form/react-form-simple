@@ -37,7 +37,7 @@
 - Flexible usage methods, flexible page layout combinations, developers can use certain methods and built-in layouts according to their preferences and scenarios. In most scenarios, developers do not need to manually lay out.
 - Minimalist API design, in the process of operating forms, simply introducing two APIs can complete most of the work.
 
--Highly scalable form interface for easy customization of forms.
+- Highly scalable form interface for easy customization of forms.
 
 - Easy integration with third-party UI.
 - Complete type inference.
