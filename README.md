@@ -18,13 +18,25 @@
 ![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/react-form-simple/1.0.1)
 ![npm bundle size (version)](https://img.shields.io/bundlephobia/min/react-form-simple/1.0.1)
 
+<div>
+  简体中文 | <a href="http://www.baidu.com">English</a>
+</div>
+
 </div>
 
 <br />
 
-## Features
+## 📚 Documentation
+
+- [English](http://www.baidu.com)
+- [简体中文](http://www.baidu.com)
+
+<br />
+
+## ✨ Features
 
 - 通过创建一个可观察对象来观察表单的模型操作, 表单项的受控直接通过`_.` 赋值。
+
 - 简单几行代码就可以完成表单受控, 无需关心受控逻辑, 无需关心受控过程, 只需要知道受控结果和如何应用你的受控状态。
 - 每个表单项之间的渲染自动完全隔离, 不需要自行组织组件隔离。这将能够更快的处理表单输入后的响应速度, 以及很大程度的避免在大型动态数据下造成的页面卡顿。
 - 具有数据观测功能, 可以在某些场景下对整个表单或者某个具体的表单项进行单一或者统一的观察监测, 可以在你需要用表单项最新的值进行渲染的地方进行值的订阅。
@@ -34,7 +46,7 @@
 - 与第三方 UI 轻易集成。
 - 完整的类型推断。
 
-## Installing
+## 📦 Installing
 
 使用 npm
 
@@ -48,7 +60,7 @@ npm install react-form-simple
 yarn add react-form-simple
 ```
 
-## Usage
+## 🔨 Usage
 
 使用`render`函数创建表单项
 
@@ -64,7 +76,7 @@ const { render } = useForm(fields, [config]);
 import { Form, FormItem } from 'react-form-simple';
 ```
 
-## Demo
+## 💻 Demo
 
 ```js
 import Button from '@components/Button';
