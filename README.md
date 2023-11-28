@@ -39,7 +39,7 @@
 - Highly scalable form interface for easy customization of forms.
 
 - Easy integration with third-party UI.
-- Complete type inference.
+- Full type inference.
 
 
 ## 📦 Installing
