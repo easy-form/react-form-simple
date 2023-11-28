@@ -29,7 +29,7 @@
 ## 📚 Documentation
 
 - [English](http://www.baidu.com)
-- [简体中文](http://www.baidu.com)
+- [简体中文](https://easy-form.github.io/react-form-simple)
 
 ## ✨ Features
 
