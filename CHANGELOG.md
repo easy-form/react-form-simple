@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/easy-form/react-form-simple/compare/v1.1.0...v1.2.0) (2023-11-29)
+
+
+### Features
+
+* v1.1.1 ([603098a](https://github.com/easy-form/react-form-simple/commit/603098a7aad4116db273c01bf06071d7f99418b9))
+
 ## [1.1.0](https://github.com/easy-form/react-form-simple/compare/v1.0.0...v1.1.0) (2023-11-16)
 
 
