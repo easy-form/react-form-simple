@@ -5,8 +5,10 @@ import { GetStarted, Github } from '@components/Hero/ActionButton';
 import { CodeLight } from '@components/Hero/CodeLight';
 import { Desc } from '@components/Hero/Desc';
 import { Feature } from '@components/Hero/Feature';
+import { useLocalFormat } from 'useLocalFormat';
 
 export default function App() {
+  const { format } = useLocalFormat();
   return (
     <div>
       {/* <div
@@ -51,7 +53,7 @@ export default function App() {
       </div>
       <div style={{ marginTop: '80px' }}>
         <Feature />
-        <div style={{ marginTop: '180px' }}>
+        <div style={{ marginTop: '180px', marginBottom: '180px' }}>
           <div
             style={{
               fontSize: '38px',
@@ -60,7 +62,7 @@ export default function App() {
               marginBottom: '25px',
             }}
           >
-            在线调试
+            {format({ id: 'hero.feature.sandPackage' })}
           </div>
           <ReactFormSandpack />
         </div>

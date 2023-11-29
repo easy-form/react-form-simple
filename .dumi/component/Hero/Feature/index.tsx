@@ -1,43 +1,47 @@
 import { IconFont } from '@components/IconFont';
 import React from 'react';
 import { useControllerRef } from 'react-form-simple/use/useControllerRef';
+import { useLocalFormat } from 'useLocalFormat';
 import './index.less';
 
 export const Feature = React.memo(() => {
+  const { format, isLocalZH_CN } = useLocalFormat();
   const { icons } = useControllerRef({
     icons: [
       {
         name: 'jiekou',
-        title: 'API设计',
-        desc: '名称简单且完整的API设计, 可以构建个性化表单。',
+        title: format({ id: 'hero.feature.APITitle' }),
+        desc: format({ id: 'hero.feature.API' }),
       },
       {
         name: 'code',
-        title: '简约代码',
-        desc: '简单的几行代码, 就可使表单成为受控,无需开发人员关心受控过程。',
+        title: format({ id: 'hero.feature.codeTitle' }),
+        desc: format({ id: 'hero.feature.code' }),
       },
       {
         name: 'shandian',
-        title: '响应速度',
-        desc: '渲染完全隔离, 快速的响应表单内容的输入。',
+        title: format({ id: 'hero.feature.speedTitle' }),
+        desc: format({ id: 'hero.feature.speed' }),
       },
       {
         name: 'kuozhan',
-        title: '接口扩展',
-        desc: '易于扩展, 提供生命周期, 使开发人员定制自己的表单以及受控逻辑。',
+        title: format({ id: 'hero.feature.interfaceTilte' }),
+        desc: format({ id: 'hero.feature.interface' }),
       },
       {
         name: 'buju',
-        title: '页面布局',
-        desc: '灵活自由的布局组合, 提供布局props, 开发人员可无需手写布局, 也可自由布置。',
+        title: format({ id: 'hero.feature.layoutTitle' }),
+        desc: format({ id: 'hero.feature.layout' }),
       },
       {
         name: 'T',
-        title: '类型推断',
-        desc: '提供完整的类型推断, 表单模型数据推断。',
+        title: format({ id: 'hero.feature.typeTitle' }),
+        desc: format({ id: 'hero.feature.type' }),
       },
     ],
   });
+
+  const _isLocalZH_CN = isLocalZH_CN();
 
   const renderIcon = icons.map((i) => (
     <div className="feature-item">
@@ -47,9 +51,14 @@ export const Feature = React.memo(() => {
         <div
           style={{
             marginTop: '15px',
-            fontSize: '15px',
+            fontSize: '16px',
             lineHeight: '1.5',
-            letterSpacing: '1px',
+            color: '#666',
+            ...(_isLocalZH_CN
+              ? {
+                  letterSpacing: '1px',
+                }
+              : {}),
           }}
         >
           {i.desc}

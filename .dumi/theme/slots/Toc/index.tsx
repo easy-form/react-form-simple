@@ -17,7 +17,7 @@ import React, {
 } from 'react';
 import './index.less';
 
-import { menukeys as keysToExtract } from '../../../utils';
+import { useMenu } from 'useHook/useMenu';
 
 const Toc: FC = ({ path }: any) => {
   const { pathname, search, hash } = useLocation();
@@ -28,6 +28,8 @@ const Toc: FC = ({ path }: any) => {
   const [sectionRefs, setSectionRefs] = useState<RefObject<HTMLElement>[]>([]);
 
   const { routes } = useAppData();
+
+  const { menusKey: keysToExtract } = useMenu();
 
   const silebarDatas = keysToExtract
     .map((k) => routes[k])

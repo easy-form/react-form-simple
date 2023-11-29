@@ -6,7 +6,8 @@
       "name": "CSSProperties"
     },
     "tags": {
-      "description": "错误提示信息样式，支持对象嵌套写法"
+      "localKey": "API.form.global.props.form.share.errorStyle",
+      "description": "Error message style, supports object nesting writing method"
     }
   },
   "labelPosition": {
@@ -18,7 +19,8 @@
       "name": "\"row\" | \"top\""
     },
     "tags": {
-      "description": "标签位置"
+      "localKey": "API.form.global.props.form.share.labelPosition",
+      "description": "label position"
     }
   },
   "labelStyle": {
@@ -28,7 +30,8 @@
       "name": "CSSProperties"
     },
     "tags": {
-      "description": "标签样式，支持对象嵌套写法"
+      "localKey": "API.form.global.props.form.share.labelStyle",
+      "description": "Label style, supports object nesting writing method"
     }
   },
   "labelWidth": {
@@ -38,7 +41,8 @@
       "name": "string | number"
     },
     "tags": {
-      "description": "标签宽度"
+      "localKey": "API.form.global.props.form.share.labelWidth",
+      "description": "Label width"
     }
   },
   "formItemStyle": {
@@ -48,7 +52,8 @@
       "name": "CSSProperties"
     },
     "tags": {
-      "description": "表单项样式，支持对象嵌套写法"
+      "localKey": "API.form.global.props.form.share.formItemStyle",
+      "description": "Form item style, supports object nesting writing method"
     }
   },
   "trigger": {
@@ -60,7 +65,8 @@
       "name": "\"change\" | \"blur\" | \"manual\" | (\"change\" | \"blur\" | \"manual\")[]"
     },
     "tags": {
-      "description": "触发校验事件"
+      "localKey": "API.form.global.props.form.share.trigger",
+      "description": "Trigger verification event"
     }
   },
   "contentStyle": {
@@ -70,7 +76,8 @@
       "name": "CSSProperties"
     },
     "tags": {
-      "description": "表单项内容样式，支持对象嵌套写法"
+      "localKey": "API.form.global.props.form.share.contentStyle",
+      "description": "Form item content style, supports object nesting writing method"
     }
   },
   "fullWidth": {
@@ -82,7 +89,8 @@
       "name": "boolean"
     },
     "tags": {
-      "description": "表单项宽度是否撑满整行"
+      "localKey": "API.form.global.props.form.share.fullWidth",
+      "description": "Whether the width of the form item fills the entire row"
     }
   },
   "contextProps": {
@@ -92,10 +100,11 @@
       "name": "ContextProps"
     },
     "tags": {
+      "localKey": "API.form.global.props.form.share.contextProps",
       "resetType": "Object",
-      "infoTitle": "contextProps具体参数",
+      "infoTitle": "hook",
       "infoPath": "docs_apiDemos_contextProps",
-      "description": "表单项选项式生命周期。对整个表单进行依赖收集的地方，可以在这里对表单项做一些更加精确的控制。使用 useForm 时，通常不会需要这个。使用 FormItem 或者 Form 时或者定制化表单时，需要用到这个。当 useForm 与 Form 或者 FormItem 结合使用的时候，需要将 useForm 暴露出的 contextProps 传递给组件来进行依赖收集，也可以在你的代码里做一层代理执行某些逻辑后，在执行 contextProps 里的生命周期达到自定义的控制。"
+      "description": "Form item option life cycle. Where dependencies are collected for the entire form"
     }
   },
   "readOnly": {
@@ -107,19 +116,19 @@
       "name": "boolean"
     },
     "tags": {
-      "description": "表单项是否只读，会将这个属性传递给表单项的渲染控件，如果控件支持readOnly属性，则会自动将控件变为主读，如果不支持，需要自定义只读内容。"
+      "localKey": "API.form.global.props.form.share.readOnly",
+      "description": "Whether the form item is read-only will pass this property to the form item's rendering control"
     }
   },
   "readOnlyText": {
-    "defaultValue": {
-      "value": "-"
-    },
+    "defaultValue": null,
     "name": "readOnlyText",
     "type": {
       "name": "ReactNode"
     },
     "tags": {
-      "description": "只读状态下显示的内容"
+      "localKey": "API.form.global.props.form.share.readOnlyText",
+      "description": "Customize content displayed in read-only state"
     }
   },
   "formatChangeValue": {
@@ -129,10 +138,9 @@
       "name": "((event: Event) => any)"
     },
     "tags": {
+      "localKey": "API.form.global.props.form.share.formatChangeValue",
       "resetType": "Function",
-      "link": "用法请见<a href=\"/intro/introduce#集成第三方-ui\">集成第三方UI</a>",
-      "description": "格式化控件的value值, react-form-simple的内部表单项默认取的是标准事件对象里的value ,即<strong>e.target.value</strong>, 如果你的控件是这个上面做了一层封装返回的不是标准事件对象，需要传入这个方法，react-form-simple的表单项的value将会获取这个方法的返回值。",
-      "descriptionEn": "The value value of the formatted control defaults to the value in the standard event object, i.e. e.target.value. If your control has a layer of encapsulation on top of this, you can pass in this method, and the form item of the react form simple will obtain the return value of your method."
+      "description": "The value of the formatted control"
     }
   },
   "formStyle": {
@@ -142,7 +150,8 @@
       "name": "CSSProperties"
     },
     "tags": {
-      "description": "表单样式，支持对象嵌套写法"
+      "localKey": "API.form.global.props.form.formStyle",
+      "description": "Form style, supports object nesting writing method"
     }
   },
   "direction": {
@@ -154,7 +163,8 @@
       "name": "\"row\" | \"column\""
     },
     "tags": {
-      "description": "表单布局方向"
+      "localKey": "API.form.global.props.form.direction",
+      "description": "Overall form layout direction"
     }
   }
 }

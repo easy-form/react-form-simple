@@ -4,6 +4,7 @@
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
@@ -20,6 +21,13 @@
       "@components/*": [
         ".dumi/component/*",
         "*"
+      ],
+      "useHook/*": [
+        ".dumi/use/*",
+        "*"
+      ],
+      "useLocalFormat": [
+        ".dumi/use/useLocalFormat.ts",
       ]
     }
   },

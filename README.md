@@ -14,6 +14,10 @@
   English | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.zh-EN.md">简体中文</a>
 </div>
 
+<div>
+  简体中文 | <a href="http://www.baidu.com">English</a>
+</div>
+
 </div>
 
 <br />
@@ -38,9 +42,8 @@
 
 - Highly scalable form interface for easy customization of forms.
 
-- Easily integrate third-party UI.
-- Full type inference.
-
+- Easy integration with third-party UI.
+- Complete type inference.
 
 ## 📦 Installing
 
@@ -55,7 +58,6 @@ Using Yarn
 ```
 yarn add react-form-simple
 ```
-
 
 ## 🔨 Usage
 
@@ -72,7 +74,6 @@ Create form items in component form
 ```js
 import { Form, FormItem } from 'react-form-simple';
 ```
-
 
 ## 💻 Demo
 
@@ -102,7 +103,6 @@ export default function App() {
   );
 }
 ```
-
 
 ## 🎧 Watch
 
