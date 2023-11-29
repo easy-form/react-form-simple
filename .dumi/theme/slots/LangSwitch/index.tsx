@@ -73,9 +73,12 @@ const LangSwitch: FC = () => {
       defaultValue={locale}
       value={locale}
       onChange={(ev) => {
+        const locationPathname = history.location.pathname;
+        const pathname = locationPathname.replace('/react-form-simple', '');
+        console.log({ locationPathname, pathname });
         history.push(
           getTargetLocalePath({
-            pathname: history.location.pathname,
+            pathname,
             current,
             target: locales.find(({ id }) => id === ev.target.value)!,
           }),
