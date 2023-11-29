@@ -2,6 +2,7 @@
   "extends": "../tsconfig.json",
   "include": [
     "theme/builtins/**/*",
-    "metadata/demos/**/*"
+    "metadata/demos/**/*",
+    "theme/slots/**/*"
   ],
 }

@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { ReactComponent as IconDown } from '@ant-design/icons-svg/inline-svg/outlined/down.svg';
-import { Link, useAppData, useLocation, useNavData } from 'dumi';
+import { Link, useLocation, useNavData } from 'dumi';
 import NavbarExtra from 'dumi/theme/slots/NavbarExtra';
 import React, { useState, type FC } from 'react';
 import './index.less';
-
-import { menukeys as keysToExtract } from '../../../utils';
 
 const NavbarItem: FC<{ data: ReturnType<typeof useNavData>[0] }> = ({
   data,
@@ -93,12 +91,6 @@ const NavbarContent: FC<{ data: ReturnType<typeof useNavData> }> = ({
 
 const Navbar: FC = () => {
   const nav = useNavData();
-
-  const { routes } = useAppData();
-
-  const navs = keysToExtract.map((k) => routes[k]);
-
-  console.log({ navs });
 
   return (
     <ul className="dumi-default-navbar">

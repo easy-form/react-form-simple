@@ -12,6 +12,7 @@ import { IconFont } from '@components/IconFont';
 import { IconButton, Popover, Tooltip } from '@mui/material';
 import { useIntl } from 'dumi';
 import React from 'react';
+import { useLocalFormat } from 'useLocalFormat';
 import { ScrollBar } from '../../component/ScrollBar';
 import './customAPI.less';
 
@@ -198,6 +199,10 @@ const Name = ({ name }: any) => {
 const Desc = ({ desc, tags }: any) => {
   const intl = useIntl();
 
+  const { format, isLocalZH_CN } = useLocalFormat();
+
+  const _desc = format({ id: tags?.localKey });
+
   return (
     <div className="desc">
       <div>
@@ -205,8 +210,17 @@ const Desc = ({ desc, tags }: any) => {
           {intl.formatMessage({ id: 'api.component.description' })}:
         </span>
         <span
-          dangerouslySetInnerHTML={{ __html: desc }}
+          dangerouslySetInnerHTML={{
+            __html: isMeaningful(_desc) ? _desc : desc,
+          }}
           className="desc-info"
+          style={
+            isLocalZH_CN()
+              ? {}
+              : {
+                  letterSpacing: '0',
+                }
+          }
         />
       </div>
       {tags?.link && (

@@ -1,104 +1,106 @@
 ---
-title: 文档
+title: Document
 # nav: 文档
 ---
 
-## <Mdh>快速入门</Mdh>
+## <Mdh>Get Start</Mdh>
 
-适用于在[react](https://react.dev/) 里进行表单操作的一个高性能, 灵活, 可扩展的表单库。
+A high-performance, flexible, and scalable form library suitable for performing form operations in [react](https://react.dev/).
 
-#### 为什么使用 react-form-simple?
+#### Why use react-form-simple?
 
-- 通过创建一个可观察对象来观察表单的模型操作, 表单项的受控直接通过`_.` 赋值。
-- 简单几行代码就可以完成表单受控, 无需关心受控逻辑, 无需关心受控过程, 只需要知道受控结果和如何应用你的受控状态。
-- 每个表单项之间的渲染自动完全隔离, 不需要自行组织组件隔离。这将能够更快的处理表单输入后的响应速度, 以及很大程度的避免在大型动态数据下造成的页面卡顿。
-- 具有数据观测功能, 可以在某些场景下对整个表单或者某个具体的表单项进行单一或者统一的观察监测, 可以在你需要用表单项最新的值进行渲染的地方进行值的订阅。
-- 灵活的使用方式, 灵活的页面布局组合, 开发者可以根据自己的喜好和场景使用某种方式以及内置布局。在大多数场景下, 无需开发者手动布局。
-- 简约的 API 设计, 在操作表单的过程中, 简单的只需要引入两个 API, 就可以完成大部分工作。
-- 高度可扩展的表单接口, 在一些复杂需求或者定制化场景中, 开发者可以自行定制表单的控制逻辑。
-- 可以轻易集成在你的 UI 或者 第三方库中。
-- 完整的类型推断。
+- By creating an observable object to observe the model operation of the form, the controlled form items are assigned directly through `_.`
+- You can complete form control with just a few lines of code. You don't need to care about the controlled logic or the controlled process. You only need to know the controlled results and how to apply your controlled state.
+- The rendering between each form item is automatically completely isolated, without the need for self organizing component isolation. This will enable faster response time after form input and greatly avoid page lag caused by large dynamic data.
+- With data observation function, it can perform single or unified observation and monitoring of the entire form or a specific form item in certain scenarios. It can subscribe to values where you need to render with the latest values of form items.
+- Flexible usage methods, flexible page layout combinations, developers can use certain methods and built-in layouts according to their preferences and scenarios. In most scenarios, developers do not need to manually lay out.
+- Minimalist API design, in the process of operating forms, simply introducing two APIs can complete most of the work.
+- Highly scalable form interface for easy customization of forms.
+- Easily integrate third-party UI.
+- Full type inference.
 
-#### 安装
+#### Installing
 
-只要一个命令, 就可使用 `react-form-simple`
+Just one command to use `react-form-simple`
 
 ```
 npm install react-form-simple
 ```
 
-#### 例子
+#### Demo
 
-下面的代码是一个简单的受控表单例子
+The code below is a simple example of a controlled form
+
 <code src="../demos/_example.tsx"></code>
 :::info{ title=info }
-控件的样式是基于文档的, 并非**react-form-simple**内置的样式, **react-form-simple**不关心控件的样式。
+The style of the control is based on the document, not the built-in style of **react-form-simple**. **react-form-simple** does not care about the style of the control.
 :::
 
-## <Mdh>受控输入</Mdh>
+## <Mdh>Controlled input</Mdh>
 
-只需要两行代码便能创建一个受控表单项。下面的例子展示了 useForm 的用法。 并在加载完 2s 后, 改变输入框的值。
+It only takes two lines of code to create a controlled form item. The following example shows the usage of useForm. And after 2 seconds of loading, change the value of the input box.
 
-useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提交的操作中, 这个变量将非常有用, 但是不要用它来在表单外部渲染, 它不会重新引起视图的刷新, 即使的它的值是最新的。
+The _model_ form model data exposed by useForm is always up to date. This variable will be very useful during the form submission operation, but do not use it to render outside the form. It will not cause the view to be refreshed, even if it is The value is the latest.
 
-更多*render*配置请看<a href="/intro/api#useform">useForm 参数</a>
+See more _render_ configurations<a href="/intro/api#useform">useForm parameters</a>
 <code src="../demos/_controller.tsx"></code>
 
-## <Mdh>订阅最新值</Mdh>
+## <Mdh>Subscribe values</Mdh>
 
-使用 _useSubscribe_ 来订阅表单项或者整个表单的值。这会将所订阅的值实时渲染在视图里。但是不推荐在父级组件中来订阅, 因为这会引起整个渲染树的更新, 推荐的做法是只用在需要订阅的地方, 可以通过 props 透传, 也可以将它注入到全局状态管理中。
+Use _useSubscribe_ to subscribe to a form item or the value of an entire form. This will render the subscribed value in the view in real time. However, it is not recommended to subscribe in the parent component, because this will cause the entire rendering tree to be updated. The recommended approach is to only use it where subscription is needed. It can be transparently transmitted through props, or it can be injected into global state management.
+
 <code src="../demos/_controller_sub.tsx"></code>
 
-## <Mdh>监听表单</Mdh>
+## <Mdh>Form Watch</Mdh>
 
-使用 _useWatch_ 监听表单变化。
+Use _useWatch_ to monitor form changes.
 
-更多介绍请看 <a href="/intro/api#useform">useForm</a>
+For more introduction, please see <a href="/intro/api#useform">useForm</a>
 <code src="../demos/_watch.tsx"></code>
 
-## <Mdh>表单校验</Mdh>
+## <Mdh>Form validation</Mdh>
 
-传入 _rules_ 校验规则就可以对表单项进行校验。
+Pass in the _rules_ verification rules to verify the form items.
 
-可以给 render 的 options 参数传入 _trigger_ 属性以让表单项支持更多的校验方式。
-支持的校验方式有：
+You can pass the _trigger_ attribute to the options parameter of render to allow the form item to support more verification methods.
+Supported verification methods are:
 
 - change
 - blur
 - manual
 
-默认值是 `change`
+The default value is `change`
 
 <code src="../demos/_vaild.tsx"></code>
 
-## <Mdh>集成第三方 ui</Mdh>
+## <Mdh>Third-party UI</Mdh>
 
-#### 集成 material-ui
+#### Integrated material-ui
 
-下面是一个集成 **material-ui** 的例子。只需要将控件传给 render 就可。
+Below is an example of integrating **material-ui**. Just pass the control to render.
 
-在例子中，给 name 表单项传入了不为空的校验，当值为空的时候，会有错误提示且输入框会变红。
+In the example, the name form item is passed a check that it is not empty. When the value is empty, an error message will appear and the input box will turn red.
 
 <code src="../demos/_ui.tsx"></code>
 
-#### <div style="margin-top: 15px">集成 Ant Design</div>
+#### <div style="margin-top: 15px">Integrate Ant Design</div>
 
-下面是一个集成 **Ant Design** 的例子。只需要将控件给 render 就行。
+Below is an example of integrating **Ant Design**. Just render the control.
 
-同样的，给 name 表单项传入了不为空的校验，当值为空的时候，会有错误提示且输入框会变红。
+Similarly, the name form item is passed a check that it is not empty. When the value is empty, an error message will appear and the input box will turn red.
 
 <code src="../demos/_ui_antd.tsx"></code>
 
-## <Mdh>动态表单</Mdh>
+## <Mdh>Dynamic form</Mdh>
 
-通过直接给数组赋值, 然后调用 _setState_ 方法手动刷新视图实现动态表单。调用 _setState_ 方法的目的是因为直接改变 model 的数据不会在表单外部引起视图重新渲染。
+Implement dynamic forms by directly assigning values to the array and then calling the _setState_ method to manually refresh the view. The purpose of calling the _setState_ method is that directly changing the model's data will not cause the view to re-render outside the form.
 <code src="../demos/_dymic.tsx"></code>
 
-还可以不调用 setState 方法，用另外一种方法也可以实现动态表单
+You can also use another method to implement dynamic forms without calling the setState method.
 <code src="../demos/_dymic_01.tsx"></code>
 
-不管是哪种方式，render 方法的第一个参数如果是多层级的话应该都要 以 **.** 分隔
+No matter which method is used, the first parameter of the render method should be separated by **.** if it is multi-level.
 
-## <Mdh>表单性能测试</Mdh>
+## <Mdh>Performance Testing</Mdh>
 
 <code src="../demos/_performance_test.tsx"></code>

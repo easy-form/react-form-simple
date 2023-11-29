@@ -5,6 +5,7 @@
 
 body {
   color: @c-text;
+  font-family: @font-family;
   // overflow: hidden !important;
   @{dark-selector} & {
     color: @c-text-dark;
@@ -17,6 +18,7 @@ body {
   // overflow: auto;
   // min-height:auto !important;
   .markdown {
+    font-family: @font-family;
     ul {
       li + li {
         margin-top: 15px;
@@ -104,6 +106,7 @@ body {
 }
 
 #root .dumi-default-doc-layout {
+  font-family: @font-family;
   background-color: @c-site-bg ;
   @{dark-selector} & {
     background-color: @c-site-bg-dark;

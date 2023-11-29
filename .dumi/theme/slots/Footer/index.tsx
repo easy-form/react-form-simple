@@ -1,5 +1,6 @@
 import { useSiteData } from 'dumi';
 import React, { type FC } from 'react';
+import { useLocalFormat } from 'useLocalFormat';
 import './index.less';
 
 const Footer: FC = () => {
@@ -7,10 +8,12 @@ const Footer: FC = () => {
 
   if (!themeConfig.footer) return null;
 
+  const { format } = useLocalFormat();
+
   return (
     <div className="dumi-default-footer">
       <div>
-        <span>如果让你的表单开发变得更加容易，请给我们加颗星</span>
+        <span>{format({ id: 'footer.desc.star.text' })}</span>
         <span>
           <a
             href="https://github.com/easy-form/react-form-simple"
@@ -22,7 +25,7 @@ const Footer: FC = () => {
       </div>
       <div>
         <span>
-          如果你在使用过程中遇到了困难，请给我们提
+          {format({ id: 'footer.desc.issue.text' })}
           <a
             href="https://github.com/easy-form/react-form-simple/issues"
             target="_blank"

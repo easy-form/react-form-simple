@@ -32,8 +32,17 @@ export default defineConfig({
   alias: {
     'react-form-simple': path.resolve(__dirname, './', 'src'),
     '@components': path.resolve(__dirname, './', '.dumi/component'),
+    useHook: path.resolve(__dirname, './', '.dumi/use'),
+    useLocalFormat: path.resolve(
+      __dirname,
+      './',
+      '.dumi/use/useLocalFormat.ts',
+    ),
   },
   codeSplitting: { jsStrategy: 'granularChunks' },
   title: 'react-form-simple',
+  locales: [
+    { id: 'en-US', name: 'English' },
+    { id: 'zh-CN', name: '简体中文' },
+  ],
 });
- 
