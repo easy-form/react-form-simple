@@ -14,9 +14,7 @@
   English | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.zh-EN.md">简体中文</a>
 </div>
 
-<div>
-  简体中文 | <a href="http://www.baidu.com">English</a>
-</div>
+
 
 </div>
 
