@@ -10,22 +10,6 @@ import { getProxyValue } from 'react-form-simple/utils/controller';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
-// const useFormItemRef = () => {
-//   const formItems = useControllerRef({
-//     datas: {} as Record<string, Apis.FormItemApis>,
-//     get() {
-//       return formItems.datas;
-//     },
-//     set(key: string, ref: Apis.FormItemApis) {
-//       formItems.datas[key] = ref;
-//     },
-//     setValue(key: string, value: any) {
-//       const f = formItems.get();
-//       f?.[key]?.setValue?.(value);
-//     },
-//   });
-//   return { formItems };
-// };
 
 export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
   // const { formItems } = useFormItemRef();
@@ -65,9 +49,6 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
           }}
           {...otherProps}
           {...rests}
-          // ref={(ref) => {
-          //   formItems.set(bindId, ref as Apis.FormItemApis);
-          // }}
         />
       );
     };
@@ -76,7 +57,6 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
   const exportMethods = useControllerRef({
     set(key: string, value: any) {
       bindIdApis.get(key)?.setValue(value);
-      // formItems.setValue(key, value);
     },
   });
 
