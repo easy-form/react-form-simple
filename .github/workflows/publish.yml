@@ -65,13 +65,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.CURRENT_VERSION }}
-          release_name: ${{ github.event.pull_request.title }}
+          release_name: Release v${{ env.CURRENT_VERSION }}
           body: |
             ${{ github.event.pull_request.body }}
           draft: false
           prerelease: false
 
-      - name: Send pr commonent
+      - name: Send pr comment
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
