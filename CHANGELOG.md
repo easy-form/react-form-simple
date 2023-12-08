@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/easy-form/react-form-simple/compare/v1.2.0...v1.3.0) (2023-12-08)
+
+
+### Features
+
+* add Form Item setError API ([c43f6e0](https://github.com/easy-form/react-form-simple/commit/c43f6e0b3b5221b86b77eec23c6aadf7b23b2a51))
+* add setError API ([1397503](https://github.com/easy-form/react-form-simple/commit/1397503cadb8b1bfab5f772b36eefbe241c2b326))
+
 ## [1.2.0](https://github.com/easy-form/react-form-simple/compare/v1.1.0...v1.2.0) (2023-11-29)
 
 
