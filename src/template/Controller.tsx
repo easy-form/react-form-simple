@@ -3,11 +3,13 @@ import type { GlobalProps } from 'react-form-simple/types/form';
 
 export type ControlProps = {
   children: any;
+  otherProps: Record<string, any>;
 } & GlobalProps.GetContentOptions;
 
 export const Controller: React.FC<ControlProps> = ({
   children,
   attrs,
+  otherProps,
   ...rests
 }) => {
   const { value, onChange, onBlur, ...restAttrs } = attrs;
@@ -25,6 +27,7 @@ export const Controller: React.FC<ControlProps> = ({
       ...restAttrs,
       ...rests,
       ...child?.props,
+      ...otherProps,
     });
   });
 };

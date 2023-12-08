@@ -51,7 +51,7 @@ export const FormItem = React.forwardRef<
 
   const { uid, subscribe, formUtil, bindId: _bindId } = globalDatas;
 
-  const { setError } = apis;
+  // const { setError } = apis;
 
   const { labelPositionMap } = useControllerRef({
     labelPositionMap: new Map([
@@ -89,7 +89,8 @@ export const FormItem = React.forwardRef<
     () =>
       !customErrTips && (
         <FormItemErrorTxt
-          off={() => setError('')}
+          bindId={bindId}
+          // off={() => setError('')}
           errorStyle={errorStyle}
           subscribe={globalDatas.subscribe}
         />
@@ -141,7 +142,7 @@ export const FormItem = React.forwardRef<
   return (
     <Box
       key={uid}
-      className={formItemClass?.join(' ') || ''}
+      className={formItemClass?.join(' ')}
       sx={{
         marginBottom: '25px',
         ...(fullWidth

@@ -88,12 +88,12 @@ export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
 
 type FormItemErrorTxtProps = {
   errorStyle?: FormItemProps['errorStyle'];
-  off?: () => void;
   subscribe: InstanceType<typeof Subscribe>;
+  bindId: any;
 };
 
 export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
-  const { errorStyle, off, subscribe } = props;
+  const { errorStyle, subscribe, bindId } = props;
   const errRef = useRef(null);
 
   const datas = useController({ errorMessage: '', err: false });
@@ -117,11 +117,13 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
         timeout={300}
         classNames="alert"
         unmountOnExit
-        onExited={() => {
-          off?.();
-        }}
+        // onExited={() => {
+        //   off?.();
+        // }}
       >
         <Box
+          data-error-id={`${bindId}-${errorMessage}`}
+          data-error-text={errorMessage}
           ref={errRef}
           sx={{
             color: '#f56c6c',

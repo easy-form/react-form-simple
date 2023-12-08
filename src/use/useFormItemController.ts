@@ -4,7 +4,7 @@ import useControllerRef from './useControllerRef';
 
 import { Subscribe } from 'react-form-simple/utils/subscribe';
 
-import { debounce, isArray, isObject } from 'lodash';
+import { debounce, isArray } from 'lodash';
 import { GlobalProps, GlobalRules } from 'react-form-simple/types/form';
 import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
@@ -78,14 +78,8 @@ export const useFormItemController = (
         return shareErrRet;
       },
       vaild(rule: GlobalRules.RulesSingle) {
-        const model = formUtil.getmodel();
         const bindId = globalDatas.bindId;
-        const noneVaildErr =
-          !isMeaningful(model) || !isObject(model) || !isMeaningful(bindId);
-        if (noneVaildErr) {
-          formUtil.updateErr('');
-          return true;
-        }
+
         const errResult = formUtil.validate(rule);
         onErrorDebounce?.(errResult, bindId);
         return errResult;

@@ -57,22 +57,18 @@ export namespace Apis {
      * @description Clear verification information
      * @localKey API.form.clearValidate.desc
      * @resetType (bindId?: string | string[]) => void
-     * @param bindId The form item to be cleared can be passed or not passed to clear the entire form.
      */
     clearValidate: (bindId?: ValidateBindIds) => void;
     /**
      * @description Remove the validation rules. When the form is validated later, the validation will not be performed.
      * @resetType (bindId?: string | string[]) => void
      * @localKey API.form.removeValidator.desc
-     * @param bindId The form item to be removed can be not passed. If not passed, the entire form will be removed.
      */
     removeValidator: (bindId?: ValidateBindIds) => void;
     /**
      * @description Reapply for form item verification
      * @localKey API.form.reapplyValidator.desc
      * @resetType (bindId?: string | string[]) => void
-     * @param Reapply for form item verification
-     * @returns bindId Re-apply form items. If not passed, the entire form will be re-applied for verification.
      */
     reapplyValidator: (bindId?: ValidateBindIds) => void;
     /**
@@ -87,6 +83,13 @@ export namespace Apis {
      * @param bindId
      */
     setValues: (values: Record<string, any>) => void;
+    /**
+     * @description Manually calling to set the error message will not trigger the onError event
+     * @localKey API.formItem.setError.desc
+     * @version 1.3.0
+     * @resetType (bindId: string | string[], message?: React.ReactNode) => void
+     */
+    setError: (bindId: any | any[], message?: React.ReactNode) => void;
   }
   /**
    * The form unit item interface is integrated, so functional operations are based on these interfaces.
@@ -112,6 +115,12 @@ export namespace Apis {
      * @description Make external calls to re-apply for verification of form items
      */
     reapplyValidator: () => void;
+    /**
+     * @description Manually calling to set the error message will not trigger the onError event
+     * @localKey API.formItem.setError.desc
+     * @version 1.3.0
+     */
+    setError: (message?: React.ReactNode) => void;
   }
 }
 

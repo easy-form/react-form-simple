@@ -35,6 +35,7 @@
   "API.formItem.removeValidator.desc": "移除校验器。调用此方法后，表单项后续的校验将不会触发。",
   "API.formItem.setValue.desc": "设置表单项的内部的value，将会将所设置的value传给渲染控件，以达到受控，使用useForm时，这个API通常会用不到。",
   "API.formItem.reapplyValidator.desc": "重新添加校验器。当调用removeValidator后，如果需要重新校验，可以调用这个方法。",
+  "API.formItem.setError.desc": "手动调用设置错误提示信息，不会触发onError事件。",
   "API.form.global.props.GetContentOptionsAttrs.onChange.desc": "传给UI控件的onChange事件，方法接收两个参数，第一个参数为事件的标准对象，如果你UI控件不是基于事件标准对象，请传入formatChangeValue告诉表单项要取哪个值，或者可以在控件onChange之后，传给表单项之前做做一层中间代理，处理完逻辑后，手动调用attrs.onChange({ target: value })。第二个参数是UI控件类型，React-form-simple默认取事件对象里的value和type来做判断，如果你的UI控件是checkBox且不是基于标准事件对象且他的受控属性不是value且，那么需要传第二个参数为checkbox。",
   "API.form.global.props.GetContentOptionsAttrs.onBlur.desc": "传给UI控件的onBlur事件。这个方法不接收任何参数",
   "API.form.global.props.GetContentOptionsAttrs.value.desc": "传给UI控件的value。",
