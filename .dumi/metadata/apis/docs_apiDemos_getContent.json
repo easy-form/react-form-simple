@@ -91,6 +91,18 @@
       "description": "Make external calls to re-apply for verification of form items"
     }
   },
+  "setError": {
+    "defaultValue": null,
+    "name": "setError",
+    "type": {
+      "name": "(message?: ReactNode) => void"
+    },
+    "tags": {
+      "description": "Manually calling to set the error message will not trigger the onError event",
+      "localKey": "API.formItem.setError.desc",
+      "version": "1.3.0"
+    }
+  },
   "validate": {
     "defaultValue": null,
     "name": "validate",

@@ -10,7 +10,6 @@ import { getProxyValue } from 'react-form-simple/utils/controller';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
-
 export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
   // const { formItems } = useFormItemRef();
 
@@ -31,6 +30,7 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
     const otherProps: Record<string, any> = {};
     if (isMeaningful(key)) {
       otherProps['key'] = key;
+      otherProps['data-form-simple-test-id'] = key;
     }
 
     return (reactNode) => {
@@ -45,7 +45,12 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
               attrs,
               ...defineProps?.(options),
             } as GlobalProps.GetContentOptions;
-            return <Controller {...controllerprops}>{reactNode}</Controller>;
+            const { key, ...restOtherProps } = otherProps;
+            return (
+              <Controller {...controllerprops} otherProps={restOtherProps}>
+                {reactNode}
+              </Controller>
+            );
           }}
           {...otherProps}
           {...rests}

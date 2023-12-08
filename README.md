@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://easy-form.github.io/react-form-simple" target="_black">
+<a href="https://easy-form.github.io/react-form-simple" target="_blank">
   <img src="./public//logo.jpg" alt="React-form-simple logo" width="100%">
 </a>
 </div>
@@ -13,8 +13,6 @@
 <div>
   English | <a href="https://github.com/easy-form/react-form-simple/blob/master/README.zh-EN.md">简体中文</a>
 </div>
-
-
 
 </div>
 
@@ -129,6 +127,15 @@ export default function App() {
   );
 }
 ```
+
+## 📄 Unit Test
+
+<div >
+  <img src="./public/unit-test01.jpg" alt="unit-test" width="80%">
+</div>
+<div >
+  <img src="./public/unit-test02.jpg" alt="unit-test" width="80%">
+</div>
 
 ## 🤝 LICENSE
 

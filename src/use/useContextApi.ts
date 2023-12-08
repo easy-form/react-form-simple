@@ -13,7 +13,7 @@ export const useContextApi = () => {
   const [, setState] = useState({});
 
   const executeMethodFromApis = useCallback(
-    (bindId: Apis.ValidateBindIds, methodName: string) => {
+    (bindId: Apis.ValidateBindIds, methodName: string, ...args: any[]) => {
       if (!isMeaningful(bindId)) {
         Array.from(apis.values()).forEach((api) => void api?.[methodName]?.());
         return;
@@ -24,7 +24,7 @@ export const useContextApi = () => {
           : (bindId as (number | string | boolean)[]);
       _bindIds?.forEach((bindId) => {
         const api = bindIdApis.get(bindId);
-        api && api?.[methodName]?.();
+        api && api?.[methodName]?.(...args);
       });
     },
     [],
@@ -71,6 +71,9 @@ export const useContextApi = () => {
       Object.entries(values).forEach(([key, value]) => {
         overlayApis.setValue(key, value);
       });
+    },
+    setError(bindId, message) {
+      executeMethodFromApis(bindId, 'setError', message);
     },
   });
 

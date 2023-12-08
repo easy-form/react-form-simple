@@ -68,8 +68,7 @@
     "tags": {
       "description": "Clear verification information",
       "localKey": "API.form.clearValidate.desc",
-      "resetType": "(bindId?: string | string[]) => void",
-      "param": "bindId The form item to be cleared can be passed or not passed to clear the entire form."
+      "resetType": "(bindId?: string | string[]) => void"
     }
   },
   "removeValidator": {
@@ -81,8 +80,7 @@
     "tags": {
       "description": "Remove the validation rules. When the form is validated later, the validation will not be performed.",
       "resetType": "(bindId?: string | string[]) => void",
-      "localKey": "API.form.removeValidator.desc",
-      "param": "bindId The form item to be removed can be not passed. If not passed, the entire form will be removed."
+      "localKey": "API.form.removeValidator.desc"
     }
   },
   "reapplyValidator": {
@@ -94,9 +92,7 @@
     "tags": {
       "description": "Reapply for form item verification",
       "localKey": "API.form.reapplyValidator.desc",
-      "resetType": "(bindId?: string | string[]) => void",
-      "param": "Reapply for form item verification",
-      "returns": "bindId Re-apply form items. If not passed, the entire form will be re-applied for verification."
+      "resetType": "(bindId?: string | string[]) => void"
     }
   },
   "setValue": {
@@ -121,6 +117,19 @@
       "description": "Set values uniformly for form items",
       "localKey": "API.form.setValues.desc",
       "param": "bindId"
+    }
+  },
+  "setError": {
+    "defaultValue": null,
+    "name": "setError",
+    "type": {
+      "name": "(bindId: any, message?: ReactNode) => void"
+    },
+    "tags": {
+      "description": "Manually calling to set the error message will not trigger the onError event",
+      "localKey": "API.formItem.setError.desc",
+      "version": "1.3.0",
+      "resetType": "(bindId: string | string[], message?: React.ReactNode) => void"
     }
   },
   "validate": {

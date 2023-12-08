@@ -14,7 +14,7 @@ export default function App() {
       <FormItem
         rules={{ required: 'Please Input' }}
         getContent={({ attrs }) => <input {...attrs} className="input" />}
-        bindId="name"
+        bindId="age"
       />
       <Button
         onClick={() => {

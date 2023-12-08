@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, model, reset } = useForm({ name: 'name' });
+  const { render, model } = useForm({ name: 'name' });
 
   const renderName = render('name')(<input className="input" />);
 
@@ -13,12 +13,12 @@ export default function App() {
     }, 2000);
   }, []);
 
-  const onsubmit = () => void console.log(model);
+  const onSubmit = () => void console.log(model);
 
   return (
     <>
       {renderName}
-      <Button onClick={onsubmit}>submit</Button>
+      <Button onClick={onSubmit}>submit</Button>
     </>
   );
 }

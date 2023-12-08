@@ -9,6 +9,7 @@ import { useController } from 'react-form-simple/use/useController';
 import { isMeaningful } from 'react-form-simple/utils/util';
 
 import { IconFont } from '@components/IconFont';
+import Tag from '@components/Tag';
 import { IconButton, Popover, Tooltip } from '@mui/material';
 import { useIntl } from 'dumi';
 import React from 'react';
@@ -111,6 +112,7 @@ function TooltipInfo({ path, ignoreFields, tags }: any) {
 
 const StickyHeader = React.forwardRef(({ data, title, onClick }: any, ref) => {
   const [active, setActive] = useState(0);
+  const { format } = useLocalFormat();
 
   useImperativeHandle(ref, () => ({
     setActive(index: number) {
@@ -126,28 +128,33 @@ const StickyHeader = React.forwardRef(({ data, title, onClick }: any, ref) => {
       .filter(Boolean)
       .join(' ');
 
-  const renderLi = data?.map(([name, prop]: any, index: number) => (
-    <Tooltip
-      key={name}
-      title={
-        <span
-          dangerouslySetInnerHTML={{ __html: prop?.tags?.description }}
-          style={{ fontSize: '14px', lineHeight: 2 }}
-        />
-      }
-      placement="right"
-    >
-      <div
-        className={getItemClasses(index)}
-        onClick={() => {
-          onClick?.(name);
-          setActive(index);
-        }}
+  const renderLi = data?.map(([name, prop]: any, index: number) => {
+    const desc = format({ id: prop?.tags?.localKey });
+    return (
+      <Tooltip
+        key={name}
+        title={
+          <span
+            dangerouslySetInnerHTML={{
+              __html: isMeaningful(desc) ? desc : prop?.tags?.description,
+            }}
+            style={{ fontSize: '14px', lineHeight: 2 }}
+          />
+        }
+        placement="left"
       >
-        {name}
-      </div>
-    </Tooltip>
-  ));
+        <div
+          className={getItemClasses(index)}
+          onClick={() => {
+            onClick?.(name);
+            setActive(index);
+          }}
+        >
+          {name}
+        </div>
+      </Tooltip>
+    );
+  });
   return (
     <div className="api-sticky-header">
       <ScrollBar>
@@ -192,8 +199,15 @@ const APIType: any = (props: any) => {
   );
 };
 
-const Name = ({ name }: any) => {
-  return <div className="name">{name}</div>;
+const Name = ({ name, tags }: any) => {
+  return (
+    <div className="name">
+      {name}
+      <div style={{ display: 'flex', marginTop: '3px' }}>
+        <Tag>{tags?.version ? `${tags?.version}+` : '1.1.0+'}</Tag>
+      </div>
+    </div>
+  );
 };
 
 const Desc = ({ desc, tags }: any) => {
@@ -290,7 +304,7 @@ const Tbody = React.forwardRef(
 
     return (
       <div key={name} className="api-item" ref={boxRef}>
-        {isShowInfo('name') && <Name name={name} />}
+        {isShowInfo('name') && <Name name={name} tags={prop?.tags} />}
         {isShowInfo('type') && <APIType {...prop} name={name} />}
         {isShowInfo('desc') && (
           <Desc desc={prop?.tags?.description || '--'} tags={prop?.tags} />
