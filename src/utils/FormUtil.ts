@@ -12,6 +12,7 @@ type Rules = GlobalRules.Rules;
 type RulesSingle = GlobalRules.RulesSingle;
 
 class Formvalidate {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor() {}
   isMeaningful(val: any) {
     return isMeaningful(val);

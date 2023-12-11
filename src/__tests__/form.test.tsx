@@ -68,6 +68,7 @@ describe.concurrent('form item', () => {
       const renderButton = (
         <button
           id="button"
+          type='button'
           onClick={() => {
             setIsShow(false);
           }}
@@ -324,21 +325,22 @@ describe.concurrent('use Form Item api', () => {
   test('remove and reapply vaild', async ({ expect }) => {
     const comppnentRef = React.createRef();
     const TestDemo = React.forwardRef((props, ref) => {
+      const { render, removeValidator, reapplyValidator, validate } = useForm({
+        removeName: 'test value',
+      });
+
       useImperativeHandle(ref, () => ({
         vaild() {
           console.log(66666);
           return validate();
         },
       }));
-
-      const { render, removeValidator, reapplyValidator, validate } = useForm({
-        removeName: 'test value',
-      });
       useEffect(() => {
         removeValidator();
       }, []);
       const button = (
         <button
+          type="button"
           id="reapply-button"
           onClick={() => {
             reapplyValidator();
@@ -348,7 +350,7 @@ describe.concurrent('use Form Item api', () => {
         </button>
       );
       const buttonVaild = (
-        <button id="valid-button" onClick={async () => validate()}>
+        <button type="button" id="valid-button" onClick={async () => validate()}>
           valid
         </button>
       );

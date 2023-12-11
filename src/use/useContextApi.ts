@@ -24,7 +24,7 @@ export const useContextApi = () => {
           : (bindId as (number | string | boolean)[]);
       _bindIds?.forEach((bindId) => {
         const api = bindIdApis.get(bindId);
-        api && api?.[methodName]?.(...args);
+        api?.[methodName]?.(...args);
       });
     },
     [],
