@@ -10,20 +10,20 @@ on:
       - main
 
 jobs:
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - uses: actions/setup-node@v2
-  #     with:
-  #       node-version: '18.16.0'
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '18.16.0'
 
-  #   - name: Install dependencies
-  #     run: yarn
+    - name: Install dependencies
+      run: yarn
 
-  #   - name: Run linter
-  #     run: npm run lint
+    - name: Run linter
+      run: npm run lint
 
   test:
     runs-on: ubuntu-latest
