@@ -3,11 +3,11 @@ name: Deploy Documentation
 on:
   push:
     branches:
-      - master
+      - main
 
   workflow_dispatch:
     branches:
-      - master
+      - main
     inputs:
       deploy:
         description: Deploy ?
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
 
       - name: Use Node.js
         uses: actions/setup-node@v2
@@ -39,6 +39,6 @@ jobs:
       - name: Deploy to GithubPages
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          branch: gh-pages # 打包的内容放到build分支下
-          folder: docs-dist # 你打包后存放的文件
+          branch: gh-pages
+          folder: docs-dist
           github_token: ${{ secrets.GITHUB_TOKEN }}
