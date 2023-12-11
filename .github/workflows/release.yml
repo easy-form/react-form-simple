@@ -4,7 +4,7 @@ on:
   # When Release Pull Request is merged   
   pull_request:
     branches:
-      - master
+      - main
       - 'v/**'
     types: [closed]
   
