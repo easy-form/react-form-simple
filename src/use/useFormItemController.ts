@@ -11,7 +11,7 @@ import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 const defaultValueSymbol = Symbol('defaultValue');
 
 export const useFormItemController = (
-  options: {} & GlobalProps.FormItemProps,
+  options: GlobalProps.FormItemProps,
 ) => {
   const {
     onError,
@@ -56,7 +56,7 @@ export const useFormItemController = (
     };
   }, []);
 
-  const onErrorDebounce: Function | null = useMemo(
+  const onErrorDebounce= useMemo<typeof onError | null>(
     () => (onError && typeof onError === 'function' ? debounce(onError) : null),
     [onError],
   );
@@ -81,7 +81,8 @@ export const useFormItemController = (
         const bindId = globalDatas.bindId;
 
         const errResult = formUtil.validate(rule);
-        onErrorDebounce?.(errResult, bindId);
+        // TODO: type fix
+        onErrorDebounce?.(errResult as string, bindId);
         return errResult;
       },
     }),
@@ -95,11 +96,15 @@ export const useFormItemController = (
       },
       change() {
         const t = triggers.get();
-        t.includes('change') && vailds.each();
+        if (t.includes('change')) {
+          vailds.each();
+        }
       },
       blur() {
         const t = triggers.get();
-        t.includes('blur') && vailds.each();
+        if (t.includes('blur')) {
+          vailds.each();
+        }
       },
     }),
     [trigger],

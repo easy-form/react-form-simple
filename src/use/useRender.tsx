@@ -21,7 +21,6 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
     bindId,
     singleConfig,
   ) => {
-    Reflect;
     const mergeConfig = { ...config, ...singleConfig };
     const { key, model, contextProps, defineProps, ...rests } = mergeConfig;
 
@@ -45,9 +44,8 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
               attrs,
               ...defineProps?.(options),
             } as GlobalProps.GetContentOptions;
-            const { key, ...restOtherProps } = otherProps;
             return (
-              <Controller {...controllerprops} otherProps={restOtherProps}>
+              <Controller {...controllerprops} otherProps={otherProps}>
                 {reactNode}
               </Controller>
             );

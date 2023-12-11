@@ -34,7 +34,7 @@ export const replaceTarget = (
 
 export const getProxyValue = (
   obj: any,
-  key?: string | number | undefined | null | Symbol,
+  key?: string | number | undefined | null | symbol,
 ): string | boolean | undefined => {
   if (!key || typeof key !== 'string') return '';
   const keys = key.split('.');
@@ -52,7 +52,7 @@ export const getProxyValue = (
 
 export const updateProxyValue = (
   obj: any,
-  key: string | number | undefined | null | Symbol,
+  key: string | number | undefined | null | symbol,
   newValue: any,
 ) => {
   if (!obj || !key) return;
