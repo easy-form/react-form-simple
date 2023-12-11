@@ -140,6 +140,14 @@ export default function App() {
   <img src="./public/unit-test02.jpg" alt="unit-test" width="80%">
 </div>
 
-## 🤝 LICENSE
+## 🤝 Community
 
-MIT
+### 加入微信群
+
+<div >
+  <img src="./public/wechat-group.jpg" alt="wechat-group" width="50%">
+</div>
+
+## 📝 License
+
+[MIT](https://github.com/easy-form/react-form-simple/blob/main/LICENSE)
