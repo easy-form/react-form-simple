@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '18.16.0'
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Run linter
+      run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '18.16.0'
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Run test cases
+      run: npm run test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '18.16.0'
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Build
+      run: npm run build
