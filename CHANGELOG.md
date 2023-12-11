@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/easy-form/react-form-simple/compare/v1.3.0...v1.3.1) (2023-12-11)
+
+
+### Bug Fixes
+
+* fix types ([0ce34d2](https://github.com/easy-form/react-form-simple/commit/0ce34d2021e3b54fd020bd4de4ea600b6ad00a1f))
+
+
 ## [1.3.0](https://github.com/easy-form/react-form-simple/compare/v1.2.0...v1.3.0) (2023-12-08)
 
 
