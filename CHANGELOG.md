@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.2](https://github.com/easy-form/react-form-simple/compare/v1.3.1...v1.3.2) (2023-12-13)
+
+
+### Bug Fixes
+
+* typo for `destroy` ([#31](https://github.com/easy-form/react-form-simple/issues/31)) ([c6c4421](https://github.com/easy-form/react-form-simple/commit/c6c442198920c2cc11b8c99d54b9e7964f240f67))
+
+
+
 ## [1.3.1](https://github.com/easy-form/react-form-simple/compare/v1.3.0...v1.3.1) (2023-12-11)
 
 
