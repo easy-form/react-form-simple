@@ -150,7 +150,7 @@ export default function App() {
 ### Join WeChat Group
 
 <div >
-  <img src="./public/wechat-group.jpg" alt="wechat-group" width="50%">
+  <img src="./public/wechat-groupv2.jpg" alt="wechat-group" width="50%">
 </div>
 
 ## 📝 License
