@@ -1,0 +1,20 @@
+@import url('../../theme/styles/variables.less');
+
+.H5-Dooring {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  text-align: center;
+  padding: 10px 15px;
+  color: @c-white;
+  max-width: 200px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  background-color: #0033cc;
+  .boxShaow();
+  box-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.5),   /* 第一层阴影 */
+    0 0 20px rgba(0, 0, 0, 0.3),   /* 第二层阴影，更深 */
+    0 0 30px rgba(0, 0, 0, 0.2);   /* 第三层阴影，更深*/
+}

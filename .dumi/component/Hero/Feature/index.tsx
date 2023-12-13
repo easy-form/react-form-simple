@@ -49,11 +49,11 @@ export const Feature = React.memo(() => {
         <IconFont name={i.name} size={45} />
         <div style={{ fontSize: '23px', marginTop: '6px' }}>{i.title}</div>
         <div
+          className="feature-item_desc"
           style={{
             marginTop: '15px',
             fontSize: '16px',
             lineHeight: '1.5',
-            color: '#666',
             ...(_isLocalZH_CN
               ? {
                   letterSpacing: '1px',

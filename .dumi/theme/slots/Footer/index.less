@@ -1,16 +1,15 @@
 @import (reference) '../../styles/variables.less';
 
 .@{prefix}-footer {
-  margin-top: @s-content-padding;
-  border-top: 1px solid @c-border-light;
-  color: @c-text-footer;
+  color: @c-white;
   font-size: 13px;
-  line-height: 2;
+  line-height: 1;
   text-align: center;
-  padding: @s-content-padding * 0.6 0;
+  padding: @s-content-padding * 0.6 0 30px 0;
+  background: lighten(@c-site-bg-dark, 7%) ;
 
   @{dark-selector} & {
-    border-top-color: @c-primary-dark;
+    background: lighten(@c-site-bg-dark, 3%);
     color: @c-text-footer-dark;
   }
 
@@ -20,7 +19,7 @@
   }
 
   a {
-    color: @c-primary;
+    color: @c-primary-dark;
     font-weight: bold;
     @{dark-selector} & {
       color: @c-primary-dark;
@@ -29,5 +28,35 @@
     &:not(:hover) {
       text-decoration: none;
     }
+  }
+  &-content {
+    text-align: left;
+    display: flex;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    .contact-txt {
+      color: lighten(@c-primary, 30%);
+    }
+    a {
+      color: @c-text-dark;
+      font-size: 14px;
+      vertical-align: middle;
+      margin-right: 2px;
+      font-weight: normal;
+      @{dark-selector} & {
+        color: @c-text-dark;
+      }
+    }
+    & > div {
+      flex: 1;
+    }
+  }
+  .line {
+    margin: 0 10px;
+    height: 30px;
+    width: 2px;
+    background-color: @c-primary-dark;
   }
 }

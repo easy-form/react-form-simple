@@ -10,7 +10,12 @@
     margin-top: 50px;
     transition: all .5s;
     padding: 10px 0;
-    
+    .feature-item_desc {
+      color: #666;
+      @{dark-selector} & {
+        color: @c-text-dark;
+      };
+    }
     &:hover {
       border-radius: 6px;
       .boxShaow()

@@ -1,38 +1,17 @@
-import React from 'react';
-
 import { ReactFormSandpack } from '@components/Codesandbox';
 import { GetStarted, Github } from '@components/Hero/ActionButton';
 import { CodeLight } from '@components/Hero/CodeLight';
 import { Desc } from '@components/Hero/Desc';
 import { Feature } from '@components/Hero/Feature';
+import React from 'react';
 import { useLocalFormat } from 'useLocalFormat';
+// import Demo from '@components/Hero/Gif/Demo';
 
 export default function App() {
   const { format } = useLocalFormat();
   return (
     <div>
-      {/* <div
-        style={{
-          textAlign: 'center',
-          marginTop: '60px',
-          fontSize: '58px',
-          color: 'hsl(261, 80%, 68%)',
-        }}
-      >
-        <span style={{ textShadow: '6px 12px 6px rgba(0, 0, 0, 0.8)' }}>
-          React-form-simple
-        </span>
-        <div
-          style={{
-            color: '#e7e9ed',
-            fontSize: '20px',
-            marginTop: '15px',
-            letterSpacing: '1px',
-          }}
-        >
-          A form library for quickly controlling react form input
-        </div>
-      </div> */}
+      {/* <Demo /> */}
       <div
         style={{
           display: 'flex',
@@ -53,6 +32,8 @@ export default function App() {
       </div>
       <div style={{ marginTop: '80px' }}>
         <Feature />
+        {/* <Gif /> */}
+        <div style={{ marginTop: '180px' }}>{/* <Design /> */}</div>
         <div style={{ marginTop: '180px', marginBottom: '180px' }}>
           <div
             style={{
