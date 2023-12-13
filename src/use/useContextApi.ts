@@ -35,7 +35,7 @@ export const useContextApi = () => {
       apis.set(uid, rests);
       bindIdApis.set(bindId, rests);
     },
-    destory({ uid, bindId }) {
+    destroy({ uid, bindId }) {
       apis.delete(uid);
       bindIdApis.delete(bindId);
     },

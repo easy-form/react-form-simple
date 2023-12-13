@@ -50,7 +50,7 @@
   "API.form.global.props.ContextProps.apiEffect.desc": "表单项api或者bindId发生变动后触发的方法，初始化会执行一次。一般不会发生变动，可以在这里对api进行收集。",
   "API.form.global.props.ContextProps.updated.desc": "表单项监听控件value发生改变时触发的方法，<strong>只有当手动去输入的时候，这个方法才会执行</strong>。可以在这里对自定义的外部表单model数据进行赋值。以达到受控的效果。",
   "API.form.global.props.ContextProps.reset.desc": "调用表单reset方法时触发的方法。可以在这里给表单项赋值默认值。",
-  "API.form.global.props.ContextProps.destory.desc": "表单项销毁时触发的方法。",
+  "API.form.global.props.ContextProps.destroy.desc": "表单项销毁时触发的方法。",
   "API.form.global.props.form.share.errorStyle": "错误提示信息样式，支持对象嵌套写法。",
   "API.form.global.props.form.share.labelPosition": "标签位置。",
   "API.form.global.props.form.share.labelStyle": "标签样式，支持对象嵌套写法。",

@@ -257,10 +257,10 @@ export namespace GlobalProps {
      */
     reset?: (options: { uid: string; bindId: BindId; value: any }) => void;
     /**
-     * @localKey API.form.global.props.ContextProps.destory.desc
+     * @localKey API.form.global.props.ContextProps.destroy.desc
      * @description Hook executed when form item is destroyed
      */
-    destory?: (options: { uid: string; bindId: BindId }) => void;
+    destroy?: (options: { uid: string; bindId: BindId }) => void;
   };
 
   /**
