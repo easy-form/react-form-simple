@@ -49,14 +49,14 @@ describe.concurrent('form item', () => {
   test('contextProps', async ({ expect }) => {
     let apiEffectOptionss = null;
     const contextProps: FormItemProps['contextProps'] = {
-      destory() {},
+      destroy() {},
       apiEffect(args) {
         apiEffectOptionss = args;
       },
       mounted() {},
     };
 
-    const mockDestoryFn = vi.spyOn(contextProps, 'destory');
+    const mockDestroyFn = vi.spyOn(contextProps, 'destroy');
 
     const mockApiEffectFn = vi.spyOn(contextProps, 'apiEffect');
 
@@ -98,7 +98,7 @@ describe.concurrent('form item', () => {
 
     fireEvent.click(button);
 
-    expect(mockDestoryFn).toHaveBeenCalled();
+    expect(mockDestroyFn).toHaveBeenCalled();
 
     unmount();
   });

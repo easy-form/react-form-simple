@@ -50,7 +50,7 @@
   "API.form.global.props.ContextProps.apiEffect.desc": "The method triggered after the form item api or bindId changes will be executed once during initialization. Generally there will be no changes, and the API can be collected here.",
   "API.form.global.props.ContextProps.updated.desc": "A method that is triggered when the form item monitors the value of the control. <strong>This method will only be executed when manually input</strong>. Customized external form model data can be assigned here. to achieve a controlled effect.",
   "API.form.global.props.ContextProps.reset.desc": "Method triggered when the form reset method is called. You can assign default values to form items here.",
-  "API.form.global.props.ContextProps.destory.desc": "Method triggered when the form item is destroyed.",
+  "API.form.global.props.ContextProps.destroy.desc": "Method triggered when the form item is destroyed.",
   "API.form.global.props.form.share.errorStyle": "Error message style, supports object nesting writing method.",
   "API.form.global.props.form.share.labelPosition": "label position.",
   "API.form.global.props.form.share.labelStyle": "Label style, supports object nesting writing method.",

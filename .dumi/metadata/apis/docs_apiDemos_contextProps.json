@@ -47,14 +47,14 @@
       "description": "Executed after the current form item content is reset"
     }
   },
-  "destory": {
+  "destroy": {
     "defaultValue": null,
-    "name": "destory",
+    "name": "destroy",
     "type": {
       "name": "((options: { uid: string; bindId: any; }) => void)"
     },
     "tags": {
-      "localKey": "API.form.global.props.ContextProps.destory.desc",
+      "localKey": "API.form.global.props.ContextProps.destroy.desc",
       "description": "Hook executed when form item is destroyed"
     }
   }

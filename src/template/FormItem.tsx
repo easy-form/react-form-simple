@@ -43,7 +43,7 @@ export const FormItem = React.forwardRef<
     formatChangeValue,
   } = assigns;
 
-  const { mounted, destory, apiEffect, updated } = contextProps || {};
+  const { mounted, destroy, apiEffect, updated } = contextProps || {};
 
   const { apis, triggers, globalDatas } = useFormItemController({
     ...assigns,
@@ -63,7 +63,7 @@ export const FormItem = React.forwardRef<
   useEffect(() => {
     mounted?.({ uid, bindId: _bindId });
     return () => {
-      destory?.({ uid, bindId: _bindId });
+      destroy?.({ uid, bindId: _bindId });
       subscribe.clear();
     };
   }, []);
