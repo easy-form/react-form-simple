@@ -1,18 +1,11 @@
 import { Sandpack } from '@codesandbox/sandpack-react';
 import { atomDark } from '@codesandbox/sandpack-themes';
-import React, { useEffect } from 'react';
+import React from 'react';
 import './index.less';
 
 const sandpack = require('../../metadata/demos/format/sandpack.json');
 
 export function ReactFormSandpack() {
-  useEffect(() => {
-    setTimeout(() => {
-      const iframe = document.getElementsByTagName('iframe');
-      console.log({ iframe });
-    });
-  }, []);
-
   return (
     <div className="react-form-simple-codesandbox">
       <Sandpack

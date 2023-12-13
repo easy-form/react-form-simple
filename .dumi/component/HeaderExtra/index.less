@@ -1,0 +1,43 @@
+@import url('../../theme/styles/variables.less');
+
+.header-extra {
+  border-radius: 5px;
+  margin-right: 35px;
+  &.MuiInputBase-root::before {
+    border: none;
+  }
+  .MuiSelect-select {
+    padding: 3px 8px;
+    color: @c-text;
+  
+    @{dark-selector} & {
+      .a {
+        color: @c-text-dark !important;
+      }
+    }
+  }
+  &::before {
+    border: none;
+    border-color:  @c-border-light;
+  }
+  &::after {
+    border: none;
+    border-color: @c-primary !important;
+  }
+  @{dark-selector} & {
+    .MuiSvgIcon-root {
+      color: @c-text-dark;
+    }
+    &::before {
+      border-color: darken(@c-border-light, 50%);
+    }
+    &::after {
+      border-color: lighten(@c-border-dark, 30%) !important;
+    }
+  }
+  
+}
+.a {
+  text-decoration: none;
+  color: @c-text;
+}

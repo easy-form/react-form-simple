@@ -1,5 +1,6 @@
 import { ReactComponent as IconClose } from '@ant-design/icons-svg/inline-svg/outlined/close.svg';
 import { ReactComponent as IconMenu } from '@ant-design/icons-svg/inline-svg/outlined/menu.svg';
+import { HeaderExtra as HeaderExtraCustom } from '@components/HeaderExtra';
 import { useRouteMeta, useSiteData } from 'dumi';
 import ColorSwitch from 'dumi/theme/slots/ColorSwitch';
 import HeaderExtra from 'dumi/theme/slots/HeaderExtra';
@@ -49,6 +50,7 @@ const Header: FC = () => {
         </section>
         <section className="dumi-default-header-right">
           {isShowbar && <SearchBar />}
+          <HeaderExtraCustom />
           <LangSwitch />
           <RtlSwitch />
           <div style={{ display: 'inline-flex' }}>

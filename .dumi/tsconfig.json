@@ -3,6 +3,7 @@
   "include": [
     "theme/builtins/**/*",
     "metadata/demos/**/*",
-    "theme/slots/**/*"
+    "theme/slots/**/*",
+    "component/**/*"
   ],
 }
