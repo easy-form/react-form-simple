@@ -143,7 +143,7 @@ export default function App() {
 
 ## 🤝 Community
 
-### 加入微信群
+### <div align="center">加入微信群</div>
 
 <div align="center">
   <img src="./public/wechat-groupv2.jpg?v=1" alt="wechat-group" width="30%">
