@@ -146,7 +146,7 @@ export default function App() {
 ### 加入微信群
 
 <div >
-  <img src="./public/wechat-group.jpg" alt="wechat-group" width="50%">
+  <img src="./public/wechat-groupv2.jpg?v=1" alt="wechat-group" width="30%">
 </div>
 
 ## 📝 License
