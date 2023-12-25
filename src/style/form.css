@@ -20,18 +20,17 @@
   transition: all 0.3s;
 }
 
-.control-form {
-  &_row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  &_column {
-  display: block;
-
-  .control-form-item {
-    width: 100%;
-    }
-  }
+.control-form-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
+
+.control-form-column {
+  display: block;
+}
+
+.control-form-column .control-form-item {
+  width: 100%;
+}
+

@@ -9,7 +9,7 @@ export default function App() {
   });
   return (
     <div>
-      <Form direction="column" contextProps={contextProps}>
+      <Form  contextProps={contextProps}>
         <FormItem
           bindId="name"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
