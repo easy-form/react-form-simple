@@ -34,3 +34,7 @@
   width: 100%;
 }
 
+.label-wrap {
+  position: relative;
+  font-size: 14px
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 export type ReactNode = React.ReactNode;
+import type { CSSInterpolation } from '@emotion/css';
 
 /**
  * @localKey API.event.onChange.tag.type.desc
@@ -281,8 +282,9 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.form.share.labelStyle
      * @description Label style, supports object nesting writing method
+     * @resetType CSSProperties
      */
-    labelStyle?: React.CSSProperties;
+    labelStyle?: CSSInterpolation;
     /**
      * @localKey API.form.global.props.form.share.labelWidth
      * @description Label width
@@ -402,7 +404,7 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.formItem.label
      * @description Form item label
      */
-    label?: string;
+    label?: ReactNode;
     /**
      * @localKey API.form.global.props.formItem.getContent
      * @resetType (options: Options) => ReactNode

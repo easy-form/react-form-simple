@@ -71,13 +71,11 @@ export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
 
   return isMeaningful(label) ? (
     <Box
-      sx={{
+      style={{
         width: labelWidth,
-        position: 'relative',
-        fontSize: '14px',
         ...labelStyleMemo[labelPosition],
-        ...labelStyle,
       }}
+      sx={labelStyle}
       className="label-wrap"
     >
       {label}
@@ -117,9 +115,9 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
         timeout={300}
         classNames="alert"
         unmountOnExit
-        // onExited={() => {
-        //   off?.();
-        // }}
+      // onExited={() => {
+      //   off?.();
+      // }}
       >
         <Box
           data-error-id={`${bindId}-${errorMessage}`}
