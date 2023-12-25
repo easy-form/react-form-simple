@@ -20,7 +20,7 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
     }));
 
     const formClasses = useMemo(
-      () => ['control-form', `control-form_${direction}`],
+      () => ['control-form', `control-form-${direction}`],
       [direction],
     );
 
