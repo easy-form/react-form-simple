@@ -8,7 +8,6 @@ export default defineConfig({
     coverage: {
       exclude: [
         'src/template/Controller.tsx',
-        'src/template/Box.tsx',
         'src/template/DataProvide.tsx',
         'src/utils/*',
         'src/use/useContextApi.ts',

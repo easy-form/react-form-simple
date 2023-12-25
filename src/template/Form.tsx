@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useMemo } from 'react';
+import React, { useImperativeHandle } from 'react';
 
 import 'react-form-simple/style/form.css';
 
@@ -7,11 +7,11 @@ import type { Apis, GlobalProps } from 'react-form-simple/types/form';
 import DataContainer from './DataProvide';
 
 import { useFormController } from 'react-form-simple/use/useFormController';
-import { Box } from './Box';
+import { getCssInClasses } from 'react-form-simple/utils/util';
 
 const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
   ({ children, ...restProps }, ref) => {
-    const { formStyle, direction = 'row', ...rests } = restProps;
+    const { formStyle, direction = 'row', formClassName, ...rests } = restProps;
 
     const { overlayApis, contextProps } = useFormController();
 
@@ -19,9 +19,13 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
       ...overlayApis,
     }));
 
-    const formClasses = useMemo(
-      () => ['control-form', `control-form-${direction}`],
-      [direction],
+    const classes = getCssInClasses(
+      [
+        'react-form-simple-form',
+        formClassName as string,
+        `react-form-simple-form-${direction}`,
+      ],
+      formStyle,
     );
 
     return (
@@ -29,9 +33,7 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
         {...rests}
         contextProps={{ ...contextProps, ...rests.contextProps }}
       >
-        <Box className={formClasses.join(' ')} sx={{ ...formStyle }}>
-          {children}
-        </Box>
+        <div className={classes}>{children}</div>
       </DataContainer>
     );
   },

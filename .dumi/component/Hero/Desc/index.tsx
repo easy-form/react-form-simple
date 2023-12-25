@@ -1,5 +1,5 @@
+import { Box } from '@mui/material';
 import React from 'react';
-import { Box } from 'react-form-simple/template/Box';
 import { useLocalFormat } from 'useLocalFormat';
 
 export const Desc = () => {

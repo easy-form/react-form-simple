@@ -1,3 +1,5 @@
+import type { CSSInterpolation } from '@emotion/css';
+import { css } from '@emotion/css';
 import { isArray } from 'lodash';
 import type { GlobalProps, TagType } from 'react-form-simple/types/form';
 
@@ -76,3 +78,6 @@ export const getEventCbValue = (
 
   return _formatChangeValue(e);
 };
+
+export const getCssInClasses = (classes: string[], sx?: CSSInterpolation) =>
+  [...classes, css(sx)].filter((c) => isMeaningful(c)).join(' ');

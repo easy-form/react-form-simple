@@ -1,6 +1,5 @@
-import React, { useEffect, useImperativeHandle, useMemo } from 'react';
+import React, { useEffect, useImperativeHandle } from 'react';
 import useControllerRef from 'react-form-simple/use/useController';
-import { Box } from './Box';
 
 import type { Apis, GlobalProps } from 'react-form-simple/types/form';
 
@@ -12,6 +11,8 @@ import {
 
 import { useDataContext } from './DataProvide';
 
+import { getCssInClasses } from 'react-form-simple/utils/util';
+import '../style/form.css';
 import { useFormItemController } from '../use/useFormItemController';
 
 export const FormItem = React.forwardRef<
@@ -25,12 +26,16 @@ export const FormItem = React.forwardRef<
   const assigns = { ...restContextProps, ...restProps };
 
   const {
-    errorStyle,
     labelPosition = 'row',
     labelWidth,
     labelStyle,
+    labelClassName,
+    errorStyle,
+    errorClassName,
     formItemStyle,
+    formItemClassName,
     contentStyle,
+    contentClassName,
     fullWidth,
     bindId,
     label,
@@ -53,13 +58,6 @@ export const FormItem = React.forwardRef<
 
   // const { setError } = apis;
 
-  const { labelPositionMap } = useControllerRef({
-    labelPositionMap: new Map([
-      ['row', 'control-form-item_row'],
-      ['top', 'control-form-item_top'],
-    ]),
-  });
-
   useEffect(() => {
     mounted?.({ uid, bindId: _bindId });
     return () => {
@@ -80,40 +78,29 @@ export const FormItem = React.forwardRef<
     ...apis,
   }));
 
-  const formItemClass = useMemo(
-    () => ['control-form-item', labelPositionMap.get(labelPosition)],
-    [labelPosition],
+  const renderFormItemErrorTxt = !customErrTips && (
+    <FormItemErrorTxt
+      bindId={bindId}
+      // off={() => setError('')}
+      errorStyle={errorStyle}
+      errorClassName={errorClassName}
+      subscribe={globalDatas.subscribe}
+    />
   );
 
-  const renderFormItemErrorTxt = useMemo(
-    () =>
-      !customErrTips && (
-        <FormItemErrorTxt
-          bindId={bindId}
-          // off={() => setError('')}
-          errorStyle={errorStyle}
-          subscribe={globalDatas.subscribe}
-        />
-      ),
-    [customErrTips, errorStyle],
-  );
-
-  const renderFormItemLabel = useMemo(
-    () => (
-      <FormItemLabel
-        label={label}
-        labelWidth={labelWidth}
-        labelStyle={labelStyle}
-        labelPosition={labelPosition}
-        requireIndicator={requireIndicator}
-        readOnly={readOnly}
-      />
-    ),
-    [label, labelWidth, labelStyle, labelPosition, requireIndicator, readOnly],
+  const renderFormItemLabel = (
+    <FormItemLabel
+      label={label}
+      labelWidth={labelWidth}
+      labelStyle={labelStyle}
+      labelPosition={labelPosition}
+      labelClassName={labelClassName}
+      requireIndicator={requireIndicator}
+      readOnly={readOnly}
+    />
   );
 
   const contentProps = {
-    contentStyle,
     readOnly,
     readOnlyText,
     bindId,
@@ -139,37 +126,46 @@ export const FormItem = React.forwardRef<
     />
   );
 
+  const { labelPositionMap } = useControllerRef({
+    labelPositionMap: new Map([
+      ['row', 'react-form-simple-form-item-row'],
+      ['top', 'react-form-simple-form-item-top'],
+    ]),
+  });
+
+  const classes = getCssInClasses(
+    [
+      'react-form-simple-form-item',
+      formItemClassName as string,
+      labelPositionMap.get(labelPosition) as string,
+    ],
+    formItemStyle,
+  );
+
+  const contentClasses = getCssInClasses(
+    ['react-form-simple-content', contentClassName as string],
+    contentStyle,
+  );
+
   return (
-    <Box
+    <div
       key={uid}
-      className={formItemClass?.join(' ')}
-      sx={{
-        marginBottom: '25px',
+      className={classes}
+      style={{
         ...(fullWidth
           ? {
               width: '100%',
               minWidth: '100%',
             }
           : {}),
-        '&.control-form-item_row': {
-          display: 'inline-flex',
-          alignItems: 'center',
-          marginRight: '20px',
-        },
-        ...formItemStyle,
       }}
     >
       {renderFormItemLabel}
-      <Box
-        sx={{
-          position: 'relative',
-          flex: 1,
-        }}
-      >
+      <div className={contentClasses}>
         {renderFormItemContent}
         {renderFormItemErrorTxt}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 });
 

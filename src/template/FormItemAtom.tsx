@@ -3,9 +3,8 @@ import {
   useFormItemContentController,
   type UseFormItemContentController,
 } from 'react-form-simple/use/useFormItemContentController';
-import { isMeaningful } from 'react-form-simple/utils/util';
+import { getCssInClasses, isMeaningful } from 'react-form-simple/utils/util';
 import { CSSTransition } from 'react-transition-group';
-import { Box } from './Box';
 
 import type { GlobalProps } from 'react-form-simple/types/form';
 
@@ -20,18 +19,7 @@ export const RequireIndicator = React.memo(
     const { requireIndicator } = props;
     const renderRequireIndicator =
       requireIndicator === true ? (
-        <Box
-          sx={{
-            position: 'relative',
-            color: 'red',
-            fontSize: '13px',
-            top: 0,
-            marginLeft: '2px',
-          }}
-          component="span"
-        >
-          *
-        </Box>
+        <span className="react-form-simple-indicator">*</span>
       ) : null;
     return renderRequireIndicator;
   },
@@ -45,6 +33,7 @@ type FormItemLabelProps = Pick<
   | 'requireIndicator'
   | 'labelPosition'
   | 'readOnly'
+  | 'labelClassName'
 >;
 
 export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
@@ -52,6 +41,7 @@ export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
     label,
     labelWidth,
     labelStyle,
+    labelClassName,
     requireIndicator,
     labelPosition = 'row',
     readOnly,
@@ -69,29 +59,34 @@ export const FormItemLabel = React.memo((props: FormItemLabelProps) => {
     [labelPosition],
   );
 
+  const classes = getCssInClasses(
+    ['label-wrap', labelClassName as string],
+    labelStyle,
+  );
+
   return isMeaningful(label) ? (
-    <Box
+    <div
       style={{
         width: labelWidth,
         ...labelStyleMemo[labelPosition],
       }}
-      sx={labelStyle}
-      className="label-wrap"
+      className={classes}
     >
       {label}
       {!readOnly && <RequireIndicator requireIndicator={requireIndicator} />}
-    </Box>
+    </div>
   ) : null;
 });
 
 type FormItemErrorTxtProps = {
   errorStyle?: FormItemProps['errorStyle'];
+  errorClassName?: FormItemProps['errorClassName'];
   subscribe: InstanceType<typeof Subscribe>;
   bindId: any;
 };
 
 export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
-  const { errorStyle, subscribe, bindId } = props;
+  const { errorStyle, subscribe, bindId, errorClassName } = props;
   const errRef = useRef(null);
 
   const datas = useController({ errorMessage: '', err: false });
@@ -108,6 +103,11 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
   const isErr = useMemo(() => datas.err, [datas.err]);
   const { errorMessage } = datas;
 
+  const classes = getCssInClasses(
+    ['react-form-simple-error-txt', errorClassName as string],
+    errorStyle,
+  );
+
   return (
     <>
       <CSSTransition
@@ -115,23 +115,18 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
         timeout={300}
         classNames="alert"
         unmountOnExit
-      // onExited={() => {
-      //   off?.();
-      // }}
+        // onExited={() => {
+        //   off?.();
+        // }}
       >
-        <Box
+        <div
           data-error-id={`${bindId}-${errorMessage}`}
           data-error-text={errorMessage}
           ref={errRef}
-          sx={{
-            color: '#f56c6c',
-            position: 'absolute',
-            fontSize: '14px',
-            ...errorStyle,
-          }}
+          className={classes}
         >
           {errorMessage}
-        </Box>
+        </div>
       </CSSTransition>
     </>
   );

@@ -27,11 +27,23 @@
     "defaultValue": null,
     "name": "errorStyle",
     "type": {
-      "name": "CSSProperties"
+      "name": "CSSInterpolation"
     },
     "tags": {
       "localKey": "API.form.global.props.form.share.errorStyle",
-      "description": "Error message style, supports object nesting writing method"
+      "description": "Error message style, supports object nesting writing method",
+      "resetType": "CSSProperties"
+    }
+  },
+  "errorClassName": {
+    "defaultValue": null,
+    "name": "errorClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Error prompt class name.",
+      "localKey": "API.form.global.props.form.share.errorClass"
     }
   },
   "labelPosition": {
@@ -51,11 +63,12 @@
     "defaultValue": null,
     "name": "labelStyle",
     "type": {
-      "name": "CSSProperties"
+      "name": "CSSInterpolation"
     },
     "tags": {
       "localKey": "API.form.global.props.form.share.labelStyle",
-      "description": "Label style, supports object nesting writing method"
+      "description": "Label style, supports object nesting writing method",
+      "resetType": "CSSProperties"
     }
   },
   "labelWidth": {
@@ -69,15 +82,37 @@
       "description": "Label width"
     }
   },
+  "labelClassName": {
+    "defaultValue": null,
+    "name": "labelClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Label class name",
+      "localKey": "API.form.global.props.form.share.labelClass"
+    }
+  },
   "formItemStyle": {
     "defaultValue": null,
     "name": "formItemStyle",
     "type": {
-      "name": "CSSProperties"
+      "name": "CSSInterpolation"
     },
     "tags": {
       "localKey": "API.form.global.props.form.share.formItemStyle",
       "description": "Form item style, supports object nesting writing method"
+    }
+  },
+  "formItemClassName": {
+    "defaultValue": null,
+    "name": "formItemClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Form item class",
+      "localKey": "API.form.global.props.form.share.formItemClass"
     }
   },
   "trigger": {
@@ -97,7 +132,7 @@
     "defaultValue": null,
     "name": "contentStyle",
     "type": {
-      "name": "CSSProperties"
+      "name": "CSSInterpolation"
     },
     "tags": {
       "localKey": "API.form.global.props.form.share.contentStyle",
