@@ -68,7 +68,7 @@ describe.concurrent('form item', () => {
       const renderButton = (
         <button
           id="button"
-          type='button'
+          type="button"
           onClick={() => {
             setIsShow(false);
           }}
@@ -183,7 +183,7 @@ describe.concurrent('form item', () => {
     const { container, unmount } = testRender(
       <FormItem fullWidth bindId={111111} />,
     );
-    const component = container.querySelector('.control-form-item');
+    const component = container.querySelector('.react-form-simple-form-item');
     if (component) {
       const computedStyle = window.getComputedStyle(component);
       expect(computedStyle.width).toBe('100%');
@@ -192,8 +192,10 @@ describe.concurrent('form item', () => {
   });
   test('form item label position', ({ expect }) => {
     const { container } = testRender(<FormItem labelPosition="top" />);
-    const component = container.querySelector('.control-form-item');
-    expect(component?.className.split(' ')).toContain('control-form-item_top');
+    const component = container.querySelector('.react-form-simple-form-item');
+    expect(component?.className.split(' ')).toContain(
+      'react-form-simple-form-item-top',
+    );
   });
   test('form item requireIndicator', ({ expect }) => {
     const { queryByText, unmount } = testRender(
@@ -350,7 +352,11 @@ describe.concurrent('use Form Item api', () => {
         </button>
       );
       const buttonVaild = (
-        <button type="button" id="valid-button" onClick={async () => validate()}>
+        <button
+          type="button"
+          id="valid-button"
+          onClick={async () => validate()}
+        >
           valid
         </button>
       );

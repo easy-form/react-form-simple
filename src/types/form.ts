@@ -1,3 +1,4 @@
+import type { CSSInterpolation } from '@emotion/css';
 import React from 'react';
 export type ReactNode = React.ReactNode;
 
@@ -270,8 +271,15 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.form.share.errorStyle
      * @description Error message style, supports object nesting writing method
+     * @resetType CSSProperties
      */
-    errorStyle?: React.CSSProperties;
+    errorStyle?: CSSInterpolation;
+    /**
+     * @description Error prompt class name.
+     * @localKey API.form.global.props.form.share.errorClass
+     * @version 1.3.4
+     */
+    errorClassName?: string;
     /**
      * @localKey API.form.global.props.form.share.labelPosition
      * @description label position
@@ -281,18 +289,31 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.form.share.labelStyle
      * @description Label style, supports object nesting writing method
+     * @resetType CSSProperties
      */
-    labelStyle?: React.CSSProperties;
+    labelStyle?: CSSInterpolation;
     /**
      * @localKey API.form.global.props.form.share.labelWidth
      * @description Label width
      */
     labelWidth?: string | number;
     /**
+     * @description Label class name
+     * @localKey API.form.global.props.form.share.labelClass
+     * @version 1.3.4
+     */
+    labelClassName?: string;
+    /**
      * @localKey API.form.global.props.form.share.formItemStyle
      * @description Form item style, supports object nesting writing method
      */
-    formItemStyle?: React.CSSProperties;
+    formItemStyle?: CSSInterpolation;
+    /**
+     * @description Form item class
+     * @localKey API.form.global.props.form.share.formItemClass
+     * @version 1.3.4
+     */
+    formItemClassName?: string;
     /**
      * @localKey API.form.global.props.form.share.trigger
      * @description Trigger verification event
@@ -303,7 +324,11 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.form.share.contentStyle
      * @description Form item content style, supports object nesting writing method
      */
-    contentStyle?: React.CSSProperties;
+    contentStyle?: CSSInterpolation;
+    /**
+     * @description Content area style class name
+     */
+    contentClassName?: string
     /**
      * @localKey API.form.global.props.form.share.fullWidth
      * @description Whether the width of the form item fills the entire row
@@ -345,7 +370,12 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.form.formStyle
      * @description Form style, supports object nesting writing method
      */
-    formStyle?: React.CSSProperties;
+    formStyle?: CSSInterpolation;
+    /**
+     * @description Form container class name.
+     * @localKey API.form.global.props.form.formClass
+     */
+    formClassName?: string;
     /**
      * @ignore true
      */
@@ -402,7 +432,7 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.formItem.label
      * @description Form item label
      */
-    label?: string;
+    label?: ReactNode;
     /**
      * @localKey API.form.global.props.formItem.getContent
      * @resetType (options: Options) => ReactNode

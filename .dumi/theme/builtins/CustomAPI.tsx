@@ -214,6 +214,9 @@ const Desc = ({ desc, tags }: any) => {
   const intl = useIntl();
 
   const { format, isLocalZH_CN } = useLocalFormat();
+  if (tags?.localKey === '' || tags?.localKey === undefined) {
+    console.log('================', tags);
+  }
 
   const _desc = format({ id: tags?.localKey });
 
