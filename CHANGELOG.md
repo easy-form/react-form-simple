@@ -1,3 +1,17 @@
+## [1.3.4](https://github.com/easy-form/react-form-simple/compare/v1.3.3...v1.3.4) (2023-12-25)
+
+
+### Bug Fixes
+
+* Fix label type error and add support for label passing in ReactNode type ([647e97c](https://github.com/easy-form/react-form-simple/commit/647e97cedd88e5e9ae19bcc684d1b5ce793bf722))
+
+
+### Features
+
+* Adding form atomic components can add style class names externally. ([6e5fa57](https://github.com/easy-form/react-form-simple/commit/6e5fa57bfe4bd903479879559d13c73a2876e29c))
+
+
+
 # Changelog
 
 ## [1.3.3](https://github.com/easy-form/react-form-simple/compare/v1.3.2...v1.3.3) (2023-12-25)
