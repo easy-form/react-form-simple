@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.3](https://github.com/easy-form/react-form-simple/compare/v1.3.2...v1.3.3) (2023-12-25)
+
+
+### Bug Fixes
+
+* fix a bug in the invalid direction setting of the Form component ([8c8d989](https://github.com/easy-form/react-form-simple/commit/8c8d98933ea38391b088a583c0fa924e20746816))
+
+
+### Features
+
+* add wxchat group code image ([6e64869](https://github.com/easy-form/react-form-simple/commit/6e6486938b93b0017a5171064215b649c5667627))
+* update group imgage ([e3378f8](https://github.com/easy-form/react-form-simple/commit/e3378f88e8759b7aefa8498cd1d32124ea44e062))
+
+
+
 ## [1.3.2](https://github.com/easy-form/react-form-simple/compare/v1.3.1...v1.3.2) (2023-12-13)
 
 
