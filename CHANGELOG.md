@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.5](https://github.com/easy-form/react-form-simple/compare/v1.3.4...v1.3.5) (2023-12-26)
+
+### Bug Fixes
+
+- fix the bug that prompts setState() method type incompatibility when using type UseFormReturnType ([2386dc0](https://github.com/easy-form/react-form-simple/commit/2386dc01ef693b78c3f359836419e1d69a3a1422))
+- Fixed model type prompt error bug when using useWatch ([2801509](https://github.com/easy-form/react-form-simple/commit/2801509bd1c8b68e3d188cd1240e65d1828671fd))
+
+### Features
+
+- Optimize the release of memory resources after destruction when using useForm ([360f00b](https://github.com/easy-form/react-form-simple/commit/360f00b6ec1cc13872fab65a9ad3ff7edafcfa3b))
+
 ## [1.3.4](https://github.com/easy-form/react-form-simple/compare/v1.3.3...v1.3.4) (2023-12-25)
 
 ### Bug Fixes
