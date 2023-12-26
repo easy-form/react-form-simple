@@ -8,7 +8,7 @@ export default function App() {
   const renderAge = render('age')(<input className="input" />);
 
   useWatch(
-    ({ model }) => [model?.name, model?.age],
+    ({ model }) => [model.name, model.age],
     (value, preValue) => {
       console.log({ value, preValue });
     },

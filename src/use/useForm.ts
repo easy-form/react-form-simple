@@ -10,7 +10,7 @@ import { usePrivateSubscribe } from './useSubscribe';
 import { usePrivateWatch } from './useWatch';
 
 const useForm = <T extends Record<string, any>>(
-  model?: T,
+  model: T,
   config?: UseFormNamespace.ShareConfig,
 ) => {
   const proxyTarget = useRef(model || {});
