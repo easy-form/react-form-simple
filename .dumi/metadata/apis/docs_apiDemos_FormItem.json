@@ -125,7 +125,8 @@
     },
     "tags": {
       "description": "Error prompt class name.",
-      "localKey": "API.form.global.props.form.share.errorClass"
+      "localKey": "API.form.global.props.form.share.errorClass",
+      "version": "1.3.4"
     }
   },
   "labelPosition": {
@@ -172,7 +173,8 @@
     },
     "tags": {
       "description": "Label class name",
-      "localKey": "API.form.global.props.form.share.labelClass"
+      "localKey": "API.form.global.props.form.share.labelClass",
+      "version": "1.3.4"
     }
   },
   "formItemStyle": {
@@ -194,7 +196,8 @@
     },
     "tags": {
       "description": "Form item class",
-      "localKey": "API.form.global.props.form.share.formItemClass"
+      "localKey": "API.form.global.props.form.share.formItemClass",
+      "version": "1.3.4"
     }
   },
   "trigger": {
@@ -219,6 +222,18 @@
     "tags": {
       "localKey": "API.form.global.props.form.share.contentStyle",
       "description": "Form item content style, supports object nesting writing method"
+    }
+  },
+  "contentClassName": {
+    "defaultValue": null,
+    "name": "contentClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Content area style class name",
+      "localKey": "API.form.global.props.form.share.contentClass",
+      "version": "1.3.4"
     }
   },
   "fullWidth": {

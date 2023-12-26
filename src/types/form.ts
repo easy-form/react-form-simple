@@ -327,8 +327,10 @@ export namespace GlobalProps {
     contentStyle?: CSSInterpolation;
     /**
      * @description Content area style class name
+     * @localKey API.form.global.props.form.share.contentClass
+     * @version 1.3.4
      */
-    contentClassName?: string
+    contentClassName?: string;
     /**
      * @localKey API.form.global.props.form.share.fullWidth
      * @description Whether the width of the form item fills the entire row
@@ -374,6 +376,7 @@ export namespace GlobalProps {
     /**
      * @description Form container class name.
      * @localKey API.form.global.props.form.formClass
+     * @version 1.3.4
      */
     formClassName?: string;
     /**

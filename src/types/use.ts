@@ -85,7 +85,7 @@ export namespace UseFormNamespace {
      * @description Manually re-render the view. If you need to re-render the view externally, you can call setState to re-render the current component tree.
      * @resetType Function
      */
-    setState: () => React.Dispatch<React.SetStateAction<unknown>>;
+    setState: () => void;
   } & Apis.FormApis &
     Pick<GlobalProps.FormItemProps, 'contextProps'>;
 }

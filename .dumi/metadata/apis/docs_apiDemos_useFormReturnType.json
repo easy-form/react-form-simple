@@ -51,7 +51,7 @@
     "defaultValue": null,
     "name": "setState",
     "type": {
-      "name": "() => Dispatch<unknown>"
+      "name": "() => void"
     },
     "tags": {
       "localKey": "API.useForm.setState.desc",
