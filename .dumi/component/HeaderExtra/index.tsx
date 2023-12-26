@@ -1,4 +1,4 @@
-import { MenuItem, Select } from '@mui/material';
+import { Select } from '@components/Select';
 import React from 'react';
 import './index.less';
 
@@ -17,19 +17,20 @@ export function HeaderExtra() {
   ];
   return (
     <Select
-      className="header-extra"
       size="small"
-      defaultValue={1}
       variant="standard"
-    >
-      {options.map((item) => (
-        <MenuItem key={item.value} value={item.value}>
-          <a href={item.href} target="_blank" className="a">
-            {item.label}
-          </a>
-        </MenuItem>
-      ))}
-    </Select>
+      options={options}
+      sx={{ fontSize: '14px' }}
+      menuItemProps={{ value: -1, sx: { fontSize: '14px' } }}
+      getOptionsLabel={(item) => (
+        <a href={item.href} target="_blank" className="a">
+          {item.label}
+        </a>
+      )}
+      renderValue={(selected) => {
+        return <span className="about">关于</span>;
+      }}
+    />
   );
 }
 
