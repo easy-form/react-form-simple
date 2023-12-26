@@ -1,5 +1,5 @@
 import { ReactComponent as IconDown } from '@ant-design/icons-svg/inline-svg/outlined/down.svg';
-import { MenuItem, Select } from '@mui/material';
+import { Select } from '@components/Select';
 import {
   Link,
   history,
@@ -68,14 +68,17 @@ const LangSwitch: FC = () => {
 
   return (
     <Select
+      options={locales}
+      labelMap="name"
+      valueMap="id"
       className="lang-switch-select"
       size="small"
       defaultValue={locale}
+      menuItemProps={{ sx: { fontSize: '14px' } }}
       value={locale}
       onChange={(ev) => {
         const locationPathname = history.location.pathname;
         const pathname = locationPathname.replace('/react-form-simple', '');
-        console.log({ locationPathname, pathname });
         history.push(
           getTargetLocalePath({
             pathname,
@@ -85,13 +88,7 @@ const LangSwitch: FC = () => {
         );
       }}
       variant="standard"
-    >
-      {locales.map((item) => (
-        <MenuItem key={item.id} value={item.id}>
-          {item.name}
-        </MenuItem>
-      ))}
-    </Select>
+    />
   );
 
   return locales.length > 2 ? (

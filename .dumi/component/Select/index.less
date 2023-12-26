@@ -1,0 +1,36 @@
+@import url('../../theme/styles/variables.less');
+
+.custom-mui-select {
+  &.MuiInputBase-root::before {
+    border: none;
+  }
+  &.MuiInputBase-root::after {
+    border: none;
+  }
+  
+  &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
+    border:none;
+  }
+  .MuiSelect-select {
+    padding: 3px 8px;
+    color: @c-text;
+  }
+  @{dark-selector} & {
+    .MuiSvgIcon-root {
+      color: @c-text-dark;
+    }
+    &::before {
+      border-color: darken(@c-border-light, 50%);
+    }
+    &::after {
+      border-color: lighten(@c-border-dark, 30%) !important;
+    }
+  }
+  
+}
+.MuiPaper-root {
+  @{dark-selector} & {
+    background-color: lighten(@c-site-bg-dark, 10%);
+    color: @c-white ;
+  }
+}

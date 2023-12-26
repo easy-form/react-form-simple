@@ -3,7 +3,7 @@
 .@{prefix}-header {
   position: relative;
   z-index: 10;
-
+  padding: 0 24px;
   &:not([data-static]) {
     top: 0;
     position: sticky;
@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     margin: 0 auto;
-    padding: 15px 24px;
+    padding: 15px 0;
     max-width: @s-content-width;
     // height: @s-header-height;
     box-sizing: border-box;
@@ -52,7 +52,7 @@
     flex: 1;
     display: flex;
     justify-content: flex-end;
-    align-items:center;
+    align-items: center;
     // justify-content: space-between;
 
     &-aside {
