@@ -1,0 +1,22 @@
+name: Sync to Gitee
+
+on:
+  push:
+    branches: [main, gh-pages]
+
+  workflow_dispatch:
+
+jobs:
+  sync:
+    if: github.repository == 'easy-form/react-form-simple'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync to Gitee
+        uses: wearerequired/git-mirror-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_SSH_KEY }}
+        with:
+          # GitHub 源仓库地址
+          source-repo: git@github.com:easy-form/react-form-simple.git
+          # Gitee 目标仓库地址
+          destination-repo: git@gitee.com:easy-form/react-form-simple.git
