@@ -6,14 +6,21 @@ import { isObject, isObjectOrArray } from './util';
 export const proxyMap = new WeakMap();
 export const rawMap = new WeakMap();
 
+const _proxyMap = proxyMap;
+const _rawMap = rawMap;
+
 const proxyPolyfill = ProxyPolyfillBuilder();
 const Proxys = window.Proxy || proxyPolyfill;
 
-export type ObserverOptions = { path?: string[] };
+export type ObserverOptions = {
+  path?: string[];
+  proxyMap?: WeakMap<object, any>;
+  rawMap?: WeakMap<object, any>;
+};
 
 export type ObserverCb = { path: string; value: any };
 
-export const toTarget = (proxy: any) => rawMap.get(proxy);
+export const toTarget = (proxy: any) => cloneDeep(proxy);
 
 export const replaceTarget = (
   proxy: any,
@@ -80,6 +87,7 @@ export const observer = <T extends object>(
   cb?: (args: ObserverCb) => void,
   options?: ObserverOptions,
 ): T => {
+  const { path = [], rawMap = _rawMap, proxyMap = _proxyMap } = options || {};
   const existingProxy = proxyMap.get(initialVal);
   if (existingProxy) {
     return existingProxy;
@@ -88,8 +96,6 @@ export const observer = <T extends object>(
   if (rawMap.has(initialVal)) {
     return initialVal;
   }
-
-  const { path = [] } = options || {};
 
   const proxy = new Proxys(initialVal, {
     get(target, key, receiver) {

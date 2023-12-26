@@ -5,9 +5,18 @@ export function useController<T extends Record<string, any>>(obj: T): T {
   const [, setState] = useState({});
   const proxyStateRef = useRef(obj);
 
-  return observer(proxyStateRef.current, () => {
-    setState({});
-  });
+  const { proxyMap, rawMap } = useRef({
+    proxyMap: new WeakMap(),
+    rawMap: new WeakMap(),
+  }).current;
+
+  return observer(
+    proxyStateRef.current,
+    () => {
+      setState({});
+    },
+    { proxyMap, rawMap },
+  );
 }
 
 export default useController;

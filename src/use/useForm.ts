@@ -27,6 +27,11 @@ const useForm = <T extends Record<string, any>>(
     [],
   );
 
+  const createObserverMap = useRef({
+    proxyMap: new WeakMap(),
+    rawMap: new WeakMap(),
+  }).current;
+
   const proxymodel = createObserverForm(
     proxyTarget.current as T,
     ({ path, value }) => {
@@ -36,6 +41,7 @@ const useForm = <T extends Record<string, any>>(
     },
     {
       path: [],
+      ...createObserverMap,
     },
   );
 
@@ -68,6 +74,7 @@ const useForm = <T extends Record<string, any>>(
     useWatch,
     setState: useFormExtraApis.setState,
     ...overlayApis,
+    ...createObserverMap,
   };
 };
 

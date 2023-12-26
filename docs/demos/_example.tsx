@@ -1,5 +1,5 @@
 import Button from '@components/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
@@ -7,17 +7,20 @@ export default function App() {
     name: '',
     age: '',
   });
+  const [modelState, setModelState] = useState('');
+
   const renderName = render('name')(<input className="input" />);
 
   const renderAge = render('age')(<input className="input" />);
 
   const renderSubmit = (
-    <Button onClick={() => void console.log(model)}>submit</Button>
+    <Button onClick={() => setModelState(JSON.stringify(model))}>submit</Button>
   );
   return (
     <>
       {renderName}
       {renderAge}
+      {modelState}
       {renderSubmit}
     </>
   );
