@@ -72,6 +72,9 @@ useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提�
 <code src="../demos/_vaild.tsx"></code>
 
 ## <Mdh>集成第三方 ui</Mdh>
+你可以将 **react-form-simple** 用于你项目中所用到的任何UI库中，只要你的 UI 控件接收 **value** 和 **onChange**。 即使你的 UI 控件不接收  **value** 和 **onChange**， 你也能在外面利用 _defineProps_ 做一层属性转换来传给你的自定义UI控件。或者定制化你的useForm。
+
+下面是集成 **material-ui** 和 **Ant Design** 的例子。
 
 #### 集成 material-ui
 
