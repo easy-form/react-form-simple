@@ -74,6 +74,9 @@ The default value is `change`
 <code src="../demos/_vaild.tsx"></code>
 
 ## <Mdh>Third-party UI</Mdh>
+You can use **react-form-simple** with any UI library used in your project, as long as your UI controls receive **value** and **onChange**. Even if your UI control does not receive **value** and **onChange**, you can still use _defineProps_ to do a layer of property conversion externally and pass it to your custom UI control. Or customize your useForm.
+
+Below is an example of integrating **material-ui** and **Ant Design**.
 
 #### Integrated material-ui
 
