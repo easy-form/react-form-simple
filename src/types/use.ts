@@ -86,6 +86,12 @@ export namespace UseFormNamespace {
      * @resetType Function
      */
     setState: () => void;
+    /**
+     * @description Set values uniformly for form items
+     * @localKey API.form.setValues.desc
+     * @param values
+     */
+    setValues: (values: Record<string, any>) => void;
   } & Apis.FormApis &
     Pick<GlobalProps.FormItemProps, 'contextProps'>;
 }
@@ -95,7 +101,7 @@ export namespace UseFormNamespace {
  */
 export namespace UseSubscribeNamespace {
   export interface UseSubscribe<T> {
-    (cb: (options: { model: T }) => any): any;
+    <O = unknown>(cb: (options: { model: T }) => O): O;
   }
   export interface UseSubscribeReturnType<T, H> {
     useSubscribe: UseSubscribe<T>;
