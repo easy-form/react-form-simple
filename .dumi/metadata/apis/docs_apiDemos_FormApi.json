@@ -47,18 +47,6 @@
       "param": "bindId"
     }
   },
-  "setValues": {
-    "defaultValue": null,
-    "name": "setValues",
-    "type": {
-      "name": "(values: Record<string, any>) => void"
-    },
-    "tags": {
-      "description": "Set values uniformly for form items",
-      "localKey": "API.form.setValues.desc",
-      "param": "bindId"
-    }
-  },
   "setError": {
     "defaultValue": null,
     "name": "setError",

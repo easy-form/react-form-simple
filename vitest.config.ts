@@ -11,6 +11,7 @@ export default defineConfig({
         'src/template/DataProvide.tsx',
         'src/utils/*',
         'src/use/useContextApi.ts',
+        'src/use/useFormExtraApis.ts',
       ],
       enabled: true,
       reportsDirectory: './src/__tests__/coverage',

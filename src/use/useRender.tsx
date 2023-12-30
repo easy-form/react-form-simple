@@ -26,6 +26,10 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
 
     const defaultValue = getProxyValue(model, bindId);
 
+    if (bindId === 'select11') {
+      console.log(defaultValue, bindId);
+    }
+
     const otherProps: Record<string, any> = {};
     if (isMeaningful(key)) {
       otherProps['key'] = key;

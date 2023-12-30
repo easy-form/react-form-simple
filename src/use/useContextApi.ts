@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { Apis, GlobalProps } from 'react-form-simple/types/form';
+import { useCallback } from 'react';
+import type { Apis, GlobalProps } from 'react-form-simple/types/form';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
@@ -9,8 +9,6 @@ export const useContextApi = () => {
     bindIdApis: new Map(),
   });
   const { apis, bindIdApis } = globalDatas;
-
-  const [, setState] = useState({});
 
   const executeMethodFromApis = useCallback(
     (bindId: Apis.ValidateBindIds, methodName: string, ...args: any[]) => {
@@ -66,24 +64,12 @@ export const useContextApi = () => {
         api.setValue(value);
       }
     },
-    setValues(values) {
-      if (!values || typeof values !== 'object') return;
-      Object.entries(values).forEach(([key, value]) => {
-        overlayApis.setValue(key, value);
-      });
-    },
     setError(bindId, message) {
       executeMethodFromApis(bindId, 'setError', message);
     },
   });
 
-  const useFormExtraApis = useControllerRef({
-    setState() {
-      setState({});
-    },
-  });
-
-  return { globalDatas, contextProps, overlayApis, useFormExtraApis };
+  return { globalDatas, contextProps, overlayApis };
 };
 
 export default useContextApi;

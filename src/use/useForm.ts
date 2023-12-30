@@ -1,10 +1,11 @@
 import { debounce } from 'lodash';
 import { useCallback, useRef } from 'react';
 import { createObserverForm } from 'react-form-simple';
-import { GlobalProps } from 'react-form-simple/types/form';
-import { UseFormNamespace } from 'react-form-simple/types/use';
+import type { GlobalProps } from 'react-form-simple/types/form';
+import type { UseFormNamespace } from 'react-form-simple/types/use';
 import { updateProxyValue } from 'react-form-simple/utils/controller';
 import { useContextApi } from './useContextApi';
+import { useFormExtraApis } from './useFormExtraApis';
 import { useRender } from './useRender';
 import { usePrivateSubscribe } from './useSubscribe';
 import { usePrivateWatch } from './useWatch';
@@ -15,8 +16,7 @@ const useForm = <T extends Record<string, any>>(
 ) => {
   const proxyTarget = useRef(model || {});
 
-  const { contextProps, overlayApis, useFormExtraApis, globalDatas } =
-    useContextApi();
+  const { contextProps, overlayApis, globalDatas } = useContextApi();
 
   const { useWatch, watchInstance } = usePrivateWatch({ model });
 
@@ -49,7 +49,7 @@ const useForm = <T extends Record<string, any>>(
     model: proxymodel as T,
   });
 
-  const _contextProps: GlobalProps.ContextProps = {
+  const _contextProps = useRef<GlobalProps.ContextProps>({
     ...contextProps,
     updated({ bindId, value }) {
       updateProxyValue(proxymodel, bindId, value);
@@ -57,7 +57,7 @@ const useForm = <T extends Record<string, any>>(
     reset({ bindId, value }) {
       updateProxyValue(proxymodel, bindId, value);
     },
-  };
+  }).current;
 
   const { render, set } = useRender({
     ...config,
@@ -72,8 +72,8 @@ const useForm = <T extends Record<string, any>>(
     render,
     useSubscribe,
     useWatch,
-    setState: useFormExtraApis.setState,
     ...overlayApis,
+    ...useFormExtraApis({ model: proxymodel }),
     ...createObserverMap,
   };
 };

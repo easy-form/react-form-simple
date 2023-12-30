@@ -38,7 +38,7 @@ class FormUtil {
   readonly formvalidate: Formvalidate = new Formvalidate();
   bindId: GlobalProps.BindId;
   trigger: Trigger = [];
-  defaultValue: any = {};
+  defaultValue: any = null;
   rules: Rules = [];
   constructor(public configOptions?: FormUtilTypes) {
     this.defaultValue = this.configOptions?.defaultValue;

@@ -10,9 +10,7 @@ import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
 const defaultValueSymbol = Symbol('defaultValue');
 
-export const useFormItemController = (
-  options: GlobalProps.FormItemProps,
-) => {
+export const useFormItemController = (options: GlobalProps.FormItemProps) => {
   const {
     onError,
     defaultValue = defaultValueSymbol,
@@ -56,7 +54,7 @@ export const useFormItemController = (
     };
   }, []);
 
-  const onErrorDebounce= useMemo<typeof onError | null>(
+  const onErrorDebounce = useMemo<typeof onError | null>(
     () => (onError && typeof onError === 'function' ? debounce(onError) : null),
     [onError],
   );
@@ -145,8 +143,13 @@ export const useFormItemController = (
     },
   });
 
+  const exportEffectApis = useControllerRef({
+    ...exportApis,
+  });
+
   return {
     apis: exportApis,
+    exportEffectApis,
     triggers,
     globalDatas,
     bindId: globalDatas.bindId,

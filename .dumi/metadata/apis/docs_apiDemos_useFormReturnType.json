@@ -59,6 +59,18 @@
       "resetType": "Function"
     }
   },
+  "setValues": {
+    "defaultValue": null,
+    "name": "setValues",
+    "type": {
+      "name": "(values: Record<string, any>) => void"
+    },
+    "tags": {
+      "description": "Set values uniformly for form items",
+      "localKey": "API.form.setValues.desc",
+      "param": "values"
+    }
+  },
   "clearValidate": {
     "defaultValue": null,
     "name": "clearValidate",
@@ -104,18 +116,6 @@
     "tags": {
       "description": "Set form item value",
       "localKey": "API.form.setValue.desc",
-      "param": "bindId"
-    }
-  },
-  "setValues": {
-    "defaultValue": null,
-    "name": "setValues",
-    "type": {
-      "name": "(values: Record<string, any>) => void"
-    },
-    "tags": {
-      "description": "Set values uniformly for form items",
-      "localKey": "API.form.setValues.desc",
       "param": "bindId"
     }
   },

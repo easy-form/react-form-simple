@@ -50,9 +50,10 @@ export const FormItem = React.forwardRef<
 
   const { mounted, destroy, apiEffect, updated } = contextProps || {};
 
-  const { apis, triggers, globalDatas } = useFormItemController({
-    ...assigns,
-  });
+  const { apis, exportEffectApis, triggers, globalDatas } =
+    useFormItemController({
+      ...assigns,
+    });
 
   const { uid, subscribe, formUtil, bindId: _bindId } = globalDatas;
 
@@ -70,9 +71,9 @@ export const FormItem = React.forwardRef<
     apiEffect?.({
       uid,
       bindId,
-      ...apis,
+      ...exportEffectApis,
     });
-  }, [...Object.values(apis), bindId]);
+  }, [...Object.values(exportEffectApis), bindId]);
 
   useImperativeHandle(ref, () => ({
     ...apis,
