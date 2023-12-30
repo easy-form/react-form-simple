@@ -31,7 +31,7 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
   const subscribes = useControllerRef(subscribeObject());
 
   const useSubscribe: UseSubscribeNamespace.UseSubscribe<T> = (cb) => {
-    const [state, setState] = useState();
+    const [state, setState] = useState<any>();
     useEffect(() => {
       subscribes.set(() => {
         setState(cb({ model: cloneDeep(model) }));

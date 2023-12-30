@@ -22,21 +22,58 @@ export type ObserverCb = { path: string; value: any };
 
 export const toTarget = (proxy: any) => cloneDeep(proxy);
 
-export const replaceTarget = (
-  proxy: any,
-  obj: any,
-  isExitNew: boolean = false,
-) => {
-  if (!isObject(obj)) return proxy;
-  const cloneObj = cloneDeep(obj);
-  for (const [key, value] of Object.entries(cloneObj)) {
-    if (isExitNew) {
-      Reflect.set(proxy, key, value);
-    } else if (Reflect.has(proxy, key)) {
-      Reflect.set(proxy, key, value);
+interface ProxyObject {
+  [key: string]: any;
+}
+export const replaceTarget = (proxyObject: any, values: any) => {
+  if (!isObject(values)) return proxyObject;
+  function setNestedValue(obj: ProxyObject, keys: string[], value: any): void {
+    const lastKey = keys.pop();
+    let currentObj = obj;
+
+    keys.forEach((key) => {
+      if (!currentObj[key] || typeof currentObj[key] !== 'object') {
+        currentObj[key] = {};
+      }
+      currentObj = currentObj[key];
+    });
+
+    currentObj[lastKey as string] = value;
+  }
+
+  function processArray(obj: ProxyObject, value: any[], path: string[]): void {
+    obj[path[0]] = value.map((item) => {
+      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+        const nestedObj: ProxyObject = {};
+        processValues(nestedObj, item);
+        return nestedObj;
+      }
+      return item;
+    });
+  }
+
+  function processValues(
+    obj: ProxyObject,
+    values: Record<string, any>,
+    currentPath: string[] = [],
+  ): void {
+    for (const [key, value] of Object.entries(values)) {
+      const path = [...currentPath, key];
+
+      if (Array.isArray(value)) {
+        processArray(obj, value, path);
+      } else if (typeof value === 'object' && value !== null) {
+        processValues(obj, value, path);
+      } else {
+        setNestedValue(obj, path, value);
+      }
     }
   }
-  return proxy;
+
+  // 调用递归处理函数
+  processValues(proxyObject, values);
+
+  return proxyObject;
 };
 
 export const getProxyValue = (

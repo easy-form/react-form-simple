@@ -78,12 +78,12 @@ export namespace Apis {
      * @param bindId
      */
     setValue: (bindId: any, value: any) => void;
-    /**
-     * @description Set values uniformly for form items
-     * @localKey API.form.setValues.desc
-     * @param bindId
-     */
-    setValues: (values: Record<string, any>) => void;
+    // /**
+    //  * @description Set values uniformly for form items
+    //  * @localKey API.form.setValues.desc
+    //  * @param bindId
+    //  */
+    // setValues: (values: Record<string, any>) => void;
     /**
      * @description Manually calling to set the error message will not trigger the onError event
      * @localKey API.formItem.setError.desc
@@ -223,6 +223,11 @@ export namespace GlobalProps {
      * @description The current form item uid.
      */
     uid: string;
+    // /**
+    //  * @description Manually refresh the value inside the form item
+    //  * @localKey API.form.global.props.ApiEffectOptions.refreshValue.desc
+    //  */
+    // refreshValue: () => void;
   } & Omit<Apis.FormApis, 'setValues'>;
 
   /**

@@ -46,6 +46,7 @@
   "API.form.global.props.GetContentOptions.isError.desc": "The verification status of the current form item. It is true if the verification fails.",
   "API.form.global.props.GetContentOptions.attrs.desc": "The basic properties of the control. During form item rendering, the above properties will be passed to your UI control. If your UI control is not based on these properties, please use FormItem to encapsulate your UI.",
   "API.form.global.props.ApiEffectOptions.uid.desc": "The current form item uid.",
+  "API.form.global.props.ApiEffectOptions.refreshValue.desc": "Manually refresh the value inside the form item.",
   "API.form.global.props.ContextProps.mounted.desc": "The life cycle executed after each form item is mounted. Will only be executed once during rendering. You can perform dependency collection or initialization operations on form items here. Callback an options object, which contains the bindId of the form item and the uid of the form item.",
   "API.form.global.props.ContextProps.apiEffect.desc": "The method triggered after the form item api or bindId changes will be executed once during initialization. Generally there will be no changes, and the API can be collected here.",
   "API.form.global.props.ContextProps.updated.desc": "A method that is triggered when the form item monitors the value of the control. <strong>This method will only be executed when manually input</strong>. Customized external form model data can be assigned here. to achieve a controlled effect.",

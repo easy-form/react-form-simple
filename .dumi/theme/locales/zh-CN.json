@@ -46,6 +46,7 @@
   "API.form.global.props.GetContentOptions.isError.desc": "当前表单项的校验状态，有校验不通过的情况下为true。",
   "API.form.global.props.GetContentOptions.attrs.desc": "控件基本属性，在表单项渲染中，会将如上属性传递给你的UI控件。如果你的UI控件不是基于这些属性，请使用FormItem针对你的UI做一层封装。",
   "API.form.global.props.ApiEffectOptions.uid.desc": "当前表单项uid。",
+  "API.form.global.props.ApiEffectOptions.refreshValue.desc": "手动重新刷新表单项内部的value值。",
   "API.form.global.props.ContextProps.mounted.desc": "每个表单项挂载之后执行的生命周期。在渲染中只会执行一次。可以在这里对表单项执行依赖收集或者初始化操作。回调出一个options对象，里面包含该表单项的bindId和该表单项的uid。",
   "API.form.global.props.ContextProps.apiEffect.desc": "表单项api或者bindId发生变动后触发的方法，初始化会执行一次。一般不会发生变动，可以在这里对api进行收集。",
   "API.form.global.props.ContextProps.updated.desc": "表单项监听控件value发生改变时触发的方法，<strong>只有当手动去输入的时候，这个方法才会执行</strong>。可以在这里对自定义的外部表单model数据进行赋值。以达到受控的效果。",

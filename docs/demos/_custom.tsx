@@ -28,7 +28,8 @@ export default function App() {
   useEffect(() => {
     const values = { name: 'name', age: 'age' };
     model.current = values;
-    formRef.current?.setValues(values);
+    formRef.current?.setValue('name', 'name');
+    formRef.current?.setValue('age', 'age');
   }, []);
 
   const renderName = (
