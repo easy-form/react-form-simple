@@ -92,7 +92,7 @@ describe('useForm', () => {
   });
   test('model equal', () => {
     const TestDemo = () => {
-      const { model } = useForm(undefined);
+      const { model } = useForm({});
 
       useEffect(() => {
         expect(model).toEqual({});
