@@ -1,3 +1,17 @@
+### Bug Fixes
+
+## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
+
+- Fix a bug in useSubscribe type return ([af373d2](https://github.com/easy-form/react-form-simple/commit/af373d2147937c3507322d7e9b3d3a74cfa739fa))
+- Fix bug where onChange definition is overwritten on UI controls ([c9872c1](https://github.com/easy-form/react-form-simple/commit/c9872c19802d49220f64929320f025cae8609fe4))
+- fix bug with invalid externally defined attributes ([fcf5728](https://github.com/easy-form/react-form-simple/commit/fcf5728dc45f7c2ee80afb350d4adcd4fab4c990))
+- fix reset bug when rendering form items in pop-up windows ([3135cc4](https://github.com/easy-form/react-form-simple/commit/3135cc4a7df3dd6bb7147e30db67e8e418d7ae93))
+- fix setValues api bug ([8038d81](https://github.com/easy-form/react-form-simple/commit/8038d81a1f4aedfd1a1bc1309cf77d700be55c83))
+
+### Reverts
+
+- Revert "chore: source repo use https" ([19374b0](https://github.com/easy-form/react-form-simple/commit/19374b0dc26bd9d6a8dc090ad6d28732df8eefaa))
+
 # Changelog
 
 ## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
