@@ -333,7 +333,6 @@ describe.concurrent('use Form Item api', () => {
 
       useImperativeHandle(ref, () => ({
         vaild() {
-          console.log(66666);
           return validate();
         },
       }));

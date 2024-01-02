@@ -43,7 +43,7 @@ export function useFormItemContentController(
 ) {
   const {
     bindId,
-    defaultValue,
+    initialValue,
     formUtil,
     getContent,
     subscribe,
@@ -55,7 +55,7 @@ export function useFormItemContentController(
   } = options;
 
   const _model = useController({
-    value: convertStringToObject(bindId, defaultValue),
+    value: convertStringToObject(bindId, initialValue),
   });
 
   const status = useController({ isError: false });

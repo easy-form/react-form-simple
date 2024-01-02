@@ -45,6 +45,7 @@ export const FormItem = React.forwardRef<
     readOnly,
     readOnlyText,
     defaultValue,
+    initialValue,
     formatChangeValue,
   } = assigns;
 
@@ -110,6 +111,7 @@ export const FormItem = React.forwardRef<
     defaultValue,
     apis,
     formatChangeValue,
+    initialValue,
   };
 
   const renderFormItemContent = (

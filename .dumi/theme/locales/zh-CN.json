@@ -67,6 +67,7 @@
   "API.form.global.props.form.share.contextProps": "表单项选项式生命周期。对整个表单进行依赖收集的地方，可以在这里对表单项做一些更加精确的控制。使用 useForm 时，通常不会需要这个。使用 FormItem 或者 Form 时或者定制化表单时，需要用到这个。当 useForm 与 Form 或者 FormItem 结合使用的时候，需要将 useForm 暴露出的 contextProps 传递给组件来进行依赖收集，也可以在你的代码里做一层代理执行某些逻辑后，在执行 contextProps 里的生命周期达到自定义的控制。",
   "API.form.global.props.form.share.readOnly": "表单项是否只读，会将这个属性传递给表单项的渲染控件。如果不支持readOnly属性，则需要在外部做一层转换。",
   "API.form.global.props.form.share.readOnlyText": "自定义只读状态下显示的内容",
+  "API.form.global.props.form.share.initialValue": "表单项初始value，用于表单项初始化时的第一次渲染。",
   "API.form.global.props.form.share.formatChangeValue": "格式化控件的value值, react-form-simple的内部表单项默认取的是标准事件对象里的value ,即<strong>e.target.value</strong>, 如果你的控件是这个上面做了一层封装返回的不是标准事件对象，需要传入这个方法，react-form-simple的表单项的value将会获取这个方法的返回值。<div>用法：<a href='/zh-CN/intro/introduce#集成第三方-ui'>集成第三方UI</a></div>",
   "API.form.global.props.form.formStyle": "表单样式，支持对象嵌套写法。",
   "API.form.global.props.form.formClass": "表单容器类名。",

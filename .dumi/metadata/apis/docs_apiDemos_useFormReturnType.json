@@ -3,7 +3,7 @@
     "defaultValue": null,
     "name": "render",
     "type": {
-      "name": "(bindId: any, config?: ({ rules?: Rules; bindId?: any; onError?: ((msg: string, name?: string | undefined) => void) | undefined; customErrTips?: boolean | undefined; defaultValue?: any; ... 4 more ...; readOnlyText?: ReactNode; } & FormShareProps & { ...; }) | undefined) => (parameter: ReactNode) => ReactNode"
+      "name": "(bindId: any, config?: ({ rules?: Rules; bindId?: any; onError?: ((msg: string, name?: string | undefined) => void) | undefined; customErrTips?: boolean | undefined; defaultValue?: any; ... 5 more ...; initialValue?: any; } & FormShareProps & { ...; }) | undefined) => (parameter: ReactNode) => ReactNode"
     },
     "tags": {
       "description": "The form item rendering function accepts two parameters, the first parameter is the form item field, and the second parameter is the form item configuration.",

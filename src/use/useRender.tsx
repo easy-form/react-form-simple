@@ -11,9 +11,7 @@ import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
 export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
-  // const { formItems } = useFormItemRef();
-
-  const { globalDatas } = config;
+  const { globalDatas, defaultValues } = config;
 
   const { bindIdApis } = globalDatas;
 
@@ -24,11 +22,8 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
     const mergeConfig = { ...config, ...singleConfig };
     const { key, model, contextProps, defineProps, ...rests } = mergeConfig;
 
-    const defaultValue = getProxyValue(model, bindId);
-
-    if (bindId === 'select11') {
-      console.log(defaultValue, bindId);
-    }
+    const defaultValue = getProxyValue(defaultValues, bindId);
+    const value = getProxyValue(model, bindId);
 
     const otherProps: Record<string, any> = {};
     if (isMeaningful(key)) {
@@ -40,6 +35,7 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
       return (
         <FormItem
           defaultValue={defaultValue}
+          initialValue={value}
           bindId={bindId}
           contextProps={contextProps}
           getContent={(options) => {
