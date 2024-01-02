@@ -4,8 +4,6 @@ import type { UseFormNamespace } from './types/use';
 
 import useForm from './use/useForm';
 
-/** */
-
 export type FormProps = GlobalProps.FormProps;
 
 /**
