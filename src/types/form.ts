@@ -454,5 +454,11 @@ export namespace GlobalProps {
      * @description Customize content displayed in read-only state
      */
     readOnlyText?: ReactNode;
+    /**
+     * @description Initial value, used for the first rendering during FormItem initialization
+     * @localKey API.form.global.props.form.share.initialValue
+     * @version 1.3.7
+     */
+    initialValue?: any;
   } & FormShareProps;
 }

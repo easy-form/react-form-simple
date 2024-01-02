@@ -150,5 +150,6 @@ export namespace UseRenderNamespace {
     model: Record<string, any>;
     globalDatas: Record<string, any>;
     contextProps: GlobalProps.ContextProps;
+    defaultValues: Record<string, any>;
   }
 }

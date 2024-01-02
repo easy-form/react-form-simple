@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
+
+### Bug Fixes
+
+- fix bug with invalid externally defined attributes ([fcf5728](https://github.com/easy-form/react-form-simple/commit/fcf5728dc45f7c2ee80afb350d4adcd4fab4c990))
+- fix reset bug when rendering form items in pop-up windows ([3135cc4](https://github.com/easy-form/react-form-simple/commit/3135cc4a7df3dd6bb7147e30db67e8e418d7ae93))
+
+### Reverts
+
+- Revert "chore: source repo use https" ([19374b0](https://github.com/easy-form/react-form-simple/commit/19374b0dc26bd9d6a8dc090ad6d28732df8eefaa))
+
 ## [1.3.6](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.6) (2023-12-30)
 
 ### Bug Fixes

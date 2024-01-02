@@ -10,8 +10,6 @@ export function useController<T extends Record<string, any>>(obj: T): T {
     rawMap: new WeakMap(),
   }).current;
 
-  console.log();
-
   return observer(
     proxyStateRef.current,
     () => {

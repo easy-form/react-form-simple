@@ -23,6 +23,18 @@
       "description": "Customize content displayed in read-only state"
     }
   },
+  "initialValue": {
+    "defaultValue": null,
+    "name": "initialValue",
+    "type": {
+      "name": "any"
+    },
+    "tags": {
+      "description": "Initial value, used for the first rendering during FormItem initialization",
+      "localKey": "API.form.global.props.form.share.initialValue",
+      "version": "1.3.7"
+    }
+  },
   "errorStyle": {
     "defaultValue": null,
     "name": "errorStyle",

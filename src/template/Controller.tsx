@@ -15,8 +15,11 @@ export const Controller: React.FC<ControlProps> = ({
   const { value, onChange, onBlur, ...restAttrs } = attrs;
   return React.Children.map(children, (child) => {
     return React.cloneElement(child, {
-      value: child?.props?.value ?? value,
+      ...otherProps,
+      ...restAttrs,
       ...child?.props,
+      ...rests,
+      value: child?.props?.value ?? value,
       onChange(e: any, ...args: any[]) {
         onChange?.(e, ...args);
         child?.props?.onChange?.(e, ...args);
@@ -25,9 +28,6 @@ export const Controller: React.FC<ControlProps> = ({
         onBlur?.();
         child?.props?.onBlur?.(e, ...args);
       },
-      ...restAttrs,
-      ...rests,
-      ...otherProps,
     });
   });
 };

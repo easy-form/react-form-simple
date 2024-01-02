@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { cloneDeep, debounce } from 'lodash';
 import { useCallback, useRef } from 'react';
 import { createObserverForm } from 'react-form-simple';
 import type { GlobalProps } from 'react-form-simple/types/form';
@@ -15,6 +15,8 @@ const useForm = <T extends Record<string, any>>(
   config?: UseFormNamespace.ShareConfig,
 ) => {
   const proxyTarget = useRef(model || {});
+
+  const defaultValues = useRef<T>(cloneDeep(model) || {}).current;
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
 
@@ -64,6 +66,7 @@ const useForm = <T extends Record<string, any>>(
     model: proxymodel,
     contextProps: _contextProps,
     globalDatas,
+    defaultValues,
   });
 
   return {
