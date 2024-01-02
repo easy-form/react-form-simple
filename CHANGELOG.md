@@ -1,3 +1,5 @@
+# Changelog
+
 ### Bug Fixes
 
 ## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
@@ -11,8 +13,6 @@
 ### Reverts
 
 - Revert "chore: source repo use https" ([19374b0](https://github.com/easy-form/react-form-simple/commit/19374b0dc26bd9d6a8dc090ad6d28732df8eefaa))
-
-# Changelog
 
 ## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
 
