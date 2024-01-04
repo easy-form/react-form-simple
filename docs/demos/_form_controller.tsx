@@ -12,13 +12,13 @@ export default function App() {
     <>
       <Form contextProps={contextProps}>
         <FormItem
-          defaultValue={model.name}
+          initialValue={model.name}
           rules={{ required: 'Please Input' }}
           bindId="name"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
         />
         <FormItem
-          defaultValue={model.age}
+          initialValue={model.age}
           rules={{ required: 'Please Select' }}
           bindId="age"
           getContent={({ attrs }) => {
