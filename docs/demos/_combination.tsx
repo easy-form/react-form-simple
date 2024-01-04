@@ -13,12 +13,12 @@ export default function App() {
         <FormItem
           bindId="name"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
-          defaultValue={model.name}
+          initialValue={model.name}
         />
         <FormItem
           bindId="age"
           getContent={({ attrs }) => <input {...attrs} className="input" />}
-          defaultValue={model.age}
+          initialValue={model.age}
         />
         {render('select')(
           <select>
