@@ -141,7 +141,7 @@ export const FormItemContent = (props: UseFormItemContentController) => {
 
   if (readOnly && isMeaningful(readOnlyText)) {
     if (typeof readOnlyText === 'function') {
-      return readOnlyText();
+      return <>{readOnlyText()}</>;
     }
     return <>{readOnlyText}</>;
   }
