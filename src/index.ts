@@ -1,6 +1,10 @@
 import type { Apis, GlobalProps } from './types/form';
 
-import type { UseFormNamespace } from './types/use';
+import type {
+  UseFormNamespace,
+  UseSubscribeNamespace,
+  UseWatchNamespace,
+} from './types/use';
 
 import useForm from './use/useForm';
 
@@ -36,6 +40,15 @@ export type { Apis } from './types/form';
  */
 export type UseFormReturnType<T = unknown> =
   UseFormNamespace.UseFormReturnType<T>;
+
+export * from './types/form';
+export * from './types/use';
+
+export type RenderOptionsConfig = Parameters<UseFormReturnType['render']>[1];
+
+export type UseWatch<T> = UseWatchNamespace.UseWatch<T>;
+
+export type UseSubscribe<T> = UseSubscribeNamespace.UseSubscribe<T>;
 
 export { default as FormItem } from './template/FormItem';
 
