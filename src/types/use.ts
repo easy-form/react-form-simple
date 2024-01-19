@@ -2,7 +2,7 @@ import type { Apis, GlobalProps } from './form';
 
 import type { FormItemProps } from 'react-form-simple';
 
-export type ReactNode = React.ReactNode;
+type ReactNode = React.ReactNode;
 
 /**
  * useForm hook Interface

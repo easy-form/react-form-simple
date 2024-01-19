@@ -1,5 +1,9 @@
-import { fireEvent, render as testRender } from '@testing-library/react';
-import React, { useEffect } from 'react';
+import {
+  fireEvent,
+  render as testRender,
+  waitFor,
+} from '@testing-library/react';
+import React, { useEffect, useImperativeHandle } from 'react';
 import { describe, expect, test, vi } from 'vitest';
 import useForm from '../use/useForm';
 
@@ -79,16 +83,33 @@ describe('useForm', () => {
     }
   });
   test('reset value', async () => {
-    const TestDemo = () => {
-      const { render, reset } = useForm({ name: 'test' });
+    const ref = React.createRef<any>();
+    const TestDemo = React.forwardRef((props, ref) => {
+      useImperativeHandle(ref, () => ({
+        reset() {
+          reset();
+        },
+        getModalValue: () => {
+          return model.name;
+        },
+      }));
+      const { render, reset, model } = useForm({ name: '' });
+
       useEffect(() => {
-        reset();
+        model.name = 'test';
       }, []);
-      return render('name', { defaultValue: '' })(<input />);
-    };
-    const { container } = testRender(<TestDemo />);
-    const inputContainer = container.querySelector('input');
-    expect(inputContainer?.value).toBe('');
+      return render('name', { defaultValue: '' })(
+        <input id="demo-reset-test" />,
+      );
+    });
+    const { container, unmount } = testRender(<TestDemo ref={ref} />);
+    await waitFor(() => ref.current?.reset());
+    const inputContainer = container.querySelector(
+      '#demo-reset-test',
+    ) as HTMLInputElement;
+    expect(inputContainer.value).toBe('');
+    expect(ref.current.getModalValue()).toBe('');
+    unmount();
   });
   test('model equal', () => {
     const TestDemo = () => {

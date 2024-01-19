@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.8](https://github.com/easy-form/react-form-simple/compare/v1.3.7...v1.3.8) (2024-01-19)
+
+### Bug Fixes
+
+- fix reset bug ([ef0b036](https://github.com/easy-form/react-form-simple/commit/ef0b036a8ec78d09640a4dfbee215f71083489db))
+- fix the bug of readOnlyText not dynamically rendering ([0e3e6f5](https://github.com/easy-form/react-form-simple/commit/0e3e6f561596ab38a8e2a837bda29394b5f1bb55))
+
+### Features
+
+- add type export ([353d4cf](https://github.com/easy-form/react-form-simple/commit/353d4cf83d13115e3de2bf59ec0b57ace45c3381))
+
 ## [1.3.7](https://github.com/easy-form/react-form-simple/compare/v1.3.5...v1.3.7) (2024-01-02)
 
 ### Bug Fixes

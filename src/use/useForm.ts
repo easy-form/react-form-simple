@@ -56,9 +56,9 @@ const useForm = <T extends Record<string, any>>(
     updated({ bindId, value }) {
       updateProxyValue(proxymodel, bindId, value);
     },
-    reset({ bindId, value }) {
-      updateProxyValue(proxymodel, bindId, value);
-    },
+    // reset({ bindId, value }) {
+    //   updateProxyValue(proxymodel, bindId, value);
+    // },
   }).current;
 
   const { render, set } = useRender({
@@ -76,7 +76,7 @@ const useForm = <T extends Record<string, any>>(
     useSubscribe,
     useWatch,
     ...overlayApis,
-    ...useFormExtraApis({ model: proxymodel }),
+    ...useFormExtraApis({ model: proxymodel, overlayApis, defaultValues }),
     ...createObserverMap,
   };
 };
