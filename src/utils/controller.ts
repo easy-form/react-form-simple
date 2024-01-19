@@ -70,7 +70,6 @@ export const replaceTarget = (proxyObject: any, values: any) => {
     }
   }
 
-  // 调用递归处理函数
   processValues(proxyObject, values);
 
   return proxyObject;
