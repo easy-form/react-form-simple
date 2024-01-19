@@ -360,7 +360,7 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.form.share.readOnlyText
      * @description Customize content displayed in read-only state
      */
-    readOnlyText?: ReactNode;
+    readOnlyText?: (() => ReactNode) | ReactNode;
     /**
      * @localKey API.form.global.props.form.share.formatChangeValue
      * @resetType Function
@@ -449,11 +449,11 @@ export namespace GlobalProps {
      * @description When using the FormItem component to create a controlled form item, you need to pass in this method, which returns the content that needs to be rendered. The parameters of getContent include the API of the form item, the model data of the form item, the verification status, and the attrs that match the native attributes.
      */
     getContent?: (options: GetContentOptions) => ReactNode;
-    /**
-     * @localKey API.form.global.props.form.share.readOnlyText
-     * @description Customize content displayed in read-only state
-     */
-    readOnlyText?: ReactNode;
+    // /**
+    //  * @localKey API.form.global.props.form.share.readOnlyText
+    //  * @description Customize content displayed in read-only state
+    //  */
+    // readOnlyText?: ReactNode;
     /**
      * @description Initial value, used for the first rendering during FormItem initialization
      * @localKey API.form.global.props.form.share.initialValue

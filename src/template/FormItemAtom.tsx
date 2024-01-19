@@ -139,7 +139,11 @@ export const FormItemContent = (props: UseFormItemContentController) => {
     ...props,
   });
 
-  return (
-    <>{readOnly && isMeaningful(readOnlyText) ? readOnlyText : renderContent}</>
-  );
+  if (readOnly && isMeaningful(readOnlyText)) {
+    if (typeof readOnlyText === 'function') {
+      return readOnlyText();
+    }
+    return <>{readOnlyText}</>;
+  }
+  return <>{renderContent}</>;
 };

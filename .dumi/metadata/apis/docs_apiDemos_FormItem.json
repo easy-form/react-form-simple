@@ -94,17 +94,6 @@
       "description": "When using the FormItem component to create a controlled form item, you need to pass in this method, which returns the content that needs to be rendered. The parameters of getContent include the API of the form item, the model data of the form item, the verification status, and the attrs that match the native attributes."
     }
   },
-  "readOnlyText": {
-    "defaultValue": null,
-    "name": "readOnlyText",
-    "type": {
-      "name": "ReactNode"
-    },
-    "tags": {
-      "localKey": "API.form.global.props.form.share.readOnlyText",
-      "description": "Customize content displayed in read-only state"
-    }
-  },
   "initialValue": {
     "defaultValue": null,
     "name": "initialValue",
@@ -286,6 +275,17 @@
     "tags": {
       "localKey": "API.form.global.props.form.share.readOnly",
       "description": "Whether the form item is read-only will pass this property to the form item's rendering control"
+    }
+  },
+  "readOnlyText": {
+    "defaultValue": null,
+    "name": "readOnlyText",
+    "type": {
+      "name": "ReactNode | (() => ReactNode)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.readOnlyText",
+      "description": "Customize content displayed in read-only state"
     }
   },
   "formatChangeValue": {

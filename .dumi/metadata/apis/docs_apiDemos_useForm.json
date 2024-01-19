@@ -12,17 +12,6 @@
       "description": "Whether to customize error message prompts. If true, the form item will not display error messages by default. will be handled externally"
     }
   },
-  "readOnlyText": {
-    "defaultValue": null,
-    "name": "readOnlyText",
-    "type": {
-      "name": "ReactNode"
-    },
-    "tags": {
-      "localKey": "API.form.global.props.form.share.readOnlyText",
-      "description": "Customize content displayed in read-only state"
-    }
-  },
   "initialValue": {
     "defaultValue": null,
     "name": "initialValue",
@@ -190,6 +179,17 @@
     "tags": {
       "localKey": "API.form.global.props.form.share.readOnly",
       "description": "Whether the form item is read-only will pass this property to the form item's rendering control"
+    }
+  },
+  "readOnlyText": {
+    "defaultValue": null,
+    "name": "readOnlyText",
+    "type": {
+      "name": "(() => ReactNode) | ReactNode"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.readOnlyText",
+      "description": "Customize content displayed in read-only state"
     }
   },
   "formatChangeValue": {
