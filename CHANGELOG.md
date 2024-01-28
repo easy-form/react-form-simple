@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.9](https://github.com/easy-form/react-form-simple/compare/v1.3.8...v1.3.9) (2024-01-28)
+
+### Bug Fixes
+
+- fix useSubscribe bug ([76b905e](https://github.com/easy-form/react-form-simple/commit/76b905e6492e82f3920f1811accd0e52ccffcd90))
+
 ## [1.3.8](https://github.com/easy-form/react-form-simple/compare/v1.3.7...v1.3.8) (2024-01-19)
 
 ### Bug Fixes
