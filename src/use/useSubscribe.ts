@@ -36,16 +36,13 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
       subscribes.set(() => {
         setState(cb({ model: cloneDeep(model) }));
       });
+      setTimeout(() => {
+        subscribes.emit();
+      });
     }, []);
 
     return state;
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      subscribes.emit();
-    });
-  }, []);
 
   return { useSubscribe, subscribes };
 };
