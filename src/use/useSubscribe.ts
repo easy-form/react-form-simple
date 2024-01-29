@@ -1,7 +1,8 @@
 import { cloneDeep } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UseSubscribeNamespace } from 'react-form-simple/types/use';
 import { useControllerRef } from 'react-form-simple/use/useControllerRef';
+import { isEqual } from 'react-form-simple/utils/util';
 
 const subscribeObject = () => {
   const object = {
@@ -26,15 +27,19 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
   T,
   ReturnType<typeof subscribeObject>
 > => {
-  const { model } = options;
-
   const subscribes = useControllerRef(subscribeObject());
 
   const useSubscribe: UseSubscribeNamespace.UseSubscribe<T> = (cb) => {
     const [state, setState] = useState<any>();
+    const preValueRef = useRef(null) as any;
+
     useEffect(() => {
       subscribes.set(() => {
-        setState(cb({ model: cloneDeep(model) }));
+        const { model } = options;
+        const value = cb({ model: cloneDeep(model) });
+        if (isEqual(value, preValueRef.current)) return;
+        preValueRef.current = value;
+        setState(value);
       });
       setTimeout(() => {
         subscribes.emit();
