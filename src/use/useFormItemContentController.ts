@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
 import { useController } from 'react-form-simple/use/useController';
-import { useControllerRef } from 'react-form-simple/use/useControllerRef';
 import { FormUtil } from 'react-form-simple/utils/FormUtil';
 import {
   getProxyValue,
@@ -54,6 +53,8 @@ export function useFormItemContentController(
     formatChangeValue,
   } = options;
 
+  const preBindId = useRef(bindId).current;
+
   const _model = useController({
     value: convertStringToObject(bindId, initialValue),
   });
@@ -77,11 +78,17 @@ export function useFormItemContentController(
     formUtil.replace({ model: modelValue });
   }, [modelValue]);
 
-  const methods = useControllerRef({
+  useEffect(() => {
+    if (bindId !== preBindId) {
+      _model.value = convertStringToObject(bindId, initialValue);
+    }
+  }, [bindId]);
+
+  const methods = {
     set(value: any) {
       updateProxyValue(modelValue, bindId as string, value);
     },
-  });
+  };
 
   const value = getProxyValue(modelValue, bindId) ?? '';
 
