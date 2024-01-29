@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.4.0](https://github.com/easy-form/react-form-simple/compare/v1.3.9...v1.4.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* incorrect data display in dynamic forms ([de656d8](https://github.com/easy-form/react-form-simple/commit/de656d83328f158e49162cf9c2e92691ff698179))
+
+
 ## [1.3.9](https://github.com/easy-form/react-form-simple/compare/v1.3.8...v1.3.9) (2024-01-28)
 
 ### Bug Fixes
