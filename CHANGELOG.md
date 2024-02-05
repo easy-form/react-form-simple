@@ -9,7 +9,7 @@
 
 
 
-# [1.4.0](https://github.com/easy-form/react-form-simple/compare/v1.3.9...v1.4.0) (2024-01-29)
+## [1.4.0](https://github.com/easy-form/react-form-simple/compare/v1.3.9...v1.4.0) (2024-01-29)
 
 
 ### Bug Fixes
