@@ -6,6 +6,7 @@ export default function App(props: UseFormNamespace.ShareConfig) {
     render,
     model,
     setState,
+    forceUpdate,
     setValue,
     setValues,
     useSubscribe,
@@ -16,5 +17,5 @@ export default function App(props: UseFormNamespace.ShareConfig) {
     reapplyValidator,
     clearValidate,
     contextProps,
-  } = useForm();
+  } = useForm({});
 }

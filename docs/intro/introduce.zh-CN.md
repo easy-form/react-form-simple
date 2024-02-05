@@ -72,7 +72,8 @@ useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提�
 <code src="../demos/_vaild.tsx"></code>
 
 ## <Mdh>集成第三方 ui</Mdh>
-你可以将 **react-form-simple** 用于你项目中所用到的任何UI库中，只要你的 UI 控件接收 **value** 和 **onChange**。 即使你的 UI 控件不接收  **value** 和 **onChange**， 你也能在外面利用 _defineProps_ 做一层属性转换来传给你的自定义UI控件。或者定制化你的useForm。
+
+你可以将 **react-form-simple** 用于你项目中所用到的任何 UI 库中，只要你的 UI 控件接收 **value** 和 **onChange**。 即使你的 UI 控件不接收 **value** 和 **onChange**， 你也能在外面利用 _defineProps_ 做一层属性转换来传给你的自定义 UI 控件。或者定制化你的 useForm。
 
 下面是集成 **material-ui** 和 **Ant Design** 的例子。
 
@@ -94,10 +95,10 @@ useForm 暴露出的 _model_ 表单模型数据永远是最新的, 在表单提�
 
 ## <Mdh>动态表单</Mdh>
 
-通过直接给数组赋值, 然后调用 _setState_ 方法手动刷新视图实现动态表单。调用 _setState_ 方法的目的是因为直接改变 model 的数据不会在表单外部引起视图重新渲染。
+通过直接给数组赋值, 然后调用 _forceUpdate_ 方法手动刷新视图实现动态表单。调用 _forceUpdate_ 方法的目的是因为直接改变 model 的数据不会在表单外部引起视图重新渲染。
 <code src="../demos/_dymic.tsx"></code>
 
-还可以不调用 setState 方法，用另外一种方法也可以实现动态表单
+还可以不调用 forceUpdate 方法，用另外一种方法也可以实现动态表单
 <code src="../demos/_dymic_01.tsx"></code>
 
 不管是哪种方式，render 方法的第一个参数如果是多层级的话应该都要 以 **.** 分隔

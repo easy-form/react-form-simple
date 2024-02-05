@@ -7,7 +7,6 @@ import type {
   UseRenderNamespace,
 } from 'react-form-simple/types/use';
 import { getProxyValue } from 'react-form-simple/utils/controller';
-import { isMeaningful } from 'react-form-simple/utils/util';
 import useControllerRef from './useControllerRef';
 
 export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
@@ -20,16 +19,10 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
     singleConfig,
   ) => {
     const mergeConfig = { ...config, ...singleConfig };
-    const { key, model, contextProps, defineProps, ...rests } = mergeConfig;
+    const { model, contextProps, defineProps, ...rests } = mergeConfig;
 
     const defaultValue = getProxyValue(defaultValues, bindId);
     const value = getProxyValue(model, bindId);
-
-    const otherProps: Record<string, any> = {};
-    if (isMeaningful(key)) {
-      otherProps['key'] = key;
-      otherProps['data-form-simple-test-id'] = key;
-    }
 
     return (reactNode) => {
       return (
@@ -45,13 +38,18 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
               ...defineProps?.(options),
             } as GlobalProps.GetContentOptions;
             return (
-              <Controller {...controllerprops} otherProps={otherProps}>
+              <Controller
+                {...controllerprops}
+                otherProps={{
+                  'data-form-simple-test-id': bindId,
+                }}
+              >
                 {reactNode}
               </Controller>
             );
           }}
-          {...otherProps}
           {...rests}
+          key={bindId}
         />
       );
     };

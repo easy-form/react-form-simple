@@ -42,6 +42,9 @@ export namespace UseFormNamespace {
     render: (
       bindId: any,
       config?: GlobalProps.FormItemProps & {
+        /**
+         * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
+         */
         key?: string | number | symbol | boolean;
         /**
          * @resetType Function
@@ -82,10 +85,17 @@ export namespace UseFormNamespace {
     model: T;
     /**
      * @localKey API.useForm.setState.desc
-     * @description Manually re-render the view. If you need to re-render the view externally, you can call setState to re-render the current component tree.
+     * @description Manually re render the view. If you need to re render the view externally, you can call setState to re render the current component tree. Abandoned after version 1.4.1, please use the forceUpdate method instead.
      * @resetType Function
+     * @deprecated This API will be discontinued after 1.4.1, please use the forceUpdate function instead
      */
     setState: () => void;
+    /**
+     * @description Manually re-render the view. If you need to re-render the view externally, you can call setState to re-render the current component tree.
+     * @localKey API.useForm.forceUpdate.desc
+     * @version 1.4.1
+     */
+    forceUpdate: () => void;
     /**
      * @description Set values uniformly for form items
      * @localKey API.form.setValues.desc

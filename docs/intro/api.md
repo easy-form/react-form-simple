@@ -20,6 +20,7 @@ export default function App() {
     render,
     model,
     setState,
+    forceUpdate,
     setValue,
     setValues,
     useSubscribe,

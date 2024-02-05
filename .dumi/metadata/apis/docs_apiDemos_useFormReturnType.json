@@ -55,8 +55,21 @@
     },
     "tags": {
       "localKey": "API.useForm.setState.desc",
+      "description": "Manually re render the view. If you need to re render the view externally, you can call setState to re render the current component tree. Abandoned after version 1.4.1, please use the forceUpdate method instead.",
+      "resetType": "Function",
+      "deprecated": "This API will be discontinued after 1.4.1, please use the forceUpdate function instead"
+    }
+  },
+  "forceUpdate": {
+    "defaultValue": null,
+    "name": "forceUpdate",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
       "description": "Manually re-render the view. If you need to re-render the view externally, you can call setState to re-render the current component tree.",
-      "resetType": "Function"
+      "localKey": "API.useForm.forceUpdate.desc",
+      "version": "1.4.1"
     }
   },
   "setValues": {

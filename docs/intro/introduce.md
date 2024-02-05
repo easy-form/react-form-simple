@@ -74,6 +74,7 @@ The default value is `change`
 <code src="../demos/_vaild.tsx"></code>
 
 ## <Mdh>Third-party UI</Mdh>
+
 You can use **react-form-simple** with any UI library used in your project, as long as your UI controls receive **value** and **onChange**. Even if your UI control does not receive **value** and **onChange**, you can still use _defineProps_ to do a layer of property conversion externally and pass it to your custom UI control. Or customize your useForm.
 
 Below is an example of integrating **material-ui** and **Ant Design**.
@@ -96,10 +97,10 @@ Similarly, the name form item is passed a check that it is not empty. When the v
 
 ## <Mdh>Dynamic form</Mdh>
 
-Implement dynamic forms by directly assigning values to the array and then calling the _setState_ method to manually refresh the view. The purpose of calling the _setState_ method is that directly changing the model's data will not cause the view to re-render outside the form.
+Implement dynamic forms by directly assigning values to the array and then calling the _forceUpdate_ method to manually refresh the view. The purpose of calling the _forceUpdate_ method is that directly changing the model's data will not cause the view to re-render outside the form.
 <code src="../demos/_dymic.tsx"></code>
 
-You can also use another method to implement dynamic forms without calling the setState method.
+You can also use another method to implement dynamic forms without calling the forceUpdate method.
 <code src="../demos/_dymic_01.tsx"></code>
 
 No matter which method is used, the first parameter of the render method should be separated by **.** if it is multi-level.

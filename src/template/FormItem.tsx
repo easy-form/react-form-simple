@@ -152,7 +152,6 @@ export const FormItem = React.forwardRef<
 
   return (
     <div
-      key={uid}
       className={classes}
       style={{
         ...(fullWidth
