@@ -1,30 +1,40 @@
 import Button from '@components/Button';
 import React from 'react';
 import { useForm } from 'react-form-simple';
+import { getUuid } from 'react-form-simple/utils/util';
 
 export default function App() {
-  const { model, render, setState, validate } = useForm({
-    fields: [{ value: '', uid: 1 }],
+  const { model, render, validate } = useForm({
+    fieldsDymic: [{ value: 0, uid: getUuid() }],
   });
-  const { fields } = model;
+  const { fieldsDymic } = model;
 
-  const renderFields = fields.map((field, i) =>
-    render(`fields.${i}.value`, {
-      label: `name${i}`,
-      labelPosition: 'top',
-      rules: { required: 'Please Input' },
-      key: field.uid,
-    })(<input className="input" />),
-  );
+  const renderFields = fieldsDymic.map((field, i) => (
+    <div key={field.uid} style={{ display: 'flex', alignItems: 'center' }}>
+      {render(`fieldsDymic.${i}.value`, {
+        label: `name${i}`,
+        labelPosition: 'top',
+        rules: { required: 'Please Input' },
+      })(<input className="input" />)}
+      <Button
+        plain
+        style={{ height: '30px', marginLeft: '10px' }}
+        onClick={() => {
+          model.fieldsDymic.splice(i, 1);
+        }}
+      >
+        Delete
+      </Button>
+    </div>
+  ));
 
   return (
     <>
       {renderFields}
       <Button
         onClick={() => {
-          const len = model.fields.length;
-          model.fields.push({ value: len + '', uid: len + 1 });
-          setState();
+          const len = model.fieldsDymic.length;
+          model.fieldsDymic.push({ value: len, uid: getUuid() });
         }}
       >
         add

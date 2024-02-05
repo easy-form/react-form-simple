@@ -11,10 +11,10 @@ export default function App() {
 
   const subscribeAge = useSubscribe(({ model }) => model.age);
 
-  console.log({ subscribemodel, subscribeAge });
-
   return (
     <>
+      <div>newAgeValue: {subscribeAge}</div>
+      <div>newModelValue: {JSON.stringify(subscribemodel)}</div>
       {renderName}
       {renderAge}
     </>

@@ -53,7 +53,7 @@ export function useFormItemContentController(
     formatChangeValue,
   } = options;
 
-  const preBindId = useRef(bindId).current;
+  const preBindId = useRef(bindId);
 
   const _model = useController({
     value: convertStringToObject(bindId, initialValue),
@@ -79,8 +79,9 @@ export function useFormItemContentController(
   }, [modelValue]);
 
   useEffect(() => {
-    if (bindId !== preBindId) {
+    if (bindId !== preBindId.current) {
       _model.value = convertStringToObject(bindId, initialValue);
+      preBindId.current = bindId;
     }
   }, [bindId]);
 

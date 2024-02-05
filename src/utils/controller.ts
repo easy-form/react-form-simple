@@ -16,6 +16,7 @@ export type ObserverOptions = {
   path?: string[];
   proxyMap?: WeakMap<object, any>;
   rawMap?: WeakMap<object, any>;
+  onChangeLength?: () => void;
 };
 
 export type ObserverCb = { path: string; value: any };
@@ -123,6 +124,46 @@ export const observer = <T extends object>(
   cb?: (args: ObserverCb) => void,
   options?: ObserverOptions,
 ): T => {
+  const { path = [], onChangeLength } = options || {};
+
+  const proxy = new Proxys(initialVal, {
+    get(target, key, receiver) {
+      const ret = Reflect.get(target, key, receiver);
+      if (React.isValidElement(ret)) return ret;
+      return isObjectOrArray(ret)
+        ? observer(ret as T, cb, {
+            ...options,
+            path: [...path, key.toString()],
+          })
+        : ret;
+    },
+    set(target, key, val) {
+      const newPath = [...path, key.toString()];
+
+      const ret = Reflect.set(target, key, val);
+
+      cb?.({ path: newPath.join('.'), value: val });
+
+      if (
+        Array.isArray(target) &&
+        key === 'length' &&
+        typeof onChangeLength === 'function'
+      ) {
+        onChangeLength();
+      }
+
+      return ret;
+    },
+  });
+
+  return proxy;
+};
+
+export const createControllerObserver = <T extends object>(
+  initialVal: T,
+  cb?: (args: ObserverCb) => void,
+  options?: ObserverOptions,
+): T => {
   const { path = [], rawMap = _rawMap, proxyMap = _proxyMap } = options || {};
   const existingProxy = proxyMap.get(initialVal);
   if (existingProxy) {
@@ -138,7 +179,7 @@ export const observer = <T extends object>(
       const ret = Reflect.get(target, key, receiver);
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
-        ? observer(ret as T, cb, {
+        ? createControllerObserver(ret as T, cb, {
             ...options,
             path: [...path, key.toString()],
           })
