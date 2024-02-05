@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/easy-form/react-form-simple/compare/v1.4.0...v1.4.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* deleting certain item values incorrectly in dynamic arrays ([dd7f8c3](https://github.com/easy-form/react-form-simple/commit/dd7f8c3419ea68287e87a5acd64f9816f07fdc97))
+
+
+
 # [1.4.0](https://github.com/easy-form/react-form-simple/compare/v1.3.9...v1.4.0) (2024-01-29)
 
 
