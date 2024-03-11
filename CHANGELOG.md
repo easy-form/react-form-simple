@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.2](https://github.com/easy-form/react-form-simple/compare/v1.4.1...v1.4.2) (2024-03-11)
+
+
+### Bug Fixes
+
+* `useSubscribe` subscribing to a field under a dynamic array form ([8fc9265](https://github.com/easy-form/react-form-simple/commit/8fc9265d83d96d80955f3c77e5eb46c189d4758b))
+
+
+### Features
+
+* adjusts the priority of the value attribute passed by `defineProps` ([ef2ae3b](https://github.com/easy-form/react-form-simple/commit/ef2ae3bb966c61014be55094f41ae99801342b79))
+
+
+
 ## [1.4.1](https://github.com/easy-form/react-form-simple/compare/v1.4.0...v1.4.1) (2024-02-05)
 
 
