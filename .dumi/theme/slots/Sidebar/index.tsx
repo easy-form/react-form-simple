@@ -27,7 +27,7 @@ const Sidebar: FC = () => {
       <ScrollBar>
         <div>
           <img
-            src="https://github.com/easy-form/react-form-simple/actions/workflows/test.yml/badge.svg"
+            src="https://github.com/easy-form/react-form-simple/actions/workflows/test.yml/badge.svg?branch=main"
             alt="CI passing"
             style={{ width: '80px' }}
           />
