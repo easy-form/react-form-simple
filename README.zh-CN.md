@@ -9,7 +9,7 @@
 
 <div align="center">
 
-[![CI status](https://github.com/easy-form/react-form-simple/actions/workflows/test.yml/badge.svg)](https://github.com/easy-form/react-form-simple/actions/workflows/test.yml)
+[![CI](https://github.com/easy-form/react-form-simple/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/easy-form/react-form-simple/actions/workflows/test.yml)
 [![NPM version](https://img.shields.io/npm/v/react-form-simple.svg?style=flat)](https://npmjs.org/package/react-form-simple)
 [![NPM downloads](http://img.shields.io/npm/dm/react-form-simple.svg?style=flat)](https://npmjs.org/package/react-form-simple)
 ![Static Badge](https://img.shields.io/badge/react-libaray-blue)
