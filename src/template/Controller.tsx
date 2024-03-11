@@ -18,8 +18,8 @@ export const Controller: React.FC<ControlProps> = ({
       ...otherProps,
       ...restAttrs,
       ...child?.props,
-      ...rests,
       value: child?.props?.value ?? value,
+      ...rests,
       onChange(e: any, ...args: any[]) {
         onChange?.(e, ...args);
         child?.props?.onChange?.(e, ...args);

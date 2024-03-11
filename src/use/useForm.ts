@@ -29,13 +29,6 @@ const useForm = <T extends Record<string, any>>(
 
   const forceUpdate = useForceUpdate();
 
-  // const debounceWatch = useCallback(
-  //   debounce(() => {
-  //     watchInstance.emit();
-  //   }),
-  //   [],
-  // );
-
   const debounceFn = useRef({
     watch: debounce(() => {
       watchInstance.emit();
@@ -54,7 +47,6 @@ const useForm = <T extends Record<string, any>>(
         set(path, value);
         subscribes.emit();
         debounceFn.watch();
-        // debounceWatch();
       },
       {
         path: [],

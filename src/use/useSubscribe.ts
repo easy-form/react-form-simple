@@ -6,16 +6,35 @@ import { isEqual } from 'react-form-simple/utils/util';
 
 const subscribeObject = () => {
   const object = {
-    datas: [] as Array<() => void>,
-    get() {
-      return object.datas;
+    datas: [] as Array<{ key: symbol; cb: () => void }>,
+
+    getInstanceIndex(key: symbol) {
+      return this.get().findIndex((v) => v.key === key);
     },
-    set(cb: () => void) {
-      object.datas.push(cb);
+    get() {
+      return this.datas;
+    },
+    set(cb: () => void, key: symbol) {
+      const index = this.getInstanceIndex(key);
+      if (index >= 0) {
+        this.datas[index].cb = cb;
+      } else {
+        this.datas.push({ key, cb });
+      }
     },
     emit() {
-      const subscribeCbs = object.get();
-      subscribeCbs.forEach((fn) => void fn?.());
+      setTimeout(() => {
+        const subscribeCbs = this.get();
+        subscribeCbs.forEach((subs) => {
+          subs.cb?.();
+        });
+      });
+    },
+    delete(key: symbol) {
+      const index = this.getInstanceIndex(key);
+      if (index >= 0) {
+        this.datas.splice(index, 1);
+      }
     },
   };
   return object;
@@ -32,6 +51,7 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
   const useSubscribe: UseSubscribeNamespace.UseSubscribe<T> = (cb) => {
     const [state, setState] = useState<any>();
     const preValueRef = useRef(null) as any;
+    const symbolKey = useRef(Symbol('symbol')).current;
 
     useEffect(() => {
       subscribes.set(() => {
@@ -40,10 +60,14 @@ export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
         if (isEqual(value, preValueRef.current)) return;
         preValueRef.current = value;
         setState(value);
-      });
-      setTimeout(() => {
-        subscribes.emit();
-      });
+      }, symbolKey);
+    }, [cb]);
+
+    useEffect(() => {
+      subscribes.emit();
+      return () => {
+        subscribes.delete(symbolKey);
+      };
     }, []);
 
     return state;
