@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.3](https://github.com/easy-form/react-form-simple/compare/v1.4.2...v1.4.3) (2024-03-14)
+
+
+### Bug Fixes
+
+* performance issues caused by excessive deletion operations ([#62](https://github.com/easy-form/react-form-simple/issues/62)) ([2ed5a73](https://github.com/easy-form/react-form-simple/commit/2ed5a73a062e09f8eba7280c0acf91dc1208b502))
+
+
+
 ## [1.4.2](https://github.com/easy-form/react-form-simple/compare/v1.4.1...v1.4.2) (2024-03-11)
 
 
