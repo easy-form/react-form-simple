@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
 import { useController } from 'react-form-simple/use/useController';
+import useForceUpdate from 'react-form-simple/use/useForceUpdate';
 import { FormUtil } from 'react-form-simple/utils/FormUtil';
 import {
   getProxyValue,
@@ -55,48 +56,49 @@ export function useFormItemContentController(
 
   const preBindId = useRef(bindId);
 
-  const _model = useController({
-    value: convertStringToObject(bindId, initialValue),
-  });
+  const forceUpdate = useForceUpdate();
+
+  const modelValue = useRef(convertStringToObject(bindId, initialValue));
+
+  formUtil.replace({ model: modelValue.current });
 
   const status = useController({ isError: false });
 
   const { isError } = status;
 
-  const { value: modelValue } = _model;
+  const isInitSubscribeEvent = useRef(true);
 
-  useEffect(() => {
+  if (isInitSubscribeEvent.current) {
     subscribe.on('update', (value) => {
       methods.set(value);
     });
     subscribe.on('onErr', (value) => {
       status.isError = isMeaningful(value);
     });
-  }, []);
-
-  useEffect(() => {
-    formUtil.replace({ model: modelValue });
-  }, [modelValue]);
+    isInitSubscribeEvent.current = false;
+  }
 
   useEffect(() => {
     if (bindId !== preBindId.current) {
-      _model.value = convertStringToObject(bindId, initialValue);
+      modelValue.current = convertStringToObject(bindId, initialValue);
       preBindId.current = bindId;
+      forceUpdate();
     }
   }, [bindId]);
 
   const methods = {
     set(value: any) {
-      updateProxyValue(modelValue, bindId as string, value);
+      updateProxyValue(modelValue.current, preBindId.current as string, value);
+      forceUpdate();
     },
   };
 
-  const value = getProxyValue(modelValue, bindId) ?? '';
+  const value = getProxyValue(modelValue.current, preBindId.current) ?? '';
 
   const renderContent =
     getContent?.({
-      model: modelValue,
-      bindId: bindId as string,
+      model: modelValue.current,
+      bindId: preBindId.current as string,
       attrs: {
         readOnly,
         onChange: (e, tagType) => {

@@ -49,7 +49,6 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
             );
           }}
           {...rests}
-          key={bindId}
         />
       );
     };

@@ -45,7 +45,7 @@ export namespace UseFormNamespace {
         /**
          * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
          */
-        key?: string | number | symbol | boolean;
+        key?: any;
         /**
          * @resetType Function
          * @description It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.
