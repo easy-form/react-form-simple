@@ -95,7 +95,7 @@ export namespace UseFormNamespace {
      * @localKey API.useForm.forceUpdate.desc
      * @version 1.4.1
      */
-    forceUpdate: () => void;
+    forceUpdate: (delay?: boolean) => void;
     /**
      * @description Set values uniformly for form items
      * @localKey API.form.setValues.desc
