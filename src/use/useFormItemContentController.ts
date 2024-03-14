@@ -82,14 +82,14 @@ export function useFormItemContentController(
     if (bindId !== preBindId.current) {
       modelValue.current = convertStringToObject(bindId, initialValue);
       preBindId.current = bindId;
-      forceUpdate();
+      forceUpdate(false)
     }
   }, [bindId]);
 
   const methods = {
     set(value: any) {
       updateProxyValue(modelValue.current, preBindId.current as string, value);
-      forceUpdate();
+      forceUpdate(false)
     },
   };
 

@@ -14,7 +14,7 @@ export function useController<T extends Record<string, any>>(obj: T): T {
   return createControllerObserver(
     proxyStateRef.current,
     () => {
-      forceUpdate();
+      forceUpdate(false);
     },
     { proxyMap, rawMap },
   );
