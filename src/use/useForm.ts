@@ -27,7 +27,7 @@ const useForm = <T extends Record<string, any>>(
 
   const { useWatch, watchInstance } = usePrivateWatch({ model });
 
-  const forceUpdate = useForceUpdate();
+  // const forceUpdate = useForceUpdate();
 
   const debounceFn = useRef({
     watch: debounce(() => {
@@ -36,7 +36,7 @@ const useForm = <T extends Record<string, any>>(
     onChangeLength: debounce(() => {
       preValues.current = cloneDeep(proxymodel);
       replaceTarget(proxymodel, preValues.current);
-      forceUpdate();
+      // forceUpdate();
     }),
   }).current;
 
