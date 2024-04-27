@@ -1,44 +1,39 @@
 # Changelog
 
-## [1.4.3](https://github.com/easy-form/react-form-simple/compare/v1.4.2...v1.4.3) (2024-03-14)
-
+## [1.4.6](https://github.com/easy-form/react-form-simple/compare/v1.4.5...v1.4.6) (2024-04-27)
 
 ### Bug Fixes
 
-* performance issues caused by excessive deletion operations ([#62](https://github.com/easy-form/react-form-simple/issues/62)) ([2ed5a73](https://github.com/easy-form/react-form-simple/commit/2ed5a73a062e09f8eba7280c0acf91dc1208b502))
+- fix useWatch not getting the latest status ([3545084](https://github.com/easy-form/react-form-simple/commit/3545084cf06b29a53baf3584ba86036675e560c4))
+- optimize the handling of special fields in forms such as Date and Blob ([6b4b5ff](https://github.com/easy-form/react-form-simple/commit/6b4b5ff5d3212b841cc72fbb99566b5bfd44c2c5))
 
+## [1.4.3](https://github.com/easy-form/react-form-simple/compare/v1.4.2...v1.4.3) (2024-03-14)
 
+### Bug Fixes
+
+- performance issues caused by excessive deletion operations ([#62](https://github.com/easy-form/react-form-simple/issues/62)) ([2ed5a73](https://github.com/easy-form/react-form-simple/commit/2ed5a73a062e09f8eba7280c0acf91dc1208b502))
 
 ## [1.4.2](https://github.com/easy-form/react-form-simple/compare/v1.4.1...v1.4.2) (2024-03-11)
 
-
 ### Bug Fixes
 
-* `useSubscribe` subscribing to a field under a dynamic array form ([8fc9265](https://github.com/easy-form/react-form-simple/commit/8fc9265d83d96d80955f3c77e5eb46c189d4758b))
-
+- `useSubscribe` subscribing to a field under a dynamic array form ([8fc9265](https://github.com/easy-form/react-form-simple/commit/8fc9265d83d96d80955f3c77e5eb46c189d4758b))
 
 ### Features
 
-* adjusts the priority of the value attribute passed by `defineProps` ([ef2ae3b](https://github.com/easy-form/react-form-simple/commit/ef2ae3bb966c61014be55094f41ae99801342b79))
-
-
+- adjusts the priority of the value attribute passed by `defineProps` ([ef2ae3b](https://github.com/easy-form/react-form-simple/commit/ef2ae3bb966c61014be55094f41ae99801342b79))
 
 ## [1.4.1](https://github.com/easy-form/react-form-simple/compare/v1.4.0...v1.4.1) (2024-02-05)
 
-
 ### Bug Fixes
 
-* deleting certain item values incorrectly in dynamic arrays ([dd7f8c3](https://github.com/easy-form/react-form-simple/commit/dd7f8c3419ea68287e87a5acd64f9816f07fdc97))
-
-
+- deleting certain item values incorrectly in dynamic arrays ([dd7f8c3](https://github.com/easy-form/react-form-simple/commit/dd7f8c3419ea68287e87a5acd64f9816f07fdc97))
 
 ## [1.4.0](https://github.com/easy-form/react-form-simple/compare/v1.3.9...v1.4.0) (2024-01-29)
 
-
 ### Bug Fixes
 
-* incorrect data display in dynamic forms ([de656d8](https://github.com/easy-form/react-form-simple/commit/de656d83328f158e49162cf9c2e92691ff698179))
-
+- incorrect data display in dynamic forms ([de656d8](https://github.com/easy-form/react-form-simple/commit/de656d83328f158e49162cf9c2e92691ff698179))
 
 ## [1.3.9](https://github.com/easy-form/react-form-simple/compare/v1.3.8...v1.3.9) (2024-01-28)
 

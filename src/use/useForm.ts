@@ -18,25 +18,18 @@ const useForm = <T extends Record<string, any>>(
   model: T,
   config?: UseFormNamespace.ShareConfig,
 ) => {
-  const proxyTarget = useRef(model || {});
+  const proxyTarget = useRef(cloneDeep(model) || {});
 
   const defaultValues = useRef<T>(cloneDeep(model) || {}).current;
-  const preValues = useRef<T>(model);
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
-
-  const { useWatch, watchInstance } = usePrivateWatch({ model });
-
-  // const forceUpdate = useForceUpdate();
 
   const debounceFn = useRef({
     watch: debounce(() => {
       watchInstance.emit();
     }),
     onChangeLength: debounce(() => {
-      preValues.current = cloneDeep(proxymodel);
-      replaceTarget(proxymodel, preValues.current);
-      // forceUpdate();
+      replaceTarget(proxymodel, proxymodel);
     }),
   }).current;
 
@@ -56,6 +49,8 @@ const useForm = <T extends Record<string, any>>(
   }).current;
 
   const proxymodel = useRef(_createObserverForm()).current;
+
+  const { useWatch, watchInstance } = usePrivateWatch({ model: proxymodel });
 
   const { subscribes, useSubscribe } = usePrivateSubscribe<T>({
     model: proxymodel as T,

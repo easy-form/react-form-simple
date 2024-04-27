@@ -25,7 +25,42 @@ export namespace UseFormNamespace {
       | 'requireIndicator'
       | 'label'
       | 'contextProps'
-    > {}
+    > {
+    /**
+     * @localKey API.useForm.deep.desc
+     * @description deep collection
+     * @default true
+     * @version 1.4.6
+     * @ignore true
+     */
+    deep?: boolean;
+  }
+
+  export type RenderConfigTypes = GlobalProps.FormItemProps & {
+    /**
+     * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
+     */
+    key?: any;
+    /**
+     * @resetType Function
+     * @description It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.
+     * @localKey API.useForm.render.args.config.defineProps
+     */
+    defineProps?: (
+      options: GlobalProps.GetContentOptions,
+    ) => Record<
+      string,
+      GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions] | any
+    >;
+    /**
+     * @localKey API.useForm.deep.desc
+     * @description deep collection
+     * @default true
+     * @version 1.4.6
+     * @ignore true
+     */
+    deep?: boolean;
+  };
 
   /**
    * useForm Return value type
@@ -41,24 +76,7 @@ export namespace UseFormNamespace {
      */
     render: (
       bindId: any,
-      config?: GlobalProps.FormItemProps & {
-        /**
-         * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
-         */
-        key?: any;
-        /**
-         * @resetType Function
-         * @description It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.
-         * @localKey API.useForm.render.args.config.defineProps
-         */
-        defineProps?: (
-          options: GlobalProps.GetContentOptions,
-        ) => Record<
-          string,
-          | GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions]
-          | any
-        >;
-      },
+      config?: RenderConfigTypes,
     ) => (parameter: ReactNode) => ReactNode;
     /**
      * This method is used when the user needs to subscribe to the latest value of the form value
@@ -74,7 +92,7 @@ export namespace UseFormNamespace {
      * The user listens for a change in the value of a form
      * @description A hook for observing changes in form data. Receive two functions, the first function returns the model data that needs to be observed, and the second parameter is the callback executed when the observed model data changes. If you want to observe multiple data, the first function needs to return an array. Allows returning a string if only one is observed. The second function will return two callback parameters. The first parameter is the value after the change, and the second parameter is the value before the change. The returned parameter type will be based on the return value type of the first function. If If a function returns a string, the type of the callback parameter will also be value, otherwise it will be an array.
      * @localKey API.useForm.useWatch.desc
-     * @resetType useWatch(() => string | string[], (value, preValue) => void)
+     * @resetType useWatch(() => string | string[], (value, preValue) => void, effect?: any[] = [])
      */
     useWatch: UseWatchNamespace.UseWatch<T>;
     /**
