@@ -23,56 +23,67 @@ export type ObserverCb = { path: string; value: any };
 
 export const toTarget = (proxy: any) => cloneDeep(proxy);
 
-interface ProxyObject {
-  [key: string]: any;
+function isPureJSONSerializable(value: any): boolean {
+  return (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
+    (Array.isArray(value) && value.every(isPureJSONSerializable)) ||
+    (isObject(value) && Object.values(value).every(isPureJSONSerializable))
+  );
 }
+
 export const replaceTarget = (proxyObject: any, values: any) => {
-  if (!isObject(values)) return proxyObject;
-  function setNestedValue(obj: ProxyObject, keys: string[], value: any): void {
-    const lastKey = keys.pop();
+  if (!isObject(proxyObject) || !isObject(values)) return proxyObject;
+
+  function setValue(obj: any, keys: string[], value: any): void {
+    const lastKey = keys.pop() as string | number;
     let currentObj = obj;
 
     keys.forEach((key) => {
-      if (!currentObj[key] || typeof currentObj[key] !== 'object') {
-        currentObj[key] = {};
-      }
       currentObj = currentObj[key];
-    });
-
-    currentObj[lastKey as string] = value;
-  }
-
-  function processArray(obj: ProxyObject, value: any[], path: string[]): void {
-    obj[path[0]] = value.map((item) => {
-      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
-        const nestedObj: ProxyObject = {};
-        processValues(nestedObj, item);
-        return nestedObj;
+      if (!currentObj) {
+        throw new Error(`Property not found: ${keys.join('.')}`);
       }
-      return item;
     });
+
+    if (isPureJSONSerializable(value)) {
+      if (Array.isArray(value)) {
+        currentObj[lastKey] = value.map((item) => {
+          if (isObject(item)) {
+            const nestedObj: any = {};
+            processValues(nestedObj, item);
+            return nestedObj;
+          }
+          return item;
+        });
+      } else if (isObject(value)) {
+        processValues(currentObj[lastKey], value);
+      } else {
+        currentObj[lastKey] = value;
+      }
+    } else {
+      currentObj[lastKey] = value;
+    }
   }
 
   function processValues(
-    obj: ProxyObject,
+    obj: any,
     values: Record<string, any>,
     currentPath: string[] = [],
   ): void {
     for (const [key, value] of Object.entries(values)) {
       const path = [...currentPath, key];
-
-      if (Array.isArray(value)) {
-        processArray(obj, value, path);
-      } else if (typeof value === 'object' && value !== null) {
-        processValues(obj, value, path);
+      if (isObject(value)) {
+        setValue(obj, path, value);
       } else {
-        setNestedValue(obj, path, value);
+        setValue(obj, path, value);
       }
     }
   }
 
   processValues(proxyObject, values);
-
   return proxyObject;
 };
 

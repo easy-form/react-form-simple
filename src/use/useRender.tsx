@@ -19,7 +19,7 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
     singleConfig,
   ) => {
     const mergeConfig = { ...config, ...singleConfig };
-    const { model, contextProps, defineProps, ...rests } = mergeConfig;
+    const { model, contextProps, defineProps, deep, ...rests } = mergeConfig;
 
     const defaultValue = getProxyValue(defaultValues, bindId);
     const value = getProxyValue(model, bindId);
@@ -43,6 +43,7 @@ export const useRender = (config: UseRenderNamespace.UseRenderOptions) => {
                 otherProps={{
                   'data-form-simple-test-id': bindId,
                 }}
+                deep={deep}
               >
                 {reactNode}
               </Controller>

@@ -26,13 +26,14 @@ export namespace UseFormNamespace {
       | 'label'
       | 'contextProps'
     > {
-    // /**
-    //  * @localKey API.useForm.deep.desc
-    //  * @description deep collection
-    //  * @default true
-    //  * @version 1.4.6
-    //  */
-    // deep?: boolean;
+    /**
+     * @localKey API.useForm.deep.desc
+     * @description deep collection
+     * @default true
+     * @version 1.4.6
+     * @ignore true
+     */
+    deep?: boolean;
   }
 
   export type RenderConfigTypes = GlobalProps.FormItemProps & {
@@ -51,13 +52,14 @@ export namespace UseFormNamespace {
       string,
       GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions] | any
     >;
-    // /**
-    //  * @localKey API.useForm.deep.desc
-    //  * @description deep collection
-    //  * @default true
-    //  * @version 1.4.6
-    //  */
-    // deep?: boolean;
+    /**
+     * @localKey API.useForm.deep.desc
+     * @description deep collection
+     * @default true
+     * @version 1.4.6
+     * @ignore true
+     */
+    deep?: boolean;
   };
 
   /**

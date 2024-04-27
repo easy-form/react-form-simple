@@ -3,7 +3,7 @@
     "defaultValue": null,
     "name": "render",
     "type": {
-      "name": "(bindId: any, config?: ({ rules?: Rules; bindId?: any; onError?: ((msg: string, name?: string | undefined) => void) | undefined; customErrTips?: boolean | undefined; defaultValue?: any; ... 4 more ...; initialValue?: any; } & FormShareProps & { ...; }) | undefined) => (parameter: ReactNode) => ReactNode"
+      "name": "(bindId: any, config?: RenderConfigTypes | undefined) => (parameter: ReactNode) => ReactNode"
     },
     "tags": {
       "description": "The form item rendering function accepts two parameters, the first parameter is the form item field, and the second parameter is the form item configuration.",
@@ -32,7 +32,7 @@
     "tags": {
       "description": "A hook for observing changes in form data. Receive two functions, the first function returns the model data that needs to be observed, and the second parameter is the callback executed when the observed model data changes. If you want to observe multiple data, the first function needs to return an array. Allows returning a string if only one is observed. The second function will return two callback parameters. The first parameter is the value after the change, and the second parameter is the value before the change. The returned parameter type will be based on the return value type of the first function. If If a function returns a string, the type of the callback parameter will also be value, otherwise it will be an array.",
       "localKey": "API.useForm.useWatch.desc",
-      "resetType": "useWatch(() => string | string[], (value, preValue) => void)"
+      "resetType": "useWatch(() => string | string[], (value, preValue) => void, effect?: any[] = [])"
     }
   },
   "model": {
@@ -64,7 +64,7 @@
     "defaultValue": null,
     "name": "forceUpdate",
     "type": {
-      "name": "() => void"
+      "name": "(delay?: boolean | undefined) => void"
     },
     "tags": {
       "description": "Manually re-render the view. If you need to re-render the view externally, you can call setState to re-render the current component tree.",
