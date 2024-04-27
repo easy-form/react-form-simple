@@ -188,7 +188,7 @@ describe.concurrent('dymic form', () => {
       }>({ list: [] });
       const renderMapList = model.list.map((v, index) => {
         return (
-          <div id={v.uid}>
+          <div key={v.uid} id={v.uid}>
             {render(`list.${index}.value`)(
               <input id={`dymic-${index}-input`} />,
             )}
@@ -263,7 +263,7 @@ describe.concurrent('dymic form', () => {
           </button>
         );
         return (
-          <div id={v.uid}>
+          <div id={v.uid} key={v.uid}>
             {render(`list.${index}.value`)(
               <input id={`dymic-remove-${index}-input`} />,
             )}
@@ -304,12 +304,12 @@ describe.concurrent('dymic form', () => {
 
     const demoRef = React.createRef() as any;
 
-    const { container, unmount } = testRender(<TestDemo ref={demoRef} />);
+    const { container } = testRender(<TestDemo ref={demoRef} />);
     const addItem = (count: number = 1) => {
       const button = container.querySelector(
         '#dymic-remove-add-button',
       ) as HTMLButtonElement;
-      Array.from({ length: count }, (x, y) => y).forEach((v) => {
+      Array.from({ length: count }, (x, y) => y).forEach(() => {
         button.click();
       });
     };
@@ -410,13 +410,13 @@ describe.concurrent('dymic form', () => {
   });
 
   test('assignment', async () => {
-    const TestDemo = React.forwardRef((props, ref) => {
+    const TestDemo = React.forwardRef(({}, ref) => {
       const { render, model, forceUpdate } = useForm<{
         list: Array<{ uid: string; value: string }>;
       }>({ list: [] });
       const renderMapList = model.list.map((v, index) => {
         return (
-          <div id={v.uid}>
+          <div id={v.uid} key={v.uid}>
             {render(`list.${index}.value`)(
               <input id={`dymic-assignment-${index}-input`} />,
             )}

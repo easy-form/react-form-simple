@@ -7,9 +7,9 @@ import { isEqual } from 'react-form-simple/utils/util';
 export function usePrivateWatch<T>(options: { model: T }) {
   const { model } = options;
   const watchInstance = useControllerRef({
-    datas: [] as Array<{ cb: UseWatchNamespace.WatchChangeCb; key: Symbol }>,
+    datas: [] as Array<{ cb: UseWatchNamespace.WatchChangeCb; key: symbol }>,
     ret: new WeakMap(),
-    set(cb: UseWatchNamespace.WatchChangeCb, key: Symbol) {
+    set(cb: UseWatchNamespace.WatchChangeCb, key: symbol) {
       const haveIndex = this.getInstanceIndex(key);
       if (haveIndex >= 0) {
         this.datas[haveIndex].cb = cb;
@@ -24,10 +24,10 @@ export function usePrivateWatch<T>(options: { model: T }) {
       const watchFuns = this.get();
       watchFuns.forEach((watch) => void watch.cb?.(options));
     },
-    getInstanceIndex(key: Symbol) {
+    getInstanceIndex(key: symbol) {
       return this.get().findIndex((v) => v.key === key);
     },
-    delete(key: Symbol) {
+    delete(key: symbol) {
       const index = this.getInstanceIndex(key);
       if (index >= 0) {
         this.datas.splice(index, 1);
