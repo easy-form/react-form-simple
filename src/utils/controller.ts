@@ -61,10 +61,14 @@ export const replaceTarget = (proxyObject: any, values: any) => {
       } else if (isObject(value)) {
         processValues(currentObj[lastKey], value);
       } else {
-        currentObj[lastKey] = value;
+        if (isObject(currentObj)) {
+          currentObj[lastKey] = value;
+        }
       }
     } else {
-      currentObj[lastKey] = value;
+      if (isObject(currentObj)) {
+        currentObj[lastKey] = value;
+      }
     }
   }
 
