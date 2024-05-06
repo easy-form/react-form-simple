@@ -24,6 +24,11 @@ const useForm = <T extends Record<string, any>>(
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
 
+  const globalMaps = useRef({
+    proxyMap: new WeakMap(),
+    rawMap: new WeakMap(),
+  });
+
   const debounceFn = useRef({
     watch: debounce(() => {
       watchInstance.emit();
@@ -44,6 +49,8 @@ const useForm = <T extends Record<string, any>>(
       {
         path: [],
         onChangeLength: debounceFn.onChangeLength,
+        rawMap: globalMaps.current.rawMap,
+        proxyMap: globalMaps.current.proxyMap,
       },
     );
   }).current;
