@@ -14,8 +14,8 @@ const Proxys = window.Proxy || proxyPolyfill;
 
 export type ObserverOptions = {
   path?: string[];
-  proxyMap?: WeakMap<object, any>;
-  rawMap?: WeakMap<object, any>;
+  proxyMap: WeakMap<object, any>;
+  rawMap: WeakMap<object, any>;
   onChangeLength?: () => void;
 };
 
@@ -136,7 +136,21 @@ export const observer = <T extends object>(
   cb?: (args: ObserverCb) => void,
   options?: ObserverOptions,
 ): T => {
-  const { path = [], onChangeLength } = options || {};
+  const {
+    path = [],
+    onChangeLength,
+    proxyMap,
+    rawMap,
+  } = (options || {}) as ObserverOptions;
+
+  const existingProxy = proxyMap.get(initialVal);
+  if (existingProxy) {
+    return existingProxy;
+  }
+
+  if (rawMap.has(initialVal)) {
+    return initialVal;
+  }
 
   const proxy = new Proxys(initialVal, {
     get(target, key, receiver) {
@@ -144,7 +158,7 @@ export const observer = <T extends object>(
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
         ? observer(ret as T, cb, {
-            ...options,
+            ...(options as ObserverOptions),
             path: [...path, key.toString()],
           })
         : ret;
@@ -192,7 +206,7 @@ export const createControllerObserver = <T extends object>(
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
         ? createControllerObserver(ret as T, cb, {
-            ...options,
+            ...(options as ObserverOptions),
             path: [...path, key.toString()],
           })
         : ret;
