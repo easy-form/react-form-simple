@@ -206,7 +206,7 @@ export const createControllerObserver = <T extends object>(
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
         ? createControllerObserver(ret as T, cb, {
-            ...options,
+            ...(options as ObserverOptions),
             path: [...path, key.toString()],
           })
         : ret;
