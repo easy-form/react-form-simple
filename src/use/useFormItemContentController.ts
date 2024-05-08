@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
-import { useController } from 'react-form-simple/use/useController';
 import useForceUpdate from 'react-form-simple/use/useForceUpdate';
 import { FormUtil } from 'react-form-simple/utils/FormUtil';
 import {
@@ -62,9 +61,7 @@ export function useFormItemContentController(
 
   formUtil.replace({ model: modelValue.current });
 
-  const status = useController({ isError: false });
-
-  const { isError } = status;
+  const isError = useRef(false);
 
   const isInitSubscribeEvent = useRef(true);
 
@@ -73,7 +70,10 @@ export function useFormItemContentController(
       methods.set(value);
     });
     subscribe.on('onErr', (value) => {
-      status.isError = isMeaningful(value);
+      if (isError.current !== isMeaningful(value)) {
+        forceUpdate(false);
+      }
+      isError.current = isMeaningful(value);
     });
     isInitSubscribeEvent.current = false;
   }
@@ -82,14 +82,14 @@ export function useFormItemContentController(
     if (bindId !== preBindId.current) {
       modelValue.current = convertStringToObject(bindId, initialValue);
       preBindId.current = bindId;
-      forceUpdate(false)
+      forceUpdate(false);
     }
   }, [bindId]);
 
   const methods = {
     set(value: any) {
       updateProxyValue(modelValue.current, preBindId.current as string, value);
-      forceUpdate(false)
+      forceUpdate(false);
     },
   };
 
@@ -112,7 +112,7 @@ export function useFormItemContentController(
         value,
         checked: Boolean(value),
       },
-      isError,
+      isError: isError.current,
       ...apis,
     }) || null;
 
