@@ -31,6 +31,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     }),
     bindId,
     rules: [] as GlobalRules.Rules,
+    errorText: '',
   });
 
   globalDatas.bindId = bindId;
@@ -63,6 +64,9 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     () => ({
       each() {
         let shareErrRet = null;
+        if (isMeaningful(globalDatas.errorText)) {
+          return globalDatas.errorText;
+        }
         const _rules = formUtil.getRules();
         if (isArray(_rules)) {
           for (let r of _rules) {
@@ -136,6 +140,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
       formUtil.setRules(globalDatas.rules);
     },
     setError(err: any) {
+      globalDatas.errorText = err;
       formUtil.updateErr(err);
     },
     setValue(value: any) {
