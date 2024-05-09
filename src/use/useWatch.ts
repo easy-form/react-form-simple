@@ -69,12 +69,6 @@ export function usePrivateWatch<T>(options: { model: T }) {
       };
     }, []);
   };
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     watchInstance.emit({ isInitEmit: true });
-  //   });
-  // }, []);
   return { useWatch, watchInstance };
 }
 
