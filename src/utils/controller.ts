@@ -14,8 +14,8 @@ const Proxys = window.Proxy || proxyPolyfill;
 
 export type ObserverOptions = {
   path?: string[];
-  proxyMap?: WeakMap<object, any>;
-  rawMap?: WeakMap<object, any>;
+  proxyMap: WeakMap<object, any>;
+  rawMap: WeakMap<object, any>;
   onChangeLength?: () => void;
 };
 
@@ -23,67 +23,68 @@ export type ObserverCb = { path: string; value: any };
 
 export const toTarget = (proxy: any) => cloneDeep(proxy);
 
-function isPureJSONSerializable(value: any): boolean {
-  return (
-    value === null ||
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    typeof value === 'boolean' ||
-    (Array.isArray(value) && value.every(isPureJSONSerializable)) ||
-    (isObject(value) && Object.values(value).every(isPureJSONSerializable))
-  );
+interface ProxyObject {
+  [key: string]: any;
 }
 
-export const replaceTarget = (proxyObject: any, values: any) => {
-  if (!isObject(proxyObject) || !isObject(values)) return proxyObject;
+const isSkippableType = (value: any) =>
+  value instanceof Date || value instanceof Blob || value instanceof File;
 
-  function setValue(obj: any, keys: string[], value: any): void {
-    const lastKey = keys.pop() as string | number;
+export const replaceTarget = (proxyObject: any, values: any) => {
+  if (!isObject(values)) return proxyObject;
+  function setNestedValue(obj: ProxyObject, keys: string[], value: any): void {
+    const lastKey = keys.pop();
     let currentObj = obj;
 
     keys.forEach((key) => {
-      currentObj = currentObj[key];
-      if (!currentObj) {
-        throw new Error(`Property not found: ${keys.join('.')}`);
+      if (!currentObj[key] || typeof currentObj[key] !== 'object') {
+        currentObj[key] = {};
       }
+      currentObj = currentObj[key];
     });
 
-    if (isPureJSONSerializable(value)) {
-      if (Array.isArray(value)) {
-        currentObj[lastKey] = value.map((item) => {
-          if (isObject(item)) {
-            const nestedObj: any = {};
-            processValues(nestedObj, item);
-            return nestedObj;
-          }
-          return item;
-        });
-      } else if (isObject(value)) {
-        processValues(currentObj[lastKey], value);
-      } else {
-        currentObj[lastKey] = value;
+    currentObj[lastKey as string] = value;
+  }
+
+  function processArray(obj: ProxyObject, value: any[], path: string[]): void {
+    obj[path[0]] = value.map((item) => {
+      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+        const nestedObj: ProxyObject = {};
+        processValues(nestedObj, item);
+        return nestedObj;
       }
-    } else {
-      currentObj[lastKey] = value;
-    }
+      return item;
+    });
   }
 
   function processValues(
-    obj: any,
+    obj: ProxyObject,
     values: Record<string, any>,
     currentPath: string[] = [],
   ): void {
     for (const [key, value] of Object.entries(values)) {
       const path = [...currentPath, key];
-      if (isObject(value)) {
-        setValue(obj, path, value);
+
+      if (Array.isArray(value)) {
+        processArray(obj, value, path);
+      } else if (typeof value === 'object' && value !== null) {
+        if (isSkippableType(value)) {
+          setNestedValue(obj, path, value);
+        } else {
+          if (Object.keys(value).length === 0) {
+            setNestedValue(obj, path, { ...value });
+          } else {
+            processValues(obj, value, path);
+          }
+        }
       } else {
-        setValue(obj, path, value);
+        setNestedValue(obj, path, value);
       }
     }
   }
 
   processValues(proxyObject, values);
+
   return proxyObject;
 };
 
@@ -135,7 +136,21 @@ export const observer = <T extends object>(
   cb?: (args: ObserverCb) => void,
   options?: ObserverOptions,
 ): T => {
-  const { path = [], onChangeLength } = options || {};
+  const {
+    path = [],
+    onChangeLength,
+    proxyMap,
+    rawMap,
+  } = (options || {}) as ObserverOptions;
+
+  const existingProxy = proxyMap.get(initialVal);
+  if (existingProxy) {
+    return existingProxy;
+  }
+
+  if (rawMap.has(initialVal)) {
+    return initialVal;
+  }
 
   const proxy = new Proxys(initialVal, {
     get(target, key, receiver) {
@@ -143,7 +158,7 @@ export const observer = <T extends object>(
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
         ? observer(ret as T, cb, {
-            ...options,
+            ...(options as ObserverOptions),
             path: [...path, key.toString()],
           })
         : ret;
@@ -191,7 +206,7 @@ export const createControllerObserver = <T extends object>(
       if (React.isValidElement(ret)) return ret;
       return isObjectOrArray(ret)
         ? createControllerObserver(ret as T, cb, {
-            ...options,
+            ...(options as ObserverOptions),
             path: [...path, key.toString()],
           })
         : ret;
