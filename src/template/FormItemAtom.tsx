@@ -15,16 +15,13 @@ import '../style/form.css';
 type FormItemProps = GlobalProps.FormItemProps;
 
 export const RequireIndicator = React.memo(
-  (props: { requireIndicator?: FormItemProps['requireIndicator'] }) => {
+  (props: { requireIndicator?: any }) => {
     const { requireIndicator } = props;
-
+    if (!requireIndicator) return null;
     if (requireIndicator === true) {
       return <span className="react-form-simple-indicator">*</span>;
     }
-    if (requireIndicator) {
-      return requireIndicator;
-    }
-    return null;
+    return requireIndicator;
   },
 );
 
