@@ -3,12 +3,14 @@
     "defaultValue": null,
     "name": "render",
     "type": {
-      "name": "(bindId: any, config?: RenderConfigTypes | undefined) => (parameter: ReactNode) => ReactNode"
+      "name": "(bindId: any, config?: RenderConfigTypes | undefined) => (parameter: RenderReturnFnArgTypes) => ReactNode"
     },
     "tags": {
+      "infoTitle": "Render Config",
+      "infoPath": "docs_apiDemos_renderConfig",
       "description": "The form item rendering function accepts two parameters, the first parameter is the form item field, and the second parameter is the form item configuration.",
       "localKey": "API.useForm.render.desc",
-      "resetType": "(bindId: any, [config]) => (parameter: ReactNode) => ReactNode"
+      "resetType": "(bindId: any, [config]) => (parameter: ReactNode | (args: RenderFnReturnFnCallbackArgTypes) => ReactNode) => ReactNode"
     }
   },
   "useSubscribe": {

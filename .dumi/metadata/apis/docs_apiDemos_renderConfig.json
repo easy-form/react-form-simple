@@ -313,5 +313,19 @@
       "localKey": "API.form.global.props.form.share.noStyle",
       "version": "1.5.1"
     }
+  },
+  "defineProps": {
+    "defaultValue": null,
+    "name": "defineProps",
+    "type": {
+      "name": "((options: GetContentOptions) => Record<string, any>)"
+    },
+    "tags": {
+      "resetType": "(args: Args) => Props",
+      "description": "It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.",
+      "localKey": "API.useForm.render.args.config.defineProps",
+      "infoTitle": "Args Type",
+      "infoPath": "docs_apiDemos_getContent"
+    }
   }
 }

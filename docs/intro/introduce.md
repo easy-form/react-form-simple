@@ -36,7 +36,7 @@ The code below is a simple example of a controlled form
 The style of the control is based on the document, not the built-in style of **react-form-simple**. **react-form-simple** does not care about the style of the control.
 :::
 
-## <Mdh>Controlled input</Mdh>
+## <Mdh>Controlled Input</Mdh>
 
 It only takes two lines of code to create a controlled form item. The following example shows the usage of useForm. And after 2 seconds of loading, change the value of the input box.
 
@@ -45,7 +45,18 @@ The _model_ form model data exposed by useForm is always up to date. This variab
 See more _render_ configurations<a href="/intro/api#useform">useForm parameters</a>
 <code src="../demos/_controller.tsx"></code>
 
-## <Mdh>Subscribe values</Mdh>
+## <Mdh version="1.5.1">Function Controlled</Mdh>
+
+Using function-based controls, you can more flexibly organize the controlled logic of form items, which is very useful when customizing form items or when you need to manually process or manage certain states.
+
+Function-based control is supported in `1.5.1` versions (including `1.5.1`).
+<code src="../demos/_controller_fn.tsx"></code>
+。
+:::info{title=info}
+After passing _attrs_ to the controlled component, the behavior of function-based control and component-based direct control will be exactly the same. The difference is that function-based control can be more precise and customized. set up. Print restOptions View more APIs.
+:::
+
+## <Mdh>Subscribe Values</Mdh>
 
 Use _useSubscribe_ to subscribe to a form item or the value of an entire form. This will render the subscribed value in the view in real time. However, it is not recommended to subscribe in the parent component, because this will cause the entire rendering tree to be updated. The recommended approach is to only use it where subscription is needed. It can be transparently transmitted through props, or it can be injected into global state management.
 
@@ -58,7 +69,7 @@ Use _useWatch_ to monitor form changes.
 For more introduction, please see <a href="/intro/api#useform">useForm</a>
 <code src="../demos/_watch.tsx"></code>
 
-## <Mdh>Form validation</Mdh>
+## <Mdh>Form Validation</Mdh>
 
 Pass in the _rules_ verification rules to verify the form items.
 
@@ -95,7 +106,7 @@ Similarly, the name form item is passed a check that it is not empty. When the v
 
 <code src="../demos/_ui_antd.tsx"></code>
 
-## <Mdh>Dynamic form</Mdh>
+## <Mdh>Dynamic Form</Mdh>
 
 Implement dynamic forms by directly assigning values to the array and then calling the _forceUpdate_ method to manually refresh the view. The purpose of calling the _forceUpdate_ method is that directly changing the model's data will not cause the view to re-render outside the form.
 <code src="../demos/_dymic.tsx"></code>

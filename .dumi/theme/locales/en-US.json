@@ -46,6 +46,7 @@
   "API.form.global.props.GetContentOptions.model.desc": "The form model data of the current form item only contains the value of the current form item. This value is controllable and can directly trigger the re-rendering of the current form item through model[bindId]=xxx. If you need to use more form fields, please use the model exposed by useForm or useSubscribe subscription fields.",
   "API.form.global.props.GetContentOptions.bindId.desc": "The form field for the current form item.",
   "API.form.global.props.GetContentOptions.isError.desc": "The verification status of the current form item. It is true if the verification fails.",
+  "API.form.global.props.GetContentOptions.errorMessage.desc": "Error message when the current form item verification fails",
   "API.form.global.props.GetContentOptions.attrs.desc": "The basic properties of the control. During form item rendering, the above properties will be passed to your UI control. If your UI control is not based on these properties, please use FormItem to encapsulate your UI.",
   "API.form.global.props.ApiEffectOptions.uid.desc": "The current form item uid.",
   "API.form.global.props.ApiEffectOptions.refreshValue.desc": "Manually refresh the value inside the form item.",
@@ -71,6 +72,7 @@
   "API.form.global.props.form.share.readOnlyText": "Customize the content displayed in the read-only state and receive a function or a static value. If the value changes dynamically, it is recommended to use a function.",
   "API.form.global.props.form.share.initialValue": "The initial value of the form item, used for the first rendering during form item initialization.",
   "API.form.global.props.form.share.formatChangeValue": "Format the value of the control. The internal form item of react-form-simple defaults to the value in the standard event object, that is, <strong>e.target.value</strong>. If your control does this What is returned by one layer of encapsulation is not a standard event object. This method needs to be passed in. The value of the react-form-simple form item will get the return value of this method.<div>usage: <a href='/intro/introduce#third-party-ui'>Third-party UI</a></div>",
+  "API.form.global.props.form.share.noStyle": "Whether the form item style is required. If true, the current form item does not contain any style.",
   "API.form.global.props.form.formStyle": "Form style supports object nested writing.",
   "API.form.global.props.form.formClass": "Form container class name.",
   "API.form.global.props.form.direction": "Overall form layout direction.",
@@ -79,7 +81,7 @@
   "API.form.global.props.formItem.onError": "Callback function when form item verification fails.",
   "API.form.global.props.formItem.customErrTips": "Whether to customize error message prompts. If true, the form item will not display error messages by default. will be handled externally.",
   "API.form.global.props.formItem.defaultValue": "The default value displayed in the form item content. Only when this value exists during reset can the current form item be reset. When using useForm, defaultValue is used by default internally. You can override it by passing defaultValue when calling render. When using the FormItem component, you need to pass it in manually.",
-  "API.form.global.props.formItem.requireIndicator": "Form item required indicator.",
+  "API.form.global.props.formItem.requireIndicator": "Form item required indicator. The default is *. Versions after 1.5.1 include 1.5.1 support for passing in custom components.",
   "API.form.global.props.formItem.label": "Form item label.",
   "API.form.global.props.formItem.getContent": "When using the FormItem component to create a controlled form item, you need to pass in this method, which returns the content that needs to be rendered. The parameters of getContent include the form item's API, the form item's model data, verification status, and attrs that conform to native attributes. Developers can perform corresponding logical processing on these parameters. In the form item API returned by the parameter, developers can directly call it to trigger the corresponding event of the form item to achieve more precise and detailed control."
 }
