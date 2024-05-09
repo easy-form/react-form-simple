@@ -8,7 +8,6 @@ import {
   updateProxyValue,
 } from 'react-form-simple/utils/controller';
 import { useContextApi } from './useContextApi';
-// import useForceUpdate from './useForceUpdate';
 import { useFormExtraApis } from './useFormExtraApis';
 import { useRender } from './useRender';
 import { usePrivateSubscribe } from './useSubscribe';
@@ -23,6 +22,11 @@ const useForm = <T extends Record<string, any>>(
   const defaultValues = useRef<T>(cloneDeep(model) || {}).current;
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
+
+  const globalMaps = useRef({
+    proxyMap: new WeakMap(),
+    rawMap: new WeakMap(),
+  });
 
   const debounceFn = useRef({
     watch: debounce(() => {
@@ -44,6 +48,8 @@ const useForm = <T extends Record<string, any>>(
       {
         path: [],
         onChangeLength: debounceFn.onChangeLength,
+        rawMap: globalMaps.current.rawMap,
+        proxyMap: globalMaps.current.proxyMap,
       },
     );
   }).current;

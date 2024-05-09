@@ -39,12 +39,15 @@ export namespace UseFormNamespace {
   export type RenderConfigTypes = GlobalProps.FormItemProps & {
     /**
      * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
+     * @ignore true
      */
     key?: any;
     /**
-     * @resetType Function
+     * @resetType (args: Args) => Props
      * @description It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.
      * @localKey API.useForm.render.args.config.defineProps
+     * @infoTitle Args Type
+     * @infoPath docs_apiDemos_getContent
      */
     defineProps?: (
       options: GlobalProps.GetContentOptions,
@@ -62,6 +65,15 @@ export namespace UseFormNamespace {
     deep?: boolean;
   };
 
+  export interface RenderFnReturnFnCallbackArgTypes
+    extends GlobalProps.GetContentOptions {
+    props: any;
+  }
+
+  export type RenderReturnFnArgTypes =
+    | ReactNode
+    | ((args: RenderFnReturnFnCallbackArgTypes) => ReactNode);
+
   /**
    * useForm Return value type
    * This can be exposed to the user for use
@@ -70,14 +82,17 @@ export namespace UseFormNamespace {
   export type UseFormReturnType<T = null> = {
     /**
      * Render form item contents method, this is used by the user
+     * @infoTitle Render Config
+     * @infoPath docs_apiDemos_renderConfig
      * @description The form item rendering function accepts two parameters, the first parameter is the form item field, and the second parameter is the form item configuration.
      * @localKey API.useForm.render.desc
-     * @resetType (bindId: any, [config]) => (parameter: ReactNode) => ReactNode
+     * @resetType (bindId: any, [config]) => (parameter: ReactNode | (args: RenderFnReturnFnCallbackArgTypes) => ReactNode) => ReactNode
      */
     render: (
       bindId: any,
       config?: RenderConfigTypes,
-    ) => (parameter: ReactNode) => ReactNode;
+    ) => (parameter: RenderReturnFnArgTypes) => ReactNode;
+
     /**
      * This method is used when the user needs to subscribe to the latest value of the form value
      * @description Subscribe to hooks for form items or the entire form. Receives a function whose return parameter is the latest model data of the form. The return value is the data that needs to be subscribed.

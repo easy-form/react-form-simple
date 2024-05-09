@@ -206,6 +206,12 @@ export namespace GlobalProps {
      */
     isError: boolean;
     /**
+     * @localKey API.form.global.props.GetContentOptions.errorMessage.desc
+     * @description Error message when the current form item verification fails
+     * @version 1.5.1
+     */
+    errorMessage: ReactNode;
+    /**
      * @infoTitle attrs parameters
      * @resetType Object
      * @infoPath docs_apiDemos_getContentAttrs
@@ -367,6 +373,12 @@ export namespace GlobalProps {
      * @description The value of the formatted control
      */
     formatChangeValue?: (event: Event) => any;
+    /**
+     * @localKey API.form.global.props.form.share.noStyle
+     * @default false
+     * @version 1.5.1
+     */
+    noStyle?: boolean;
   };
 
   /**
@@ -430,8 +442,9 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.formItem.requireIndicator
      * @description Form item required indicator
      * @default *
+     * @resetType boolean | ReactNode
      */
-    requireIndicator?: boolean;
+    requireIndicator?: boolean | ReactNode;
     /**
      * @ignore true
      */
@@ -445,7 +458,7 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.formItem.getContent
      * @resetType (options: Options) => ReactNode
      * @infoPath docs_apiDemos_getContent
-     * @infoTitle getContent parameters
+     * @infoTitle Options Types
      * @description When using the FormItem component to create a controlled form item, you need to pass in this method, which returns the content that needs to be rendered. The parameters of getContent include the API of the form item, the model data of the form item, the verification status, and the attrs that match the native attributes.
      */
     getContent?: (options: GetContentOptions) => ReactNode;
