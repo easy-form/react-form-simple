@@ -1,5 +1,4 @@
 import React, { useEffect, useImperativeHandle } from 'react';
-import useControllerRef from 'react-form-simple/use/useController';
 
 import type { Apis, GlobalProps } from 'react-form-simple/types/form';
 
@@ -7,12 +6,11 @@ import {
   FormItemContent,
   FormItemErrorTxt,
   FormItemLabel,
+  HaveStyleFormItemWrap,
 } from './FormItemAtom';
 
 import { useDataContext } from './DataProvide';
 
-import { getCssInClasses } from 'react-form-simple/utils/util';
-import '../style/form.css';
 import { useFormItemController } from '../use/useFormItemController';
 
 export const FormItem = React.forwardRef<
@@ -26,17 +24,12 @@ export const FormItem = React.forwardRef<
   const assigns = { ...restContextProps, ...restProps };
 
   const {
-    labelPosition = 'row',
+    labelPosition,
     labelWidth,
     labelStyle,
     labelClassName,
     errorStyle,
     errorClassName,
-    formItemStyle,
-    formItemClassName,
-    contentStyle,
-    contentClassName,
-    fullWidth,
     bindId,
     label,
     customErrTips = false,
@@ -47,6 +40,7 @@ export const FormItem = React.forwardRef<
     defaultValue,
     initialValue,
     formatChangeValue,
+    noStyle,
   } = assigns;
 
   const { mounted, destroy, apiEffect, updated } = contextProps || {};
@@ -129,45 +123,25 @@ export const FormItem = React.forwardRef<
     />
   );
 
-  const { labelPositionMap } = useControllerRef({
-    labelPositionMap: new Map([
-      ['row', 'react-form-simple-form-item-row'],
-      ['top', 'react-form-simple-form-item-top'],
-    ]),
-  });
-
-  const classes = getCssInClasses(
-    [
-      'react-form-simple-form-item',
-      formItemClassName as string,
-      labelPositionMap.get(labelPosition) as string,
-    ],
-    formItemStyle,
-  );
-
-  const contentClasses = getCssInClasses(
-    ['react-form-simple-content', contentClassName as string],
-    contentStyle,
-  );
-
-  return (
-    <div
-      className={classes}
-      style={{
-        ...(fullWidth
-          ? {
-              width: '100%',
-              minWidth: '100%',
-            }
-          : {}),
-      }}
-    >
+  const renderNoStyleWrap = (
+    <>
       {renderFormItemLabel}
-      <div className={contentClasses}>
-        {renderFormItemContent}
-        {renderFormItemErrorTxt}
-      </div>
-    </div>
+      {renderFormItemContent}
+      {renderFormItemErrorTxt}
+    </>
+  );
+
+  return noStyle ? (
+    renderNoStyleWrap
+  ) : (
+    <HaveStyleFormItemWrap
+      {...assigns}
+      componentNode={{
+        labelNode: renderFormItemLabel,
+        contentNode: renderFormItemContent,
+        errorTextNode: renderFormItemErrorTxt,
+      }}
+    />
   );
 });
 

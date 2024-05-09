@@ -130,6 +130,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
       }
     },
     clearValidate() {
+      globalDatas.errorText = '';
       formUtil.clearValidate();
     },
     removeValidator() {

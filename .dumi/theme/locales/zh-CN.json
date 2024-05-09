@@ -46,6 +46,7 @@
   "API.form.global.props.GetContentOptions.model.desc": "当前表单项的表单模型数据，只包含当前表单项的value，这个value是可控的，可以直接通过model[bindId]=xxx来触发当前表单项的重新渲染。如果需要使用更多的表单字段，请使用useForm暴露出的model或者useSubscribe订阅字段。",
   "API.form.global.props.GetContentOptions.bindId.desc": "当前表单项的表单字段。",
   "API.form.global.props.GetContentOptions.isError.desc": "当前表单项的校验状态，有校验不通过的情况下为true。",
+  "API.form.global.props.GetContentOptions.errorMessage.desc": "当前表单项校验不通过时的错误消息。",
   "API.form.global.props.GetContentOptions.attrs.desc": "控件基本属性，在表单项渲染中，会将如上属性传递给你的UI控件。如果你的UI控件不是基于这些属性，请使用FormItem针对你的UI做一层封装。",
   "API.form.global.props.ApiEffectOptions.uid.desc": "当前表单项uid。",
   "API.form.global.props.ApiEffectOptions.refreshValue.desc": "手动重新刷新表单项内部的value值。",
@@ -71,6 +72,7 @@
   "API.form.global.props.form.share.readOnlyText": "自定义只读状态下显示的内容，接收一个函数或者一个静态值，如果值是动态变化的话，建议使用函数。",
   "API.form.global.props.form.share.initialValue": "表单项初始value，用于表单项初始化时的第一次渲染。",
   "API.form.global.props.form.share.formatChangeValue": "格式化控件的value值, react-form-simple的内部表单项默认取的是标准事件对象里的value ,即<strong>e.target.value</strong>, 如果你的控件是这个上面做了一层封装返回的不是标准事件对象，需要传入这个方法，react-form-simple的表单项的value将会获取这个方法的返回值。<div>用法：<a href='/zh-CN/intro/introduce#集成第三方-ui'>集成第三方UI</a></div>",
+  "API.form.global.props.form.share.noStyle": "是否需要表单项样式，为true则当前表单项不包含任何样式。",
   "API.form.global.props.form.formStyle": "表单样式，支持对象嵌套写法。",
   "API.form.global.props.form.formClass": "表单容器类名。",
   "API.form.global.props.form.direction": "表单整体布局方向。",
@@ -79,7 +81,7 @@
   "API.form.global.props.formItem.onError": "表单项校验不通过时的回调函数。",
   "API.form.global.props.formItem.customErrTips": "是否自定义错误信息提示，为true后表单项默认不会显示错误信息。将会交给外部处理。",
   "API.form.global.props.formItem.defaultValue": "表单项内容显示的默认值，reset时存在该值当前表单项才能被重置。使用useForm的话，在内部默认使用了defaultValue。可以在调用render的时候传入defaultValue覆盖它。使用FormItem组件的时候，需要手动传入。",
-  "API.form.global.props.formItem.requireIndicator": "表单项必填指示器。",
+  "API.form.global.props.formItem.requireIndicator": "表单项必填指示器。默认为*，在1.5.1之后的版本包含1.5.1支持传入自定义组件。",
   "API.form.global.props.formItem.label": "表单项标签。",
   "API.form.global.props.formItem.getContent": "使用 FormItem 组件形式创建一个受控表单项时，需要传入这个方法，方法返回需要渲染的内容。getContent 的参数包含有该表单项的 API、该表单项的模型数据、校验状态以及符合原生属性的 attrs，开发者可以针对这些参数做相应的逻辑处理。在参数返回的表单项 API 中，开发者可以直接调用来触发该表单项的对应事件以达到更精确更细度的控制。"
 }

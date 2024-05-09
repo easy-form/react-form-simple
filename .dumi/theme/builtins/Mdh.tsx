@@ -1,11 +1,12 @@
 import React from 'react';
 
 import { IconFont } from '../../component/IconFont';
+import Tag from '../../component/Tag';
 import { default as MdLabel, type MdLabelProps } from './MdLabel';
 import './mdh.less';
 
-const Mdh = (props: MdLabelProps) => {
-  const { children, ...rests } = props;
+const Mdh = (props: MdLabelProps & { version?: string }) => {
+  const { children, version = '1.1.0', ...rests } = props;
   return (
     <MdLabel
       {...rests}
@@ -14,6 +15,11 @@ const Mdh = (props: MdLabelProps) => {
     >
       {children}
       <IconFont name="code" size={30} className="icon" />
+      {version && (
+        <div style={{ position: 'absolute', right: -85, top: -15 }}>
+          <Tag style={{ padding: '2px', display: 'inline' }}>{version}+</Tag>
+        </div>
+      )}
     </MdLabel>
   );
 };

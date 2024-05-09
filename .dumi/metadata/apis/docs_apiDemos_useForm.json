@@ -203,5 +203,18 @@
       "resetType": "Function",
       "description": "The value of the formatted control"
     }
+  },
+  "noStyle": {
+    "defaultValue": {
+      "value": "false"
+    },
+    "name": "noStyle",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.noStyle",
+      "version": "1.5.1"
+    }
   }
 }

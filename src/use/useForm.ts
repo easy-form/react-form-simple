@@ -8,7 +8,6 @@ import {
   updateProxyValue,
 } from 'react-form-simple/utils/controller';
 import { useContextApi } from './useContextApi';
-// import useForceUpdate from './useForceUpdate';
 import { useFormExtraApis } from './useFormExtraApis';
 import { useRender } from './useRender';
 import { usePrivateSubscribe } from './useSubscribe';

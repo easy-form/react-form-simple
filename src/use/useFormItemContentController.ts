@@ -62,6 +62,7 @@ export function useFormItemContentController(
   formUtil.replace({ model: modelValue.current });
 
   const isError = useRef(false);
+  const errorMessage = useRef('');
 
   const isInitSubscribeEvent = useRef(true);
 
@@ -70,9 +71,10 @@ export function useFormItemContentController(
       methods.set(value);
     });
     subscribe.on('onErr', (value) => {
-      if (isError.current !== isMeaningful(value)) {
+      if (errorMessage.current !== value) {
         forceUpdate(false);
       }
+      errorMessage.current = value;
       isError.current = isMeaningful(value);
     });
     isInitSubscribeEvent.current = false;
@@ -113,6 +115,7 @@ export function useFormItemContentController(
         checked: Boolean(value),
       },
       isError: isError.current,
+      errorMessage: errorMessage.current,
       ...apis,
     }) || null;
 

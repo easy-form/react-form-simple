@@ -33,6 +33,18 @@
       "description": "The verification status of the current form item. It is true if the verification fails."
     }
   },
+  "errorMessage": {
+    "defaultValue": null,
+    "name": "errorMessage",
+    "type": {
+      "name": "ReactNode"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.GetContentOptions.errorMessage.desc",
+      "description": "Error message when the current form item verification fails",
+      "version": "1.5.1"
+    }
+  },
   "attrs": {
     "defaultValue": null,
     "name": "attrs",
