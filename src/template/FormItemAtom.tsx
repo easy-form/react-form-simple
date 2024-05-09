@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
 import {
   useFormItemContentController,
   type UseFormItemContentController,
@@ -17,11 +17,14 @@ type FormItemProps = GlobalProps.FormItemProps;
 export const RequireIndicator = React.memo(
   (props: { requireIndicator?: FormItemProps['requireIndicator'] }) => {
     const { requireIndicator } = props;
-    const renderRequireIndicator =
-      requireIndicator === true ? (
-        <span className="react-form-simple-indicator">*</span>
-      ) : null;
-    return renderRequireIndicator;
+
+    if (requireIndicator === true) {
+      return <span className="react-form-simple-indicator">*</span>;
+    }
+    if (requireIndicator) {
+      return requireIndicator;
+    }
+    return null;
   },
 );
 
@@ -146,4 +149,67 @@ export const FormItemContent = (props: UseFormItemContentController) => {
     return <>{readOnlyText}</>;
   }
   return <>{renderContent}</>;
+};
+
+export const HaveStyleFormItemWrap = (
+  props: FormItemProps & {
+    componentNode: {
+      labelNode: ReactNode;
+      contentNode: ReactNode;
+      errorTextNode: ReactNode;
+    };
+  },
+) => {
+  const {
+    componentNode,
+    formItemClassName,
+    labelPosition = 'row',
+    formItemStyle,
+    contentStyle,
+    contentClassName,
+    fullWidth,
+  } = props;
+
+  const { labelNode, contentNode, errorTextNode } = componentNode;
+
+  const { labelPositionMap } = useRef({
+    labelPositionMap: new Map([
+      ['row', 'react-form-simple-form-item-row'],
+      ['top', 'react-form-simple-form-item-top'],
+    ]),
+  }).current;
+
+  const classes = getCssInClasses(
+    [
+      'react-form-simple-form-item',
+      formItemClassName as string,
+      labelPositionMap.get(labelPosition as string) as string,
+    ],
+    formItemStyle,
+  );
+
+  const contentClasses = getCssInClasses(
+    ['react-form-simple-content', contentClassName as string],
+    contentStyle,
+  );
+
+  return (
+    <div
+      className={classes}
+      style={{
+        ...(fullWidth
+          ? {
+              width: '100%',
+              minWidth: '100%',
+            }
+          : {}),
+      }}
+    >
+      {labelNode}
+      <div className={contentClasses}>
+        {contentNode}
+        {errorTextNode}
+      </div>
+    </div>
+  );
 };
