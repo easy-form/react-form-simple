@@ -1,4 +1,3 @@
-import { ReactFormSandpack } from '@components/Codesandbox';
 import { GetStarted, Github } from '@components/Hero/ActionButton';
 import { CodeLight } from '@components/Hero/CodeLight';
 import { Desc } from '@components/Hero/Desc';
@@ -34,7 +33,7 @@ export default function App() {
         <Feature />
         {/* <Gif /> */}
         <div style={{ marginTop: '180px' }}>{/* <Design /> */}</div>
-        <div style={{ marginTop: '180px', marginBottom: '180px' }}>
+        {/* <div style={{ marginTop: '180px', marginBottom: '180px' }}>
           <div
             style={{
               fontSize: '38px',
@@ -46,7 +45,7 @@ export default function App() {
             {format({ id: 'hero.feature.sandPackage' })}
           </div>
           <ReactFormSandpack />
-        </div>
+        </div> */}
       </div>
     </div>
   );

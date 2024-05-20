@@ -1,5 +1,5 @@
 import { IconFont } from '@components/IconFont';
-import { Box, Popover } from '@mui/material';
+import { Popover } from '@mui/material';
 import { useSiteData } from 'dumi';
 import React, { useImperativeHandle, useRef, useState, type FC } from 'react';
 import { useLocalFormat } from 'useLocalFormat';
@@ -53,6 +53,8 @@ const Footer: FC = () => {
   const { themeConfig } = useSiteData();
   const modalRef = useRef();
 
+  const { format } = useLocalFormat();
+
   const { resource, friendLink, author, group } = {
     resource: [
       {
@@ -60,15 +62,15 @@ const Footer: FC = () => {
         href: 'https://github.com/easy-form/react-form-simple',
       },
       {
-        label: '使用案例',
+        label: format({ id: 'hero.footer.useCase' }),
         href: 'https://github.com/easy-form/react-form-simple?tab=readme-ov-file#-demo',
       },
       {
-        label: 'react表单受控的实现方案',
+        label: format({ id: 'hero.footer.plan' }),
         href: 'https://juejin.cn/post/7309692103055867939',
       },
       {
-        label: '协议',
+        label: format({ id: 'hero.footer.license' }),
         href: 'https://github.com/easy-form/react-form-simple/blob/main/LICENSE',
       },
     ],
@@ -79,7 +81,7 @@ const Footer: FC = () => {
     ],
     group: [
       {
-        label: '微信',
+        label: format({ id: 'hero.footer.wxin' }),
         icon: 'weixin',
         size: 20,
         href: 'https://github.com/easy-form/react-form-simple/tree/main?tab=readme-ov-file#join-wechat-group',
@@ -89,14 +91,13 @@ const Footer: FC = () => {
 
   if (!themeConfig.footer) return null;
 
-  const { format } = useLocalFormat();
   const year = new Date().getFullYear();
   return (
     <>
       <div className="dumi-default-footer">
         <div className="dumi-default-footer-content">
           <div>
-            <Title>相关资源</Title>
+            <Title>{format({ id: 'hero.footer.source' })}</Title>
             <div style={{ marginTop: '20px' }}>
               {resource.map((v) => (
                 <div style={{ marginBottom: '10px' }} key={v.href}>
@@ -114,7 +115,7 @@ const Footer: FC = () => {
             </div>
           </div>
           <div>
-            <Title>友情推荐</Title>
+            <Title>{format({ id: 'hero.footer.friendshipLink' })}</Title>
             <div style={{ marginTop: '20px' }}>
               {friendLink.map((v) => (
                 <div style={{ marginBottom: '10px' }} key={v.href}>
@@ -131,7 +132,7 @@ const Footer: FC = () => {
               ))}
             </div>
           </div>
-          <div>
+          {/* <div>
             <Title>关于作者</Title>
             <div style={{ marginTop: '20px' }}>
               {author.map((v) => (
@@ -152,8 +153,8 @@ const Footer: FC = () => {
                 </div>
               ))}
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <Title>社群</Title>
             <div style={{ marginTop: '20px' }}>
               {group.map((v) => {
@@ -219,7 +220,7 @@ const Footer: FC = () => {
                 </Box>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           style={{
