@@ -9,14 +9,14 @@ export function ScrollBar(props: any) {
   const mouses = noEvent
     ? {}
     : {
-        onMouseEnter() {
-          document.body.style.overflow = 'hidden';
-          document.body.style.paddingRight = '17px';
-        },
-        onMouseLeave() {
-          document.body.style.overflow = 'auto';
-          document.body.style.paddingRight = '0px';
-        },
+        // onMouseEnter() {
+        //   document.body.style.overflow = 'hidden';
+        //   document.body.style.paddingRight = '17px';
+        // },
+        // onMouseLeave() {
+        //   document.body.style.overflow = 'auto';
+        //   document.body.style.paddingRight = '0px';
+        // },
       };
   return (
     <SimpleBar className="dumi-default-simpleBar" {...rests} {...mouses}>
