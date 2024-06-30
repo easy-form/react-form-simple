@@ -9,15 +9,16 @@ export const Feature = React.memo(() => {
   const { icons } = useControllerRef({
     icons: [
       {
-        name: 'jiekou',
-        title: format({ id: 'hero.feature.APITitle' }),
-        desc: format({ id: 'hero.feature.API' }),
-      },
-      {
         name: 'code',
         title: format({ id: 'hero.feature.codeTitle' }),
         desc: format({ id: 'hero.feature.code' }),
       },
+      {
+        name: 'jiekou',
+        title: format({ id: 'hero.feature.APITitle' }),
+        desc: format({ id: 'hero.feature.API' }),
+      },
+
       {
         name: 'shandian',
         title: format({ id: 'hero.feature.speedTitle' }),

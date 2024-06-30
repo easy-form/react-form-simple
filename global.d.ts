@@ -7,3 +7,5 @@ declare module 'dumi/*';
 declare module 'dumi';
 
 declare module '*.png';
+
+declare module 'react-reveal/*';

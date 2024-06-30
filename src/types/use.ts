@@ -36,18 +36,17 @@ export namespace UseFormNamespace {
     deep?: boolean;
   }
 
-  export type RenderConfigTypes = GlobalProps.FormItemProps & {
+  export type RenderConfigType = GlobalProps.FormItemProps & {
     /**
      * @deprecated Deprecated, rendering function does not provide support for keys after version 1.4.1
      * @ignore true
      */
     key?: any;
     /**
-     * @resetType (args: Args) => Props
      * @description It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.
      * @localKey API.useForm.render.args.config.defineProps
      * @infoTitle Args Type
-     * @infoPath docs_apiDemos_getContent
+     * @infoPath docs_api_apiDocs_defineProps
      */
     defineProps?: (
       options: GlobalProps.GetContentOptions,
@@ -83,20 +82,20 @@ export namespace UseFormNamespace {
     /**
      * Render form item contents method, this is used by the user
      * @infoTitle Render Config
-     * @infoPath docs_apiDemos_renderConfig
+     * @infoPath docs_api_apiDocs_renderConfig
      * @description The form item rendering function accepts two parameters, the first parameter is the form item field, and the second parameter is the form item configuration.
      * @localKey API.useForm.render.desc
      * @resetType (bindId: any, [config]) => (parameter: ReactNode | (args: RenderFnReturnFnCallbackArgTypes) => ReactNode) => ReactNode
      */
     render: (
       bindId: any,
-      config?: RenderConfigTypes,
+      config?: RenderConfigType,
     ) => (parameter: RenderReturnFnArgTypes) => ReactNode;
 
     /**
      * This method is used when the user needs to subscribe to the latest value of the form value
      * @description Subscribe to hooks for form items or the entire form. Receives a function whose return parameter is the latest model data of the form. The return value is the data that needs to be subscribed.
-     * @resetType useWatch(({ model }) => any)
+     * @resetType UseSubscribe<T>(({ model }) => any)
      * @localKey API.useForm.useSubscribe.desc
      */
     useSubscribe: UseSubscribeNamespace.UseSubscribeReturnType<
@@ -107,7 +106,7 @@ export namespace UseFormNamespace {
      * The user listens for a change in the value of a form
      * @description A hook for observing changes in form data. Receive two functions, the first function returns the model data that needs to be observed, and the second parameter is the callback executed when the observed model data changes. If you want to observe multiple data, the first function needs to return an array. Allows returning a string if only one is observed. The second function will return two callback parameters. The first parameter is the value after the change, and the second parameter is the value before the change. The returned parameter type will be based on the return value type of the first function. If If a function returns a string, the type of the callback parameter will also be value, otherwise it will be an array.
      * @localKey API.useForm.useWatch.desc
-     * @resetType useWatch(() => string | string[], (value, preValue) => void, effect?: any[] = [])
+     * @resetType UseWatch<T>(({ model }) => string | string[], (value, preValue) => void)
      */
     useWatch: UseWatchNamespace.UseWatch<T>;
     /**

@@ -3,7 +3,7 @@
     "defaultValue": null,
     "name": "render",
     "type": {
-      "name": "(bindId: any, config?: RenderConfigTypes | undefined) => (parameter: RenderReturnFnArgTypes) => ReactNode"
+      "name": "(bindId: any, config?: RenderConfigType | undefined) => (parameter: RenderReturnFnArgTypes) => ReactNode"
     },
     "tags": {
       "infoTitle": "Render Config",

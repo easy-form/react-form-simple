@@ -1,5 +1,4 @@
-import Button from '@components/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
@@ -7,13 +6,7 @@ export default function App() {
 
   const [modelState, setModelState] = useState('');
 
-  const renderName = render('name')(<input className="input" />);
-
-  useEffect(() => {
-    setTimeout(() => {
-      model.name = 'name01';
-    }, 2000);
-  }, []);
+  const renderName = render('name')(<input />);
 
   const onSubmit = () => setModelState(JSON.stringify(model));
 
@@ -21,7 +14,7 @@ export default function App() {
     <>
       {renderName}
       {modelState}
-      <Button onClick={onSubmit}>submit</Button>
+      <button onClick={onSubmit}>submit</button>
     </>
   );
 }

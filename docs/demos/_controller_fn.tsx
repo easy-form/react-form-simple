@@ -1,4 +1,3 @@
-import Button from '@components/Button';
 import React, { useState } from 'react';
 import { useForm } from 'react-form-simple';
 
@@ -7,13 +6,9 @@ export default function App() {
 
   const [modelState, setModelState] = useState('');
 
-  const renderName = render('name', {
-    customErrTips: true,
-    rules: { required: 'Please Input' },
-  })(({ attrs, errorMessage, isError, clearValidate, ...restOptions }) => (
+  const renderName = render('name')(({ attrs }) => (
     <div>
-      <input {...attrs} className="input" />
-      {isError && <div>{errorMessage}</div>}
+      <input {...attrs} />
     </div>
   ));
 
@@ -23,7 +18,14 @@ export default function App() {
     <>
       {renderName}
       {modelState}
-      <Button onClick={onSubmit}>submit</Button>
+      <button
+        onClick={() => {
+          model.name = 'xxxxx';
+        }}
+      >
+        setName
+      </button>
+      <button onClick={onSubmit}>submit</button>
     </>
   );
 }

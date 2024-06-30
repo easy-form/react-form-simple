@@ -1,0 +1,281 @@
+{
+  "rules": {
+    "defaultValue": null,
+    "name": "rules",
+    "type": {
+      "name": "Rules"
+    },
+    "tags": {
+      "resetType": "Rules | Rules[]",
+      "localKey": "API.form.global.props.formItem.rules",
+      "description": "Form item verification rules, if it is an empty array or has no value, the form item will not be verified."
+    }
+  },
+  "onError": {
+    "defaultValue": null,
+    "name": "onError",
+    "type": {
+      "name": "((msg: string, name?: string) => void)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.formItem.onError",
+      "description": "Callback function when form item verification fails"
+    }
+  },
+  "customErrTips": {
+    "defaultValue": {
+      "value": "false"
+    },
+    "name": "customErrTips",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.formItem.customErrTips",
+      "description": "Whether to customize error message prompts. If true, the form item will not display error messages by default. will be handled externally"
+    }
+  },
+  "requireIndicator": {
+    "defaultValue": {
+      "value": "*"
+    },
+    "name": "requireIndicator",
+    "type": {
+      "name": "ReactNode"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.formItem.requireIndicator",
+      "description": "Form item required indicator",
+      "resetType": "boolean | ReactNode"
+    }
+  },
+  "label": {
+    "defaultValue": null,
+    "name": "label",
+    "type": {
+      "name": "ReactNode"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.formItem.label",
+      "description": "Form item label"
+    }
+  },
+  "errorStyle": {
+    "defaultValue": null,
+    "name": "errorStyle",
+    "type": {
+      "name": "CSSInterpolation"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.errorStyle",
+      "description": "Error message style, supports object nesting writing method"
+    }
+  },
+  "errorClassName": {
+    "defaultValue": null,
+    "name": "errorClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Error prompt class name.",
+      "localKey": "API.form.global.props.form.share.errorClass",
+      "version": "1.3.4"
+    }
+  },
+  "labelPosition": {
+    "defaultValue": {
+      "value": "row"
+    },
+    "name": "labelPosition",
+    "type": {
+      "name": "\"row\" | \"top\""
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.labelPosition",
+      "description": "label position"
+    }
+  },
+  "labelStyle": {
+    "defaultValue": null,
+    "name": "labelStyle",
+    "type": {
+      "name": "CSSInterpolation"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.labelStyle",
+      "description": "Label style, supports object nesting writing method"
+    }
+  },
+  "labelWidth": {
+    "defaultValue": null,
+    "name": "labelWidth",
+    "type": {
+      "name": "string | number"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.labelWidth",
+      "description": "Label width"
+    }
+  },
+  "labelClassName": {
+    "defaultValue": null,
+    "name": "labelClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Label class name",
+      "localKey": "API.form.global.props.form.share.labelClass",
+      "version": "1.3.4"
+    }
+  },
+  "formItemStyle": {
+    "defaultValue": null,
+    "name": "formItemStyle",
+    "type": {
+      "name": "CSSInterpolation"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.formItemStyle",
+      "description": "Form item style, supports object nesting writing method"
+    }
+  },
+  "formItemClassName": {
+    "defaultValue": null,
+    "name": "formItemClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Form item class",
+      "localKey": "API.form.global.props.form.share.formItemClass",
+      "version": "1.3.4"
+    }
+  },
+  "trigger": {
+    "defaultValue": {
+      "value": "change"
+    },
+    "name": "trigger",
+    "type": {
+      "name": "\"change\" | \"blur\" | \"manual\" | (\"change\" | \"blur\" | \"manual\")[]"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.trigger",
+      "description": "Trigger verification event"
+    }
+  },
+  "contentStyle": {
+    "defaultValue": null,
+    "name": "contentStyle",
+    "type": {
+      "name": "CSSInterpolation"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.contentStyle",
+      "description": "Form item content style, supports object nesting writing method"
+    }
+  },
+  "contentClassName": {
+    "defaultValue": null,
+    "name": "contentClassName",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "description": "Content area style class name",
+      "localKey": "API.form.global.props.form.share.contentClass",
+      "version": "1.3.4"
+    }
+  },
+  "fullWidth": {
+    "defaultValue": {
+      "value": "false"
+    },
+    "name": "fullWidth",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.fullWidth",
+      "description": "Whether the width of the form item fills the entire row"
+    }
+  },
+  "contextProps": {
+    "defaultValue": null,
+    "name": "contextProps",
+    "type": {
+      "name": "ContextProps"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.contextProps",
+      "resetType": "ContextProps",
+      "infoTitle": "prop",
+      "infoPath": "docs_api_apiDocs_contextProps",
+      "description": "Form item option life cycle. Where dependencies are collected for the entire form"
+    }
+  },
+  "readOnly": {
+    "defaultValue": {
+      "value": "false"
+    },
+    "name": "readOnly",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.readOnly",
+      "description": "Whether the form item is read-only will pass this property to the form item's rendering control"
+    }
+  },
+  "readOnlyText": {
+    "defaultValue": null,
+    "name": "readOnlyText",
+    "type": {
+      "name": "ReactNode | (() => ReactNode)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.readOnlyText",
+      "description": "Customize content displayed in read-only state"
+    }
+  },
+  "formatChangeValue": {
+    "defaultValue": null,
+    "name": "formatChangeValue",
+    "type": {
+      "name": "((event: any) => any)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.formatChangeValue",
+      "resetType": "(e: any) => any",
+      "description": "The value of the formatted control"
+    }
+  },
+  "noStyle": {
+    "defaultValue": {
+      "value": "false"
+    },
+    "name": "noStyle",
+    "type": {
+      "name": "boolean"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.form.share.noStyle",
+      "version": "1.5.1"
+    }
+  },
+  "defineProps": {
+    "defaultValue": null,
+    "name": "defineProps",
+    "type": {
+      "name": "((options: GetContentOptions) => Record<string, any>)"
+    },
+    "tags": {
+      "description": "It is called when the internal state of the form item changes and it is necessary to define corresponding props based on these states and pass them to the rendering control.",
+      "localKey": "API.useForm.render.args.config.defineProps",
+      "infoTitle": "Args Type",
+      "infoPath": "docs_api_apiDocs_defineProps"
+    }
+  }
+}

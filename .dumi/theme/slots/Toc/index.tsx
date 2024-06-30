@@ -1,8 +1,7 @@
 import { Scrollspy as ScrollSpy } from '@makotot/ghostui/src/Scrollspy';
 import {
-  Link,
   history,
-  useAppData,
+  Link,
   useLocation,
   useRouteMeta,
   useSiteData,
@@ -17,32 +16,23 @@ import React, {
 } from 'react';
 import './index.less';
 
-import { useMenu } from 'useHook/useMenu';
-
-const Toc: FC = ({ path }: any) => {
+const Toc: FC = () => {
   const { pathname, search, hash } = useLocation();
   const meta = useRouteMeta();
   const tabMeta = useTabMeta();
   const { loading } = useSiteData();
   const prevIndexRef = useRef(0);
   const [sectionRefs, setSectionRefs] = useState<RefObject<HTMLElement>[]>([]);
-
-  const { routes } = useAppData();
-
-  const { menusKey: keysToExtract } = useMenu();
-
-  const silebarDatas = keysToExtract
-    .map((k) => routes[k])
-    .find((k) => `/${k.path}` === path);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   const memoToc = React.useMemo(() => {
-    let toc = silebarDatas?.meta?.toc || [];
+    let toc = meta.toc;
     if (tabMeta) {
       toc = tabMeta.toc;
     }
     // only render h2 ~ h4
     return toc.filter(({ depth }) => depth > 1 && depth < 4);
-  }, [silebarDatas, tabMeta]);
+  }, [meta, tabMeta]);
 
   useEffect(() => {
     // wait for page component ready (DOM ready)
@@ -56,10 +46,18 @@ const Toc: FC = ({ path }: any) => {
     }
   }, [pathname, search, loading, memoToc]);
 
+  useEffect(() => {
+    if (sectionRefs.length > 0) {
+      // find the header height, and set it to scrollspy offset
+      // because the header is sticky, so we need to set the offset to avoid the active item is hidden by the header
+      const header = document.querySelector('.dumi-default-header');
+      setHeaderHeight(header ? header.clientHeight : 0);
+    }
+  }, [sectionRefs]);
+
   return sectionRefs.length ? (
-    <ScrollSpy sectionRefs={sectionRefs}>
-      {(o) => {
-        const { currentElementIndexInViewport } = o;
+    <ScrollSpy sectionRefs={sectionRefs} offset={-headerHeight}>
+      {({ currentElementIndexInViewport }) => {
         // for keep prev item active when no item in viewport
         if (currentElementIndexInViewport > -1)
           prevIndexRef.current = currentElementIndexInViewport;
@@ -69,8 +67,7 @@ const Toc: FC = ({ path }: any) => {
             {memoToc
               .filter(({ depth }) => depth > 1 && depth < 4)
               .map((item, i) => {
-                const link = `${path}${search}#${encodeURIComponent(item.id)}`;
-
+                const link = `${search}#${encodeURIComponent(item.id)}`;
                 const activeIndex =
                   currentElementIndexInViewport > -1
                     ? currentElementIndexInViewport
@@ -86,9 +83,7 @@ const Toc: FC = ({ path }: any) => {
                         }
                       }}
                       title={item.title}
-                      {...(activeIndex === i && path === pathname
-                        ? { className: 'active' }
-                        : {})}
+                      {...(activeIndex === i ? { className: 'active' } : {})}
                     >
                       {item.title}
                     </Link>

@@ -12,7 +12,7 @@ export const GetStarted = () => {
       className="start-button"
       onClick={() => {
         const _base = isDefaultLocal() ? '' : base;
-        history.push(`${_base}/intro/introduce`);
+        history.push(`${_base}/intro/start`);
       }}
     >
       {format({ id: 'hero.action.button.start' })}

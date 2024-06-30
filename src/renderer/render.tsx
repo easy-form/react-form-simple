@@ -11,7 +11,7 @@ import { getProxyValue } from 'react-form-simple/utils/controller';
 export const render = (
   bindId: any,
   renderComponent: UseFormNamespace.RenderReturnFnArgTypes,
-  config: UseFormNamespace.RenderConfigTypes &
+  config: UseFormNamespace.RenderConfigType &
     UseRenderNamespace.UseRenderOptions,
 ) => {
   const { model, contextProps, defineProps, deep, ...rests } = config;

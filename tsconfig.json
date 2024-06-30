@@ -36,7 +36,8 @@
     "src/**/*",
     "global.d.ts",
     "docs/demos/**/*",
-    "docs/apiDemos/**/*"
+    "docs/api/apiDocs/**/*",
+    "docs/types/**/*"
   ],
   "exclude": [
     "node_modules"

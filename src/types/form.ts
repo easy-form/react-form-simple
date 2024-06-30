@@ -160,29 +160,29 @@ export namespace GlobalProps {
 
   export type BindIds = (string | number | boolean)[];
 
-  export type GetContentOptionsAttrs = {
+  export type Attrs = {
     /**
-     * @localKey API.form.global.props.GetContentOptionsAttrs.onChange.desc
+     * @localKey API.form.global.props.Attrs.onChange.desc
      * @description onChange event passed to UI control
      */
     onChange: (e: any, tagType?: TagType) => void;
     /**
-     * @localKey API.form.global.props.GetContentOptionsAttrs.onBlur.desc
+     * @localKey API.form.global.props.Attrs.onBlur.desc
      * @description The onBlur event passed to the UI control. This method does not receive any parameters.
      */
     onBlur: () => void;
     /**
-     * @localKey API.form.global.props.GetContentOptionsAttrs.value.desc
+     * @localKey API.form.global.props.Attrs.value.desc
      * @description The value passed to the UI control.
      */
     value: any;
     /**
-     * @localKey API.form.global.props.GetContentOptionsAttrs.readOnly.desc
+     * @localKey API.form.global.props.Attrs.readOnly.desc
      * @description ReadOnly passed to the UI control.
      */
     readOnly: boolean | undefined;
     /**
-     * @localKey API.form.global.props.GetContentOptionsAttrs.checked.desc
+     * @localKey API.form.global.props.Attrs.checked.desc
      * @description Passed to the checked attribute of the UI control, the checked selection is based on the existence of the value. If the value of the value is meaningful, that is, if the value has a value, it will be true.
      */
     checked: boolean;
@@ -212,13 +212,12 @@ export namespace GlobalProps {
      */
     errorMessage: ReactNode;
     /**
-     * @infoTitle attrs parameters
-     * @resetType Object
-     * @infoPath docs_apiDemos_getContentAttrs
+     * @infoTitle attrs options
+     * @infoPath docs_api_apiDocs_definePropsAttrs
      * @description The basic properties of the control will be passed to your UI control
      * @localKey API.form.global.props.GetContentOptions.attrs.desc
      */
-    attrs: GetContentOptionsAttrs;
+    attrs: Attrs;
   } & Apis.FormItemApis;
   /**
    * apiEffect methods args
@@ -252,8 +251,8 @@ export namespace GlobalProps {
      * @localKey API.form.global.props.ContextProps.apiEffect.desc
      * @description A hook executed when one of the form item APIs changes. Please see the Apis.FormItemApis interface for the existing APIs.
      * @resetType (options: Options) => void
-     * @infoPath docs_apiDemos_apiEffect
-     * @infoTitle parameter
+     * @infoPath docs_api_apiDocs_apiEffect
+     * @infoTitle callback options
      *
      */
     apiEffect?: (options: ApiEffectOptions) => void;
@@ -282,7 +281,6 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.form.share.errorStyle
      * @description Error message style, supports object nesting writing method
-     * @resetType CSSProperties
      */
     errorStyle?: CSSInterpolation;
     /**
@@ -300,7 +298,6 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.form.share.labelStyle
      * @description Label style, supports object nesting writing method
-     * @resetType CSSProperties
      */
     labelStyle?: CSSInterpolation;
     /**
@@ -350,9 +347,9 @@ export namespace GlobalProps {
     fullWidth?: boolean;
     /**
      * @localKey API.form.global.props.form.share.contextProps
-     * @resetType Object
-     * @infoTitle hook
-     * @infoPath docs_apiDemos_contextProps
+     * @resetType ContextProps
+     * @infoTitle prop
+     * @infoPath docs_api_apiDocs_contextProps
      * @description Form item option life cycle. Where dependencies are collected for the entire form
      */
     contextProps?: ContextProps;
@@ -369,10 +366,10 @@ export namespace GlobalProps {
     readOnlyText?: (() => ReactNode) | ReactNode;
     /**
      * @localKey API.form.global.props.form.share.formatChangeValue
-     * @resetType Function
+     * @resetType (e: any) => any
      * @description The value of the formatted control
      */
-    formatChangeValue?: (event: Event) => any;
+    formatChangeValue?: (event: any) => any;
     /**
      * @localKey API.form.global.props.form.share.noStyle
      * @default false
@@ -413,6 +410,7 @@ export namespace GlobalProps {
    */
   export type FormItemProps = {
     /**
+     * @resetType Rules | Rules[]
      * @localKey API.form.global.props.formItem.rules
      * @description Form item verification rules, if it is an empty array or has no value, the form item will not be verified.
      */
@@ -457,8 +455,8 @@ export namespace GlobalProps {
     /**
      * @localKey API.form.global.props.formItem.getContent
      * @resetType (options: Options) => ReactNode
-     * @infoPath docs_apiDemos_getContent
-     * @infoTitle Options Types
+     * @infoPath docs_api_apiDocs_defineProps
+     * @infoTitle callback Options
      * @description When using the FormItem component to create a controlled form item, you need to pass in this method, which returns the content that needs to be rendered. The parameters of getContent include the API of the form item, the model data of the form item, the verification status, and the attrs that match the native attributes.
      */
     getContent?: (options: GetContentOptions) => ReactNode;

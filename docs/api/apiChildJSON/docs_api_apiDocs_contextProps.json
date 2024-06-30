@@ -1,0 +1,61 @@
+{
+  "mounted": {
+    "defaultValue": null,
+    "name": "mounted",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; }) => void)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.ContextProps.mounted.desc",
+      "description": "The form item is mounted and executed for the first time. In a form item, this hook will only be executed once.It will call back an object, which will contain the unique authentication uid of this form item.",
+      "param": "options form uid"
+    }
+  },
+  "apiEffect": {
+    "defaultValue": null,
+    "name": "apiEffect",
+    "type": {
+      "name": "((options: ApiEffectOptions) => void)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.ContextProps.apiEffect.desc",
+      "description": "A hook executed when one of the form item APIs changes. Please see the Apis.FormItemApis interface for the existing APIs.",
+      "resetType": "(options: Options) => void",
+      "infoPath": "docs_api_apiDocs_apiEffect",
+      "infoTitle": "callback options"
+    }
+  },
+  "updated": {
+    "defaultValue": null,
+    "name": "updated",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; value: any; }) => void)"
+    },
+    "tags": {
+      "description": "Hook executed when form item input content changes",
+      "localKey": "API.form.global.props.ContextProps.updated.desc"
+    }
+  },
+  "reset": {
+    "defaultValue": null,
+    "name": "reset",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; value: any; }) => void)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.ContextProps.reset.desc",
+      "description": "Executed after the current form item content is reset"
+    }
+  },
+  "destroy": {
+    "defaultValue": null,
+    "name": "destroy",
+    "type": {
+      "name": "((options: { uid: string; bindId: any; }) => void)"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.ContextProps.destroy.desc",
+      "description": "Hook executed when form item is destroyed"
+    }
+  }
+}

@@ -91,19 +91,17 @@ const DocLayout: FC = () => {
         </div>
       )}
       <main>
-        <div className="main-container">
-          {showSidebar && <Sidebar />}
-          <Content>
-            <article>{outlet}</article>
-            <ContentFooter />
-          </Content>
-          {fm.toc === 'content' && (
-            <div className="dumi-default-doc-layout-toc-wrapper">
-              <h4>TABLE OF CONTENTS</h4>
-              <Toc />
-            </div>
-          )}
-        </div>
+        {showSidebar && <Sidebar />}
+        <Content>
+          <article>{outlet}</article>
+          <ContentFooter />
+        </Content>
+        {fm.toc === 'content' && (
+          <div className="dumi-default-doc-layout-toc-wrapper">
+            <h4>TABLE OF CONTENTS</h4>
+            <Toc />
+          </div>
+        )}
         {/* <H5Dooring /> */}
       </main>
       <Footer />

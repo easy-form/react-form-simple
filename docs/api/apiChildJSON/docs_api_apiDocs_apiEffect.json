@@ -1,0 +1,107 @@
+{
+  "bindId": {
+    "defaultValue": null,
+    "name": "bindId",
+    "type": {
+      "name": "any"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.formItem.bindId",
+      "description": "The field name bound to the form item is used to identify the uniqueness of the form item"
+    }
+  },
+  "uid": {
+    "defaultValue": null,
+    "name": "uid",
+    "type": {
+      "name": "string"
+    },
+    "tags": {
+      "localKey": "API.form.global.props.ApiEffectOptions.uid.desc",
+      "description": "The current form item uid."
+    }
+  },
+  "clearValidate": {
+    "defaultValue": null,
+    "name": "clearValidate",
+    "type": {
+      "name": "(bindId?: ValidateBindIds) => void"
+    },
+    "tags": {
+      "description": "Clear verification information",
+      "localKey": "API.form.clearValidate.desc",
+      "resetType": "(bindId?: string | string[]) => void"
+    }
+  },
+  "removeValidator": {
+    "defaultValue": null,
+    "name": "removeValidator",
+    "type": {
+      "name": "(bindId?: ValidateBindIds) => void"
+    },
+    "tags": {
+      "description": "Remove the validation rules. When the form is validated later, the validation will not be performed.",
+      "resetType": "(bindId?: string | string[]) => void",
+      "localKey": "API.form.removeValidator.desc"
+    }
+  },
+  "reapplyValidator": {
+    "defaultValue": null,
+    "name": "reapplyValidator",
+    "type": {
+      "name": "(bindId?: ValidateBindIds) => void"
+    },
+    "tags": {
+      "description": "Reapply for form item verification",
+      "localKey": "API.form.reapplyValidator.desc",
+      "resetType": "(bindId?: string | string[]) => void"
+    }
+  },
+  "setValue": {
+    "defaultValue": null,
+    "name": "setValue",
+    "type": {
+      "name": "(bindId: any, value: any) => void"
+    },
+    "tags": {
+      "description": "Set form item value",
+      "localKey": "API.form.setValue.desc",
+      "param": "bindId"
+    }
+  },
+  "setError": {
+    "defaultValue": null,
+    "name": "setError",
+    "type": {
+      "name": "(bindId: any, message?: ReactNode) => void"
+    },
+    "tags": {
+      "description": "Manually calling to set the error message will not trigger the onError event",
+      "localKey": "API.formItem.setError.desc",
+      "version": "1.3.0",
+      "resetType": "(bindId: string | string[], message?: React.ReactNode) => void"
+    }
+  },
+  "validate": {
+    "defaultValue": null,
+    "name": "validate",
+    "type": {
+      "name": "() => Promise<unknown>"
+    },
+    "tags": {
+      "localKey": "API.form.share.validate.desc",
+      "description": "Form validation."
+    }
+  },
+  "reset": {
+    "defaultValue": null,
+    "name": "reset",
+    "type": {
+      "name": "() => void"
+    },
+    "tags": {
+      "description": "Reset the form.",
+      "localKey": "API.form.share.reset.desc"
+    }
+  }
+}

@@ -10,7 +10,7 @@ const Mdh = (props: MdLabelProps & { version?: string }) => {
   return (
     <MdLabel
       {...rests}
-      style={{ display: 'inline-block', ...rests?.style }}
+      style={{ display: 'inline-block', marginTop: 0, ...rests?.style }}
       className="mdh-label"
     >
       {children}
