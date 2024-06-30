@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkreact_form_simple=self.webpackChunkreact_form_simple||[]).push([[9],{65149:function(i,n,e){e.r(n),e.d(n,{default:function(){return o}});var a=e(27544),t=e(67294),m=function(){var s=(0,a.UO)(),u=s.id,d=(0,a.WF)(),c=d.demos,f=c[u]||{},r=f.component;return r&&(0,t.createElement)(r)},o=m}}]);
