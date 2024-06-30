@@ -104,7 +104,6 @@
     "react": "^18.0.0",
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.0.0",
-    "react-reveal": "^1.2.2",
     "simplebar-react": "^3.2.4",
     "stylelint": "^14.9.1",
     "vitest": "^0.34.6"

@@ -6,8 +6,10 @@ import { Feature } from '@components/Hero/Feature';
 import { TextWrap } from '@components/Hero/TextWrap';
 import { history, useLocale } from 'dumi';
 import React from 'react';
-import Zoom from 'react-reveal/Zoom';
+// import Zoom from 'react-reveal/Zoom';
 import { useLocalFormat } from 'useLocalFormat';
+
+const Zoom = ({ children }: { children: any }) => <>{children}</>;
 
 // import Demo from '@components/Hero/Gif/Demo';
 
