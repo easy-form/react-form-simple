@@ -12,7 +12,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Fade from 'react-reveal/Fade';
+// import Fade from 'react-reveal/Fade';
 import './index.less';
 import './theme.less';
 /**
@@ -23,6 +23,8 @@ const SIMILAR_DSL: Record<string, Language> = {
   axml: 'markup',
   vue: 'markup',
 };
+
+const Fade = ({ children }: { children: any }) => <>{children}</>;
 
 export interface ISourceCodeProps {
   children: string;
