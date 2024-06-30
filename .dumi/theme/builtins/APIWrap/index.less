@@ -1,0 +1,95 @@
+@import url('../../styles/variables.less');
+
+.api-wrap {
+  margin-bottom: 25px;
+  position: relative;
+  margin-top: -5px;
+  .type {
+    font-size: 15px;
+    .type-txt {
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .more-icon {
+      color: @c-text-note;
+      &:hover {
+        opacity: .8;
+      }
+    }
+    code {
+      padding: 2px 5px;
+      color: #d56161;
+      background: #f0f4f8;
+      border-radius: 2px;
+      font-family: SFMono-Regular, consolas, Liberation Mono, menlo, courier, monospace, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol;
+      font-weight: normal;
+      letter-spacing: normal;
+      @{dark-selector} & {
+        color: #F97583 ;
+        background: #0d141a;
+      }
+    }
+  }
+  .desc {
+    margin-top: 6px;
+    font-size: 15px;
+    .desc-txt {
+      font-weight: bold;
+      margin-right: 8px;
+      // font-weight: bold;
+    }
+    .desc-info {
+      letter-spacing: 1px;
+      line-height: 2;
+      
+    }
+  }
+  .default {
+    margin-top: 6px;
+    font-weight: bold;
+    font-size: 15px;
+    .default-txt {
+      // font-weight: bold;
+      margin-right: 8px;
+    }
+    code {
+      padding: 2px 5px;
+      color: #F97583 ;
+      background: #f0f4f8;
+      
+      border-radius: 2px;
+      font-family: SFMono-Regular, consolas, Liberation Mono, menlo, courier, monospace, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol;
+      font-size: .875em;
+      @{dark-selector} & {
+        color: #F97583 ;
+        background: #0d141a;
+      }
+    }
+  }
+}
+
+.popover-container {
+  .MuiPaper-root {
+    border-radius: 8px;
+    background: @c-site-bg;
+   
+    @{dark-selector} & {
+      color: @c-text-dark;
+      background: lighten(@c-site-bg-dark, 5%);
+    }
+  }
+  .popover-wrap {
+    padding: 15px;
+    width: 40vw;
+    height: 70vh;
+    @{dark-selector} & {
+      color: @c-text-dark;
+      background: lighten(@c-site-bg-dark, 5%);
+    }
+    
+    // overflow: auto;
+    .api-item:last-child {
+      padding-bottom: 30px;
+    }
+  }
+}

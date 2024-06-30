@@ -49,7 +49,7 @@
     "defaultValue": null,
     "name": "attrs",
     "type": {
-      "name": "GetContentOptionsAttrs"
+      "name": "Attrs"
     },
     "tags": {
       "infoTitle": "attrs parameters",

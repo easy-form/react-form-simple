@@ -6,6 +6,7 @@ import ColorSwitch from 'dumi/theme/slots/ColorSwitch';
 import HeaderExtra from 'dumi/theme/slots/HeaderExtra';
 import LangSwitch from 'dumi/theme/slots/LangSwitch';
 import Logo from 'dumi/theme/slots/Logo';
+import Navbar from 'dumi/theme/slots/Navbar';
 import RtlSwitch from 'dumi/theme/slots/RtlSwitch';
 import SearchBar from 'dumi/theme/slots/SearchBar';
 import SocialIcon from 'dumi/theme/slots/SocialIcon';
@@ -45,11 +46,12 @@ const Header: FC = () => {
         <section className="dumi-default-header-left">
           <div style={{ display: 'flex' }}>
             <Logo />
+            {isShowbar && <SearchBar />}
+            <Navbar />
             {/* {isShowbar && <Navbar />} */}
           </div>
         </section>
         <section className="dumi-default-header-right">
-          {isShowbar && <SearchBar />}
           <HeaderExtraCustom />
           <LangSwitch />
           <RtlSwitch />

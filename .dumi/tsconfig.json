@@ -4,6 +4,8 @@
     "theme/builtins/**/*",
     "metadata/demos/**/*",
     "theme/slots/**/*",
-    "component/**/*"
+    "component/**/*",
+    "pages/**/*",
+    "../global.d.ts"
   ],
 }

@@ -21,11 +21,14 @@ body {
     font-family: @font-family;
     ul {
       li + li {
-        margin-top: 15px;
+       
       }
   }
+ 
     @{dark-selector} & {
       color: @c-text-dark;
+      pre {
+      }
     }
     h2 {
       font-size: 28px;
@@ -58,6 +61,7 @@ body {
 
 .dumi-default-content:not([data-no-sidebar]) {
   box-shadow: none !important;
+  transition: all .3s;
   @{dark-selector} & {
     background-color: @c-site-bg-dark !important;
   }
@@ -70,7 +74,28 @@ body {
   .dumi-default-previewer-demo {
     // padding-left: 25px;
     padding: 15px 0 20px 0;
-   
+    button {
+      background-color: #f1f1f1;
+      border: 1px solid rgba(60, 60, 60, .29);
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f8f8f8;
+      }
+      @{dark-selector} & {
+        background-color: #2f2f2f;
+        color: #fff;
+        border: 1px solid rgba(84, 84, 84, .65);
+        &:hover {
+          background-color: #242424;
+        }
+      }
+      + button {
+        margin-left: 10px;
+      }
+    }
     .input {
       min-width: 150px;
       padding: 8px 12px;
@@ -96,19 +121,27 @@ body {
       font-size: 16px;
       border-radius: 8px;
     }
-  }
-  .dumi-default-previewer-meta {
-    border-top: none ;
-    // transition: all .5s;
-    .boxShaow();
-    &:hover {
-      .boxShaow();
-      border-radius: 15px !important;
+    input {
+      padding: 6px 12px;
+      border: 1.5px solid @c-border;
+      border-radius: 8px;
+      outline: none;
+      
+      @{dark-selector} & {
+        background-color: #eee;
+        color: #242424;
+        border: 1px solid #242424;
+        &:focus {
+          border-color: @c-border;
+        }
+      }
+      &:focus {
+        border-color: rgba(60, 60, 60, .89);
+      }
     }
   }
-  .dumi-default-source-code {
-    margin-top: 10px;
-  }
+
+
   .dumi-default-previewer-actions {
     border-bottom: none !important;
   }
@@ -117,6 +150,7 @@ body {
 #root .dumi-default-doc-layout {
   font-family: @font-family;
   background-color: @c-site-bg ;
+  transition: all .3s;
   @{dark-selector} & {
     background-color: @c-site-bg-dark;
   }

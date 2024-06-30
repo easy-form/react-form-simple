@@ -3,6 +3,7 @@ import { Popover } from '@mui/material';
 import { useSiteData } from 'dumi';
 import React, { useImperativeHandle, useRef, useState, type FC } from 'react';
 import { useLocalFormat } from 'useLocalFormat';
+import { useRouteHome } from '../../../use/useRouteHome';
 import './index.less';
 
 const ModalDialog = React.forwardRef((props, ref) => {
@@ -55,6 +56,8 @@ const Footer: FC = () => {
 
   const { format } = useLocalFormat();
 
+  const { isHome } = useRouteHome();
+
   const { resource, friendLink, author, group } = {
     resource: [
       {
@@ -65,10 +68,10 @@ const Footer: FC = () => {
         label: format({ id: 'hero.footer.useCase' }),
         href: 'https://github.com/easy-form/react-form-simple?tab=readme-ov-file#-demo',
       },
-      {
-        label: format({ id: 'hero.footer.plan' }),
-        href: 'https://juejin.cn/post/7309692103055867939',
-      },
+      // {
+      //   label: format({ id: 'hero.footer.plan' }),
+      //   href: 'https://juejin.cn/post/7309692103055867939',
+      // },
       {
         label: format({ id: 'hero.footer.license' }),
         href: 'https://github.com/easy-form/react-form-simple/blob/main/LICENSE',
@@ -92,6 +95,7 @@ const Footer: FC = () => {
   if (!themeConfig.footer) return null;
 
   const year = new Date().getFullYear();
+  if (!isHome) return null;
   return (
     <>
       <div className="dumi-default-footer">
