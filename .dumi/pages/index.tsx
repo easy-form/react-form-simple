@@ -9,7 +9,11 @@ import React from 'react';
 // import Zoom from 'react-reveal/Zoom';
 import { useLocalFormat } from 'useLocalFormat';
 
-const Zoom = ({ children }: { children: any }) => <>{children}</>;
+import { Zoom } from '@components/Animation';
+
+import { baseModelImg } from './const';
+
+// const Zoom = ({ children }: { children: any }) => <>{children}</>;
 
 // import Demo from '@components/Hero/Gif/Demo';
 
@@ -64,8 +68,30 @@ export default function App() {
         </div>
       </Zoom>
       <TextWrap
+        style={{ width: '100%' }}
         title={format({ id: 'hero.text.modelUI.desc' })}
-        content={format({ id: 'hero.text.modelUI.content' })}
+        content={
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ flex: 1 }}>
+              {format({ id: 'hero.text.modelUI.content' })}
+            </span>
+            <span style={{ flex: 1, marginLeft: '10px' }}>
+              <img src={baseModelImg} alt="" style={{ width: '100%' }} />
+            </span>
+          </div>
+        }
+      />
+
+      <TextWrap
+        style={{ width: '50%' }}
+        title={format({ id: 'hero.text.watch.title.desc' })}
+        content={format({ id: 'hero.text.watch.content.desc' })}
+      />
+
+      <TextWrap
+        style={{ width: '80%' }}
+        title={format({ id: 'hero.text.watch.area.title.desc' })}
+        content={format({ id: 'hero.text.watch.area.content.desc' })}
       />
 
       <TextWrap
