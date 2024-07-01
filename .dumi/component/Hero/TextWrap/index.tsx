@@ -1,7 +1,5 @@
+import { Zoom } from '@components/Animation';
 import React from 'react';
-// import Zoom from 'react-reveal/Zoom';
-
-const Zoom = ({ children }: { children: any }) => <>{children}</>;
 
 export const TextWrap = ({
   style,
