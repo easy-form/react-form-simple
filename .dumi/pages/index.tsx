@@ -11,7 +11,7 @@ import { useLocalFormat } from 'useLocalFormat';
 
 import { Zoom } from '@components/Animation';
 
-import { baseModelImg } from './const';
+import { baseModelImg } from '../utils/const';
 
 // const Zoom = ({ children }: { children: any }) => <>{children}</>;
 
