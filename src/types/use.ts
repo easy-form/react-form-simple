@@ -1,8 +1,10 @@
-import type { Apis, GlobalProps } from './form';
-
-import type { FormItemProps } from 'react-form-simple';
+import type { Apis, FormItemProps, GlobalProps } from 'react-form-simple';
+import ObserverFactory from 'react-form-simple/driver/ObserverDriver/Factory';
 
 type ReactNode = React.ReactNode;
+
+export type DefaultRecord<T extends Record<string, any> = Record<string, any>> =
+  T;
 
 /**
  * useForm hook Interface
@@ -73,12 +75,16 @@ export namespace UseFormNamespace {
     | ReactNode
     | ((args: RenderFnReturnFnCallbackArgTypes) => ReactNode);
 
+  export type ContextProps<T> = GlobalProps.ContextProps<T> & {
+    model: T;
+    observerFactory: ObserverFactory<T>;
+  };
   /**
    * useForm Return value type
    * This can be exposed to the user for use
    * This interface is useful when type inference is required for component passthrough
    */
-  export type UseFormReturnType<T = null> = {
+  export type UseFormReturnType<T = DefaultRecord> = {
     /**
      * Render form item contents method, this is used by the user
      * @infoTitle Render Config
@@ -106,9 +112,23 @@ export namespace UseFormNamespace {
      * The user listens for a change in the value of a form
      * @description A hook for observing changes in form data. Receive two functions, the first function returns the model data that needs to be observed, and the second parameter is the callback executed when the observed model data changes. If you want to observe multiple data, the first function needs to return an array. Allows returning a string if only one is observed. The second function will return two callback parameters. The first parameter is the value after the change, and the second parameter is the value before the change. The returned parameter type will be based on the return value type of the first function. If If a function returns a string, the type of the callback parameter will also be value, otherwise it will be an array.
      * @localKey API.useForm.useWatch.desc
-     * @resetType UseWatch<T>(({ model }) => string | string[], (value, preValue) => void)
+     * @resetType (({ model }) => string | string[], (value, preValue) => void)
      */
     useWatch: UseWatchNamespace.UseWatch<T>;
+    /**
+     * @version 1.5.2
+     * @description form watch
+     * @localKey API.useForm.watch.desc
+     * @resetType (subscribeFun: SubscripeFunType<T>,cb: CallbackType,key: string | symbol) => { unWatch: () => void }
+     */
+    watch: UseWatchNamespace.Watch<T>;
+    /**
+     * @description form unWatch
+     * @resetType (key: string | symbol): void;
+     * @localKey API.useForm.unWatch.desc
+     * @version 1.5.2
+     */
+    unWatch: UseWatchNamespace.UnWatch;
     /**
      * @resetType Object
      * @localKey API.useForm.model.desc
@@ -134,16 +154,18 @@ export namespace UseFormNamespace {
      * @param values
      */
     setValues: (values: Record<string, any>) => void;
-  } & Apis.FormApis &
-    Pick<GlobalProps.FormItemProps, 'contextProps'>;
+  } & Apis.FormApis & { contextProps: ContextProps<T> };
 }
 
 /**
  *  useSubscribe hook
  */
 export namespace UseSubscribeNamespace {
+  export interface SubscribeFunType<T, O> {
+    (option: { model: T }): O;
+  }
   export interface UseSubscribe<T> {
-    <O = unknown>(cb: (options: { model: T }) => O): O;
+    <O = unknown>(cb: SubscribeFunType<T, O>): O;
   }
   export interface UseSubscribeReturnType<T, H> {
     useSubscribe: UseSubscribe<T>;
@@ -165,33 +187,32 @@ export namespace UseWatchNamespace {
     | SubscripeFunReturnOriginalType[]
     | null
     | undefined;
-  export interface UseWatch<T = Record<string, any>> {
-    (
-      subscripeFun: { (options: { model: T }): SubscripeFunReturnType },
-      cb: {
-        (
-          newValue: SubscripeFunReturnType,
-          preValue: SubscripeFunReturnType,
-        ): void;
-      },
-    ): void;
+
+  export interface SubscripeFunType<T> {
+    (options: { model: T }): SubscripeFunReturnType;
   }
-  export interface WatchChangeCbProps {
+  export interface CallbackType {
+    (newValue: SubscripeFunReturnType, preValue: SubscripeFunReturnType): void;
+  }
+  export interface UseWatch<T = DefaultRecord> {
+    (subscripeFun: SubscripeFunType<T>, cb: CallbackType): void;
+  }
+  export interface WatchOptions {
     /**
      * After useForm is called, useWatch needs to know the value for the first time
+     * @default false
      */
-    isInitEmit?: boolean;
+    initialEmit?: boolean;
   }
-  export interface WatchChangeCb {
-    (options?: WatchChangeCbProps): void;
+  export interface Watch<T = DefaultRecord> {
+    (
+      subscribeFun: SubscripeFunType<T>,
+      cb: CallbackType,
+      key: string | symbol,
+    ): { unWatch: () => void };
   }
-}
 
-export namespace UseRenderNamespace {
-  export interface UseRenderOptions extends UseFormNamespace.ShareConfig {
-    model: Record<string, any>;
-    globalDatas: Record<string, any>;
-    contextProps: GlobalProps.ContextProps;
-    defaultValues: Record<string, any>;
+  export interface UnWatch {
+    (key: string | symbol): void;
   }
 }

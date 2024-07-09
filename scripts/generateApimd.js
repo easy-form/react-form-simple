@@ -111,7 +111,8 @@ function writeMarkdownFileSync(fileName, doscInstance) {
   const outputFilePath = path.join(outputDir, `${fileName}.md`);
   const { props, tags } = doscInstance;
 
-  const { group, groupOrder, embed, name, pageTitle, order, toc } = tags || {};
+  const { group, groupOrder, embed, name, pageTitle, order, toc, version } =
+    tags || {};
 
   const content = generateWriteContent(props);
 
@@ -119,7 +120,7 @@ function writeMarkdownFileSync(fileName, doscInstance) {
 
   const groupStr = `
 group:
-  title: ${group}
+  title: ${group || ''}
   order: ${groupOrder || 0}
   `;
 
@@ -134,7 +135,7 @@ nav:
 title: ${title}
 order: ${order || 0}
 ${toc === 'false' ? '' : tocStr}
-${group ? groupStr : ''}
+${group || groupOrder ? groupStr : ''}
 ---
 
 `;

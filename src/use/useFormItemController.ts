@@ -1,10 +1,12 @@
-import { useEffect, useMemo } from 'react';
-import { FormUtil } from 'react-form-simple/utils/FormUtil';
-import useControllerRef from './useControllerRef';
+import { useEffect, useMemo, useRef } from 'react';
 
 import { Subscribe } from 'react-form-simple/utils/subscribe';
 
 import { debounce, isArray } from 'lodash';
+import {
+  StaticVaildUtils,
+  VaildUtils,
+} from 'react-form-simple/driver/VaildDriver';
 import { GlobalProps, GlobalRules } from 'react-form-simple/types/form';
 import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
@@ -20,38 +22,34 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     contextProps,
   } = options;
 
-  const globalDatas = useControllerRef({
+  const globalDatas = useRef({
     uid: getUuid(),
     subscribe: new Subscribe(),
-    formUtil: new FormUtil({
+    vaildUtil: new VaildUtils({
       defaultValue,
-      onErr(err) {
-        globalDatas.subscribe.emit('onErr', err);
+      onError(msg) {
+        globalDatas.subscribe.emit('onErr', msg);
       },
     }),
     bindId,
     rules: [] as GlobalRules.Rules,
     errorText: '',
-  });
+  }).current;
 
   globalDatas.bindId = bindId;
   globalDatas.rules = rules;
 
-  const { formUtil, subscribe } = globalDatas;
+  const { vaildUtil, subscribe } = globalDatas;
+
+  vaildUtil.updateRule(rules);
 
   useEffect(() => {
-    formUtil.replace({ trigger, bindId });
-  }, [trigger, bindId]);
-
-  useEffect(() => {
-    if (bindId) {
-      formUtil.setRules(rules);
-    }
-  }, [rules, bindId]);
+    vaildUtil.updateBindId(bindId);
+  }, [bindId]);
 
   useEffect(() => {
     return () => {
-      formUtil.clearValidate();
+      vaildUtil.clearValidate();
     };
   }, []);
 
@@ -67,7 +65,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
         if (isMeaningful(globalDatas.errorText)) {
           return globalDatas.errorText;
         }
-        const _rules = formUtil.getRules();
+        const _rules = vaildUtil.getRules();
         if (isArray(_rules)) {
           for (let r of _rules) {
             const errRet = vailds.vaild(r);
@@ -82,8 +80,10 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
       vaild(rule: GlobalRules.RulesSingle) {
         const bindId = globalDatas.bindId;
 
-        const errResult = formUtil.validate(rule);
-        // TODO: type fix
+        const errResult = vaildUtil.vaild(rule);
+
+        globalDatas.subscribe.emit('onErr', errResult);
+
         onErrorDebounce?.(errResult as string, bindId);
         return errResult;
       },
@@ -94,7 +94,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
   const triggers = useMemo(
     () => ({
       get() {
-        return formUtil.getTriggers(trigger);
+        return StaticVaildUtils.getTriggers(trigger);
       },
       change() {
         const t = triggers.get();
@@ -112,7 +112,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     [trigger],
   );
 
-  const exportApis = useControllerRef({
+  const exportApis = useRef({
     validate() {
       const ret = vailds.each();
       return isMeaningful(ret) ? Promise.reject(ret) : Promise.resolve();
@@ -126,32 +126,32 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
         });
       }
       if (defaultValueSymbol !== defaultValue) {
-        formUtil.reset();
+        vaildUtil.reset();
       }
     },
     clearValidate() {
       globalDatas.errorText = '';
-      formUtil.clearValidate();
+      vaildUtil.clearValidate();
     },
     removeValidator() {
-      formUtil.clearValidate();
-      formUtil.removeValidator();
+      vaildUtil.clearValidate();
+      vaildUtil.removeValidator();
     },
     reapplyValidator() {
-      formUtil.setRules(globalDatas.rules);
+      vaildUtil.updateRule(globalDatas.rules);
     },
     setError(err: any) {
       globalDatas.errorText = err;
-      formUtil.updateErr(err);
+      globalDatas.subscribe.emit('onErr', err);
     },
     setValue(value: any) {
       subscribe.emit('update', value);
     },
-  });
+  }).current;
 
-  const exportEffectApis = useControllerRef({
+  const exportEffectApis = useRef({
     ...exportApis,
-  });
+  }).current;
 
   return {
     apis: exportApis,

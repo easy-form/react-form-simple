@@ -1,6 +1,7 @@
 import type { Apis, GlobalProps } from './types/form';
 
 import type {
+  DefaultRecord,
   UseFormNamespace,
   UseSubscribeNamespace,
   UseWatchNamespace,
@@ -28,7 +29,7 @@ export type FormItemApis = Apis.FormItemApis;
 /**
  * Export all contextProps to the user
  */
-export type ContextProps = GlobalProps.ContextProps;
+export type ContextProps<T = DefaultRecord> = GlobalProps.ContextProps<T>;
 
 /**
  * Export all Form apis for use by the user
@@ -38,7 +39,7 @@ export type { Apis } from './types/form';
 /**
  * Export the return type of useForm to the user, which is very useful in transparent transmission
  */
-export type UseFormReturnType<T = unknown> =
+export type UseFormReturnType<T = DefaultRecord> =
   UseFormNamespace.UseFormReturnType<T>;
 
 export * from './types/form';
@@ -46,9 +47,11 @@ export * from './types/use';
 
 export type RenderOptionsConfig = Parameters<UseFormReturnType['render']>[1];
 
-export type UseWatch<T> = UseWatchNamespace.UseWatch<T>;
+export type UseFormWatch<T> = UseWatchNamespace.UseWatch<T>;
 
-export type UseSubscribe<T> = UseSubscribeNamespace.UseSubscribe<T>;
+export type FormWatch<T> = UseWatchNamespace.Watch<T>;
+
+export type UseFormSubscribe<T> = UseSubscribeNamespace.UseSubscribe<T>;
 
 export { default as FormItem } from './template/FormItem';
 
@@ -59,7 +62,11 @@ export { default as useForm } from './use/useForm';
 /**
  * Methods for creating subscription forms that users may need to use when customizing forms
  */
-export { observer as createObserverForm } from './utils/controller';
+export { observer as createObserverForm } from './driver/ControllerDriver';
+
+export * from './use/useWatch';
+
+export * from './use/useSubscribe';
 
 /**
  * The default export is useForm

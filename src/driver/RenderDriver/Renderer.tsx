@@ -5,10 +5,10 @@ import type {
   UseRenderNamespace,
 } from 'react-form-simple';
 import { FormItem } from 'react-form-simple';
+import { getProxyValue } from 'react-form-simple/driver/ControllerDriver';
 import Controller from 'react-form-simple/template/Controller';
-import { getProxyValue } from 'react-form-simple/utils/controller';
 
-export const render = (
+export const renderer = (
   bindId: any,
   renderComponent: UseFormNamespace.RenderReturnFnArgTypes,
   config: UseFormNamespace.RenderConfigType &
@@ -61,4 +61,4 @@ export const render = (
   );
 };
 
-export default render;
+export default renderer;

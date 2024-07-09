@@ -1,21 +1,13 @@
 import { cloneDeep } from 'lodash';
 import ProxyPolyfillBuilder from 'proxy-polyfill/src/proxy';
 import React from 'react';
-import { isObject, isObjectOrArray } from './util';
+import type { DefaultRecord } from 'react-form-simple';
+import { isObject, isObjectOrArray } from 'react-form-simple/utils/util';
 
-export const proxyMap = new WeakMap();
-export const rawMap = new WeakMap();
-
-const _proxyMap = proxyMap;
-const _rawMap = rawMap;
-
-const proxyPolyfill = ProxyPolyfillBuilder();
-const Proxys = window.Proxy || proxyPolyfill;
+const ProxyPolyfill = window.Proxy || ProxyPolyfillBuilder();
 
 export type ObserverOptions = {
   path?: string[];
-  proxyMap: WeakMap<object, any>;
-  rawMap: WeakMap<object, any>;
   onChangeLength?: () => void;
 };
 
@@ -131,28 +123,14 @@ export const updateProxyValue = (
   }
 };
 
-export const observer = <T extends object>(
+export const observer = <T extends DefaultRecord>(
   initialVal: T,
   cb?: (args: ObserverCb) => void,
   options?: ObserverOptions,
 ): T => {
-  const {
-    path = [],
-    onChangeLength,
-    proxyMap,
-    rawMap,
-  } = (options || {}) as ObserverOptions;
+  const { path = [], onChangeLength } = (options || {}) as ObserverOptions;
 
-  const existingProxy = proxyMap.get(initialVal);
-  if (existingProxy) {
-    return existingProxy;
-  }
-
-  if (rawMap.has(initialVal)) {
-    return initialVal;
-  }
-
-  const proxy = new Proxys(initialVal, {
+  const proxy = new ProxyPolyfill(initialVal, {
     get(target, key, receiver) {
       const ret = Reflect.get(target, key, receiver);
       if (React.isValidElement(ret)) return ret;
@@ -182,44 +160,5 @@ export const observer = <T extends object>(
     },
   });
 
-  return proxy;
-};
-
-export const createControllerObserver = <T extends object>(
-  initialVal: T,
-  cb?: (args: ObserverCb) => void,
-  options?: ObserverOptions,
-): T => {
-  const { path = [], rawMap = _rawMap, proxyMap = _proxyMap } = options || {};
-  const existingProxy = proxyMap.get(initialVal);
-  if (existingProxy) {
-    return existingProxy;
-  }
-
-  if (rawMap.has(initialVal)) {
-    return initialVal;
-  }
-
-  const proxy = new Proxys(initialVal, {
-    get(target, key, receiver) {
-      const ret = Reflect.get(target, key, receiver);
-      if (React.isValidElement(ret)) return ret;
-      return isObjectOrArray(ret)
-        ? createControllerObserver(ret as T, cb, {
-            ...(options as ObserverOptions),
-            path: [...path, key.toString()],
-          })
-        : ret;
-    },
-    set(target, key, val) {
-      const newPath = [...path, key.toString()];
-      const ret = Reflect.set(target, key, val);
-      cb?.({ path: newPath.join('.'), value: val });
-      return ret;
-    },
-  });
-
-  proxyMap.set(initialVal, proxy);
-  rawMap.set(proxy, initialVal);
   return proxy;
 };
