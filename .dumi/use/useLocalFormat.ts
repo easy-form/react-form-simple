@@ -12,6 +12,7 @@ export function useLocalFormat() {
 
   const exMethods = useRef({
     format({ id }: { id: keyof typeof enUS }) {
+      if (!id) return '';
       const message = intl.formatMessage({ id });
       if (message === null || message === undefined || message === '') {
       }
