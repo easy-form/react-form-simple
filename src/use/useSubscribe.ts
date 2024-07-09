@@ -1,79 +1,45 @@
 import { cloneDeep } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { UseSubscribeNamespace } from 'react-form-simple/types/use';
-import { useControllerRef } from 'react-form-simple/use/useControllerRef';
-import { isEqual } from 'react-form-simple/utils/util';
+import type { UseSubscribeNamespace } from 'react-form-simple';
+import { RequiredContextType } from 'react-form-simple/driver/ObserverDriver/type';
 
-const subscribeObject = () => {
-  const object = {
-    datas: [] as Array<{ key: symbol; cb: () => void }>,
+export const useSubscribe = <T>(
+  contextProps: RequiredContextType<T>,
+  subscribeFun: UseSubscribeNamespace.SubscribeFunType<T, any>,
+) => {
+  const symbolKey = useRef(Symbol('symbol')).current;
 
-    getInstanceIndex(key: symbol) {
-      return this.get().findIndex((v) => v.key === key);
+  const [state, setState] = useState<any>(
+    subscribeFun({ model: cloneDeep(contextProps.model) }),
+  );
+
+  const { observerFactory } = contextProps;
+
+  observerFactory.subscribeManager.register(
+    symbolKey,
+    contextProps,
+    subscribeFun,
+    (value: any) => {
+      setState(value);
     },
-    get() {
-      return this.datas;
-    },
-    set(cb: () => void, key: symbol) {
-      const index = this.getInstanceIndex(key);
-      if (index >= 0) {
-        this.datas[index].cb = cb;
-      } else {
-        this.datas.push({ key, cb });
-      }
-    },
-    emit() {
-      setTimeout(() => {
-        const subscribeCbs = this.get();
-        subscribeCbs.forEach((subs) => {
-          subs.cb?.();
-        });
-      });
-    },
-    delete(key: symbol) {
-      const index = this.getInstanceIndex(key);
-      if (index >= 0) {
-        this.datas.splice(index, 1);
-      }
-    },
-  };
-  return object;
+  );
+
+  useEffect(() => {
+    return () => {
+      observerFactory.subscribeManager.destroy(symbolKey);
+    };
+  }, []);
+  return state;
 };
 
-export const usePrivateSubscribe = <T extends Record<string, any>>(options: {
-  model: T;
-}): UseSubscribeNamespace.UseSubscribeReturnType<
-  T,
-  ReturnType<typeof subscribeObject>
-> => {
-  const subscribes = useControllerRef(subscribeObject());
+// export const subscribe = <T>(
+//   contextProps: RequiredContextType<T>,
+//   sub: UseSubscribeNamespace.SubscribeFunType<T, any>,
+//   key: string,
+// ) => {
+//   const { observerFactory } = contextProps;
+//   const _sub = (...args: any) => sub(...args);
+//   observerFactory.subscribeManager.register(key, contextProps, sub, _sub);
 
-  const useSubscribe: UseSubscribeNamespace.UseSubscribe<T> = (cb) => {
-    const [state, setState] = useState<any>();
-    const preValueRef = useRef(null) as any;
-    const symbolKey = useRef(Symbol('symbol')).current;
-
-    useEffect(() => {
-      subscribes.set(() => {
-        const { model } = options;
-        const value = cb({ model: cloneDeep(model) });
-        if (isEqual(value, preValueRef.current)) return;
-        preValueRef.current = value;
-        setState(value);
-      }, symbolKey);
-    }, [cb]);
-
-    useEffect(() => {
-      subscribes.emit();
-      return () => {
-        subscribes.delete(symbolKey);
-      };
-    }, []);
-
-    return state;
-  };
-
-  return { useSubscribe, subscribes };
-};
-
-export default usePrivateSubscribe;
+//   return _sub()
+// };
