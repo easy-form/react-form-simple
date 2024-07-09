@@ -4,10 +4,9 @@ import { useForm } from 'react-form-simple';
 export default function App() {
   const { render, model } = useForm({ count: 0 });
 
+  const renderName = render('count')(<input type="number" />);
+
   const [modelState, setModelState] = useState('');
-
-  const renderName = render('count')(<input />);
-
   const onSubmit = () => setModelState(JSON.stringify(model));
 
   return (

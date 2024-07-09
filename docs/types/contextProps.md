@@ -14,6 +14,7 @@ order: 60
 ```jsx | pure
 
 export type ContextProps = {
+  model: Record<string, any>
   mounted: ((options: { uid: string; bindId: any; }) => void)
   apiEffect: (options: Options) => void
   updated: ((options: { uid: string; bindId: any; value: any; }) => void)

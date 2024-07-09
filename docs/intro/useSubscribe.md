@@ -31,6 +31,11 @@ Use **useSubscribe** to subscribe to the value of a form control.
 
 <code src="../demos/useSubscribe/_linkage.tsx"></code>
 
+### <Mdh version="1.5.2">Global Hook</Mdh>
+
+Provides a global useSubscribe, which behaves the same as form.useSubscribe, but the global useSubscribe requires the defined contextProps property.
+<code src="../demos/useSubscribe/_global_sub.tsx"></code>
+
 ### <Mdh version="">Use as dependency</Mdh>
 
 **useSubscribe** returns a React state variable, so you can even use it as a dependency for React Hooks like useMemo, useEffect, useCallback, etc.

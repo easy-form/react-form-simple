@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-form-simple';
+import { useForm, useWatch } from 'react-form-simple';
 
 export default function App() {
-  const { render, model, useWatch } = useForm({ name: 'name' });
+  const { render, model, contextProps } = useForm({ name: 'name' });
 
   const renderName = render('name')(<input />);
 
@@ -10,6 +10,7 @@ export default function App() {
   const [preValue, setPreValue] = useState(model.name);
 
   useWatch(
+    contextProps,
     ({ model }) => model.name,
     (value, preValue) => {
       setNewValue(value as string);

@@ -13,17 +13,17 @@ Just one command is all it takes to give `React-form-simple` a try.
 Using npm:
 
 ```jsx | pure
-npm install -S react-form-simple
+npm install react-form-simple -S
 ```
 
 Using yarn
 
 ```jsx | pure
-yarn add -S react-form-simple
+yarn add react-form-simple -S
 ```
 
 Using pnpm
 
 ```jsx | pure
-pnpm add -S react-form-simple
+pnpm add react-form-simple -S
 ```

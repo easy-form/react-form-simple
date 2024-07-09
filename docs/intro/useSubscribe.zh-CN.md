@@ -31,6 +31,11 @@ toc: content
 
 <code src="../demos/useSubscribe/_linkage.tsx"></code>
 
+### <Mdh version="1.5.2">全局 hook</Mdh>
+
+提供全局的 useSubscribe，其行为与 form.useSubscribe 一致，但是全局的 useSubscribe 需要提供定义的 contextProps 属性。
+<code src="../demos/useSubscribe/_global_sub.tsx"></code>
+
 ### <Mdh version="">用作依赖</Mdh>
 
 _useSubscribe_ 返回一个 React 状态变量，因此你甚至可以将它用作 useMemo、useEffect、useCallback 等 React Hook 的依赖项。 <code src="../demos/useSubscribe/_effect.tsx"></code>

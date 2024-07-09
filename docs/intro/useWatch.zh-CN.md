@@ -38,3 +38,13 @@ _useWatch_ 的第一个参数是一个返回集合的函数，可以用于监听
 ### <Mdh>监听某一项</Mdh>
 
 <code src="../demos/useWatch/_array_item.tsx"></code>
+
+### <Mdh version="1.5.2">全局 hook</Mdh>
+
+提供全局的 useWatch，其行为与 form.useWatch 一致，但是全局的 useWatch 需要提供定义的 contextProps 属性。
+<code src="../demos/useWatch/_global_use.tsx"></code>
+
+### <Mdh version="1.5.2">watch</Mdh>
+
+提供基于函数的 watch 监听。与 hook 的区别在于它可以在任意地方调用，但需要提供一个唯一且在当前组件周期中不变的 key。在组件销毁时，某些情况下可能需要手动取消监听。在大多数情况下，表现正常，但如果不销毁，可能会导致一些无法预料的问题。
+<code src="../demos/useWatch/_watch.tsx"></code>

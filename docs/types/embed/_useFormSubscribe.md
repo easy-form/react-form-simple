@@ -3,7 +3,7 @@ import type { UseFormReturnType } from 'react-form-simple';
 type UseSubscribeType = UseFormReturnType<T=unknown>['useSubscribe'];
 
 // or
-import type { UseSubscribe } from 'react-form-simple'
+import type { UseFormSubscribe } from 'react-form-simple'
 
 // or
 import type { UseSubscribeNamespace } from 'react-form-simple'

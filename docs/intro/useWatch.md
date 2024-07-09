@@ -38,3 +38,13 @@ Any change in the array will trigger the callback.
 ### <Mdh>Watch a specific item</Mdh>
 
 <code src="../demos/useWatch/_array_item.tsx"></code>
+
+### <Mdh version="1.5.2">Global Hook</Mdh>
+
+Provides a global useWatch, which behaves the same as form.useWatch, but the global useWatch requires the defined contextProps property.
+<code src="../demos/useWatch/_global_use.tsx"></code>
+
+### <Mdh version="1.5.2">watch</Mdh>
+
+Provides function-based watch monitoring. The difference from hook is that it can be called anywhere, but a unique key that does not change during the current component cycle is required. When the component is destroyed, it may be necessary to manually cancel the monitoring in some cases. In most cases, the performance is normal, but if it is not destroyed, it may cause some unpredictable problems.
+<code src="../demos/useWatch/_watch.tsx"></code>
