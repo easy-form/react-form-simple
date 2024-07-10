@@ -1,4 +1,14 @@
 {
+  "model": {
+    "defaultValue": null,
+    "name": "model",
+    "type": {
+      "name": "Record<string, any>"
+    },
+    "tags": {
+      "description": "form model"
+    }
+  },
   "mounted": {
     "defaultValue": null,
     "name": "mounted",

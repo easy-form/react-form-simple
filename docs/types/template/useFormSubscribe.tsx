@@ -1,7 +1,7 @@
 /**
  * @order 40
- * @embed /embed/_useSubscribe.md
- * @name UseSubscribe
+ * @embed /embed/_useFormSubscribe.md
+ * @name UseFormSubscribe
  */
 
 export default function UseSubscribe(props: {}) {}

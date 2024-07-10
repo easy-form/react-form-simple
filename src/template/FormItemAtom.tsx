@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useFormItemContentController,
   type UseFormItemContentController,
@@ -8,7 +8,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import type { GlobalProps } from 'react-form-simple/types/form';
 
-import useController from 'react-form-simple/use/useController';
 import type { Subscribe } from 'react-form-simple/utils/subscribe';
 import '../style/form.css';
 
@@ -89,19 +88,18 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
   const { errorStyle, subscribe, bindId, errorClassName } = props;
   const errRef = useRef(null);
 
-  const datas = useController({ errorMessage: '', err: false });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     subscribe.on('onErr', (err: string) => {
-      Reflect.set(datas, 'err', isMeaningful(err));
-      if (datas.err) {
-        Reflect.set(datas, 'errorMessage', err);
+      const isErr = isMeaningful(err);
+      setErr(isErr);
+      if (isErr) {
+        setErrorMessage(err);
       }
     });
   }, []);
-
-  const isErr = useMemo(() => datas.err, [datas.err]);
-  const { errorMessage } = datas;
 
   const classes = getCssInClasses(
     ['react-form-simple-error-txt', errorClassName as string],
@@ -111,7 +109,7 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
   return (
     <>
       <CSSTransition
-        in={isErr}
+        in={err}
         timeout={300}
         classNames="alert"
         unmountOnExit

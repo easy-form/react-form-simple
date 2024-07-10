@@ -26,6 +26,6 @@ group:
 ### setError
 <APIWrap apiInstance="{&quot;defaultValue&quot;:null,&quot;name&quot;:&quot;setError&quot;,&quot;type&quot;:{&quot;name&quot;:&quot;(bindId: any, message?: ReactNode) => void&quot;},&quot;tags&quot;:{&quot;description&quot;:&quot;Manually calling to set the error message will not trigger the onError event&quot;,&quot;localKey&quot;:&quot;API.formItem.setError.desc&quot;,&quot;version&quot;:&quot;1.3.0&quot;,&quot;resetType&quot;:&quot;(bindId: string | string[], message?: React.ReactNode) => void&quot;}}" ></APIWrap>
 ### validate
-<APIWrap apiInstance="{&quot;defaultValue&quot;:null,&quot;name&quot;:&quot;validate&quot;,&quot;type&quot;:{&quot;name&quot;:&quot;() => Promise<unknown>&quot;},&quot;tags&quot;:{&quot;localKey&quot;:&quot;API.form.share.validate.desc&quot;,&quot;description&quot;:&quot;Form validation.&quot;}}" ></APIWrap>
+<APIWrap apiInstance="{&quot;defaultValue&quot;:null,&quot;name&quot;:&quot;validate&quot;,&quot;type&quot;:{&quot;name&quot;:&quot;(bindId?: string | string[] | undefined) => Promise<unknown>&quot;},&quot;tags&quot;:{&quot;localKey&quot;:&quot;API.form.share.validate.desc&quot;,&quot;description&quot;:&quot;Form validation.&quot;}}" ></APIWrap>
 ### reset
 <APIWrap apiInstance="{&quot;defaultValue&quot;:null,&quot;name&quot;:&quot;reset&quot;,&quot;type&quot;:{&quot;name&quot;:&quot;() => void&quot;},&quot;tags&quot;:{&quot;description&quot;:&quot;Reset the form.&quot;,&quot;localKey&quot;:&quot;API.form.share.reset.desc&quot;}}" ></APIWrap>

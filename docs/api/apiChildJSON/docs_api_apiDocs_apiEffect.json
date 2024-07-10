@@ -21,6 +21,17 @@
       "description": "The current form item uid."
     }
   },
+  "setValue": {
+    "defaultValue": null,
+    "name": "setValue",
+    "type": {
+      "name": "(value?: any) => void"
+    },
+    "tags": {
+      "localKey": "API.formItem.setValue.desc",
+      "description": "Set the value of the form item for external calls"
+    }
+  },
   "clearValidate": {
     "defaultValue": null,
     "name": "clearValidate",
@@ -57,18 +68,6 @@
       "resetType": "(bindId?: string | string[]) => void"
     }
   },
-  "setValue": {
-    "defaultValue": null,
-    "name": "setValue",
-    "type": {
-      "name": "(bindId: any, value: any) => void"
-    },
-    "tags": {
-      "description": "Set form item value",
-      "localKey": "API.form.setValue.desc",
-      "param": "bindId"
-    }
-  },
   "setError": {
     "defaultValue": null,
     "name": "setError",
@@ -86,7 +85,7 @@
     "defaultValue": null,
     "name": "validate",
     "type": {
-      "name": "() => Promise<unknown>"
+      "name": "(bindId?: string | string[] | undefined) => Promise<unknown>"
     },
     "tags": {
       "localKey": "API.form.share.validate.desc",

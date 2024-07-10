@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Apis, GlobalProps } from 'react-form-simple/types/form';
-import useForceUpdate from 'react-form-simple/use/useForceUpdate';
-import { FormUtil } from 'react-form-simple/utils/FormUtil';
 import {
   getProxyValue,
   updateProxyValue,
-} from 'react-form-simple/utils/controller';
+} from 'react-form-simple/driver/ControllerDriver';
+import { VaildUtils } from 'react-form-simple/driver/VaildDriver';
+import { Apis, GlobalProps } from 'react-form-simple/types/form';
+import useForceUpdate from 'react-form-simple/use/useForceUpdate';
 import Subscribe from 'react-form-simple/utils/subscribe';
 import { getEventCbValue, isMeaningful } from 'react-form-simple/utils/util';
 
@@ -30,7 +30,7 @@ const convertStringToObject = (
 
 export interface UseFormItemContentController
   extends GlobalProps.FormItemProps {
-  formUtil: InstanceType<typeof FormUtil>;
+  vaildUtil: VaildUtils;
   subscribe: InstanceType<typeof Subscribe>;
   onChange: (...args: any[]) => void;
   onBlur: () => void;
@@ -43,7 +43,7 @@ export function useFormItemContentController(
   const {
     bindId,
     initialValue,
-    formUtil,
+    vaildUtil,
     getContent,
     subscribe,
     onChange,
@@ -59,7 +59,7 @@ export function useFormItemContentController(
 
   const modelValue = useRef(convertStringToObject(bindId, initialValue));
 
-  formUtil.replace({ model: modelValue.current });
+  vaildUtil.updateModel(modelValue.current);
 
   const isError = useRef(false);
   const errorMessage = useRef('');

@@ -19,7 +19,7 @@ export type FormApis = {
   reapplyValidator: (bindId?: string | string[]) => void
   setValue: (bindId: any, value: any) => void
   setError: (bindId: string | string[], message?: React.ReactNode) => void
-  validate: () => Promise<unknown>
+  validate: (bindId?: string | string[] | undefined) => Promise<unknown>
   reset: () => void
 }
 

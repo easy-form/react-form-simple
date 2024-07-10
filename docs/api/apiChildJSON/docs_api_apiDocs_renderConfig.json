@@ -206,7 +206,7 @@
     "defaultValue": null,
     "name": "contextProps",
     "type": {
-      "name": "ContextProps"
+      "name": "ContextProps<Record<string, any>>"
     },
     "tags": {
       "localKey": "API.form.global.props.form.share.contextProps",

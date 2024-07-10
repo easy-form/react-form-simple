@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-form-simple';
 
 export default function App() {
-  const { render, useWatch, model } = useForm({ name: 'name' });
+  const { render, model, useWatch } = useForm({ name: 'name' });
 
   const renderName = render('name')(<input />);
 

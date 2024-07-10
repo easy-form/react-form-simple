@@ -88,6 +88,13 @@ With **removeValidator** and **reapplyValidator**, you can selectively validate 
 As shown in the example below, validation is not performed when clicking the draft button, but it is performed when clicking the submit button.
 <code src="../demos/vaild/_rules_select.tsx"></code>
 
+### <Mdh version="1.5.2">Select Field Validation</Mdh>
+
+By passing the fields to be validated to the _validate_ method, you can selectively validate these fields in the current validation stack instead of dynamically relying on setting _rules_. The difference is that it only takes effect in the current validation stack and does not affect the validation rules of the render form items.
+
+It accepts a string or a collection of strings:
+<code src="../demos/vaild/_select_vaild.tsx"></code>
+
 ### <Mdh>Error Callback</Mdh>
 
 <code src="../demos/vaild/_callback.tsx"></code>

@@ -14,17 +14,17 @@ nav: 文档
 使用 npm
 
 ```jsx | pure
-npm install -S react-form-simple
+npm install react-form-simple -S
 ```
 
 使用 yarn
 
 ```jsx | pure
-yarn add -S react-form-simple
+yarn add react-form-simple -S
 ```
 
 使用 pnpm
 
 ```jsx | pure
-pnpm add -S react-form-simple
+pnpm add react-form-simple -S
 ```

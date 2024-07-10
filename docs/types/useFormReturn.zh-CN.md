@@ -16,7 +16,9 @@ order: 10
 export type UseFormReturnType<T> = {
   render: (bindId: any, [config]) => (parameter: ReactNode | (args: RenderFnReturnFnCallbackArgTypes) => ReactNode) => ReactNode
   useSubscribe: UseSubscribe<T>(({ model }) => any)
-  useWatch: UseWatch<T>(({ model }) => string | string[], (value, preValue) => void)
+  useWatch: (({ model }) => string | string[], (value, preValue) => void)
+  watch: (subscribeFun: SubscripeFunType<T>,cb: CallbackType,key: string | symbol) => { unWatch: () => void }
+  unWatch: (key: string | symbol): void;
   model: T
   setState: React.Dispatch<React.SetStateAction<undefined>>
   forceUpdate: (delay?: boolean | undefined) => void
@@ -26,9 +28,9 @@ export type UseFormReturnType<T> = {
   reapplyValidator: (bindId?: string | string[]) => void
   setValue: (bindId: any, value: any) => void
   setError: (bindId: string | string[], message?: React.ReactNode) => void
-  validate: () => Promise<unknown>
+  validate: (bindId?: string | string[] | undefined) => Promise<unknown>
   reset: () => void
-  contextProps: ContextProps
+  contextProps: ContextProps<Record<string, any>>
 }
 
 

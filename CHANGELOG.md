@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.2](https://github.com/easy-form/react-form-simple/compare/v1.5.1...v1.5.2) (2024-07-10)
+
+### Bug Fixes
+
+- fix useSubscribe init value undefined bug ([83a20dd](https://github.com/easy-form/react-form-simple/commit/83a20dd6704854445f8b9eca1c1d6a69614d661f))
+
+### Features
+
+- add global useWatch\useSubscribe and form.watch ([8616687](https://github.com/easy-form/react-form-simple/commit/8616687e750bdaa5304cda9887484aeba412583c))
+- add vaildate select field vaild ([eb5a9b7](https://github.com/easy-form/react-form-simple/commit/eb5a9b70a0d53e1dbc22d3635f629665cb035654))
+  
 ## [1.4.6](https://github.com/easy-form/react-form-simple/compare/v1.4.5...v1.4.6) (2024-04-27)
 
 ### Bug Fixes

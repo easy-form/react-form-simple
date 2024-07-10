@@ -1,12 +1,11 @@
 import { IconFont } from '@components/IconFont';
-import React from 'react';
-import { useControllerRef } from 'react-form-simple/use/useControllerRef';
+import React, { useRef } from 'react';
 import { useLocalFormat } from 'useLocalFormat';
 import './index.less';
 
 export const Feature = React.memo(() => {
   const { format, isLocalZH_CN } = useLocalFormat();
-  const { icons } = useControllerRef({
+  const { icons } = useRef({
     icons: [
       {
         name: 'code',
@@ -40,7 +39,7 @@ export const Feature = React.memo(() => {
         desc: format({ id: 'hero.feature.type' }),
       },
     ],
-  });
+  }).current;
 
   const _isLocalZH_CN = isLocalZH_CN();
 

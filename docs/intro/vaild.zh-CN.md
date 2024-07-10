@@ -81,6 +81,13 @@ _请注意_，_setError_ 的优先级高于库内部的校验优先级。也就�
 如下示例所示，点击 draft 按钮时不进行校验，而点击 submit 按钮时才进行校验。
 <code src="../demos/vaild/_rules_select.tsx"></code>
 
+### <Mdh version="1.5.2">选择字段校验</Mdh>
+
+给 _validate_ 方法传入需要校验的字段，可以在当前的校验栈中选择性的校验这些字段，而不是动态的依赖于设置 _rules_。区别在于它只在当前的校验栈中生效，而不影响 render 表单项的校验规则。
+
+它接收一个字符串或者是一个字符串集合：
+<code src="../demos/vaild/_select_vaild.tsx"></code>
+
 ### <Mdh>错误回调</Mdh>
 
 <code src="../demos/vaild/_callback.tsx"></code>
@@ -89,7 +96,7 @@ _请注意_，_setError_ 的优先级高于库内部的校验优先级。也就�
 
 有时候我们希望自定义错误通知的展示方式。通过设置 _customErrTips_ 属性，库内部将不再默认提供错误通知的展示，此时需要手动将其呈现在视图上。
 
-基于上述示例中的 _onError_ 错误回调函数和 _customErrTips_，我们可以获取错误通知并将其存储起来，以便在其他视图中展示。然而，我们似乎有一种更好的方式来实现这一点。
+基于上述示例中的 _onError_ 错误回调函数和 _customErrTips_，我们可以获取错误通知并将其存储起来，以便在其他视图中展示。然而借助函数式，我们有一种更好的方式来实现这一点。
 <code src="../demos/vaild/_custom_tips.tsx"></code>
 
 ### <Mdh version="1.5.1">定制化</Mdh>

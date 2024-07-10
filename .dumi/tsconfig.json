@@ -6,6 +6,6 @@
     "theme/slots/**/*",
     "component/**/*",
     "pages/**/*",
-    "../global.d.ts"
-  ],
+    "../global.d.ts",
+  ]
 }

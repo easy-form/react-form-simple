@@ -11,6 +11,7 @@ export default function App() {
     setValues,
     useSubscribe,
     useWatch,
+    watch,
     validate,
     reset,
     removeValidator,

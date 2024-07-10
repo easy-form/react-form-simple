@@ -1,75 +1,56 @@
-import { cloneDeep } from 'lodash';
 import { useEffect, useRef } from 'react';
-import { UseWatchNamespace } from 'react-form-simple/types/use';
-import { useControllerRef } from 'react-form-simple/use/useControllerRef';
-import { isEqual } from 'react-form-simple/utils/util';
+import { UseWatchNamespace } from 'react-form-simple';
+import type {
+  CallbackType,
+  KeyType,
+  RequiredContextType,
+  SubscripeFunType,
+} from 'react-form-simple/driver/ObserverDriver/type';
 
-export function usePrivateWatch<T>(options: { model: T }) {
-  const { model } = options;
-  const watchInstance = useControllerRef({
-    datas: [] as Array<{ cb: UseWatchNamespace.WatchChangeCb; key: symbol }>,
-    ret: new WeakMap(),
-    set(cb: UseWatchNamespace.WatchChangeCb, key: symbol) {
-      const haveIndex = this.getInstanceIndex(key);
-      if (haveIndex >= 0) {
-        this.datas[haveIndex].cb = cb;
-      } else {
-        this.datas.push({ cb, key });
-      }
-    },
-    get() {
-      return this.datas;
-    },
-    emit(options?: UseWatchNamespace.WatchChangeCbProps) {
-      const watchFuns = this.get();
-      watchFuns.forEach((watch) => void watch.cb?.(options));
-    },
-    getInstanceIndex(key: symbol) {
-      return this.get().findIndex((v) => v.key === key);
-    },
-    delete(key: symbol) {
-      const index = this.getInstanceIndex(key);
-      if (index >= 0) {
-        this.datas.splice(index, 1);
-      }
-    },
-  });
+export const useWatch = <T>(
+  contextProps: RequiredContextType<T>,
+  subscribeFun: SubscripeFunType<T>,
+  cb: CallbackType,
+  // options?: UseWatchNamespace.WatchOptions,
+) => {
+  // const { observerFactory } = contextProps;
+  // observerFactory.watchManager.register(
+  //   symbolKey,
+  //   contextProps,
+  //   subscribeFun,
+  //   cb,
+  //   options,
+  // );
 
-  const useWatch: UseWatchNamespace.UseWatch<T> = (subScripeFun, cb) => {
-    const symbolKey = useRef(Symbol('symbol')).current;
-    const _subScripeFun = subScripeFun;
-    const _cb = cb;
+  const symbolKey = useRef(Symbol('symbol')).current;
 
-    const preRets = useRef<UseWatchNamespace.SubscripeFunReturnType>(null);
+  const { unWatch } = watch(contextProps, subscribeFun, cb, symbolKey);
 
-    const fun: UseWatchNamespace.WatchChangeCb = (options) => {
-      const { isInitEmit = false } = options || {};
-
-      const ret = _subScripeFun?.({ model });
-
-      if (isInitEmit) {
-        preRets.current = cloneDeep(ret);
-        return;
-      }
-      const _isEqual = isEqual(ret, preRets.current);
-      if (!_isEqual) {
-        _cb?.(cloneDeep(ret), preRets.current);
-      }
-      preRets.current = cloneDeep(ret);
+  useEffect(() => {
+    return () => {
+      unWatch();
+      // observerFactory.watchManager.destroy(symbolKey);
     };
+  }, []);
+};
 
-    watchInstance.set(fun, symbolKey);
+export const unWatch = <T>(
+  contextProps: RequiredContextType<T>,
+  key: KeyType,
+) => {
+  contextProps.observerFactory.watchManager.destroy(key);
+};
 
-    useEffect(() => {
-      setTimeout(() => {
-        fun({ isInitEmit: true });
-      });
-      return () => {
-        watchInstance.delete(symbolKey);
-      };
-    }, []);
+export const watch = <T>(
+  contextProps: RequiredContextType<T>,
+  subscribeFun: SubscripeFunType<T>,
+  cb: UseWatchNamespace.CallbackType,
+  key: KeyType,
+) => {
+  const { observerFactory } = contextProps;
+  observerFactory.watchManager.register(key, contextProps, subscribeFun, cb);
+
+  return {
+    unWatch: () => unWatch(contextProps, key),
   };
-  return { useWatch, watchInstance };
-}
-
-export default usePrivateWatch;
+};

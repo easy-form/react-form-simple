@@ -1,5 +1,6 @@
 import type { CSSInterpolation } from '@emotion/css';
 import React from 'react';
+import type { DefaultRecord } from 'react-form-simple';
 export type ReactNode = React.ReactNode;
 
 /**
@@ -91,6 +92,11 @@ export namespace Apis {
      * @resetType (bindId: string | string[], message?: React.ReactNode) => void
      */
     setError: (bindId: any | any[], message?: React.ReactNode) => void;
+    /**
+     * @localKey API.form.share.validate.desc
+     * @description Form validation.
+     */
+    validate: (bindId?: string | string[]) => Promise<unknown>;
   }
   /**
    * The form unit item interface is integrated, so functional operations are based on these interfaces.
@@ -228,19 +234,23 @@ export namespace GlobalProps {
      * @description The current form item uid.
      */
     uid: string;
-    // /**
-    //  * @description Manually refresh the value inside the form item
-    //  * @localKey API.form.global.props.ApiEffectOptions.refreshValue.desc
-    //  */
-    // refreshValue: () => void;
-  } & Omit<Apis.FormApis, 'setValues'>;
+    /**
+     * @localKey API.formItem.setValue.desc
+     * @description Set the value of the form item for external calls
+     */
+    setValue: (value?: any) => void;
+  } & Omit<Apis.FormApis, 'setValues' | 'setValue'>;
 
   /**
    * To make a form controlled, you need to pass in a context
    * This will be exposed to the user so that he can customize the form control, and will also be integrated into useForm in the library.
    * It contains some form life cycle hooks
    */
-  export type ContextProps = {
+  export interface ContextProps<T = DefaultRecord> {
+    /**
+     * @description form model
+     */
+    model?: T;
     /**
      * @localKey API.form.global.props.ContextProps.mounted.desc
      * @description The form item is mounted and executed for the first time. In a form item, this hook will only be executed once.It will call back an object, which will contain the unique authentication uid of this form item.
@@ -272,7 +282,7 @@ export namespace GlobalProps {
      * @description Hook executed when form item is destroyed
      */
     destroy?: (options: { uid: string; bindId: BindId }) => void;
-  };
+  }
 
   /**
    * Public props of a form group

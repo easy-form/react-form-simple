@@ -50,7 +50,7 @@ export const FormItem = React.forwardRef<
       ...assigns,
     });
 
-  const { uid, subscribe, formUtil, bindId: _bindId } = globalDatas;
+  const { uid, subscribe, vaildUtil, bindId: _bindId } = globalDatas;
 
   // const { setError } = apis;
 
@@ -118,7 +118,7 @@ export const FormItem = React.forwardRef<
       onBlur={() => {
         triggers.blur();
       }}
-      formUtil={formUtil}
+      vaildUtil={vaildUtil}
       getContent={(...args) => getContent?.(...args) || children}
     />
   );

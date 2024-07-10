@@ -1,36 +1,33 @@
 import { cloneDeep, debounce } from 'lodash';
 import { useRef } from 'react';
+import type {
+  DefaultRecord,
+  UseFormNamespace,
+  UseFormReturnType,
+} from 'react-form-simple';
 import { createObserverForm } from 'react-form-simple';
-import type { GlobalProps } from 'react-form-simple/types/form';
-import type { UseFormNamespace } from 'react-form-simple/types/use';
 import {
   replaceTarget,
   updateProxyValue,
-} from 'react-form-simple/utils/controller';
+} from 'react-form-simple/driver/ControllerDriver';
+import { ObserverFactory } from 'react-form-simple/driver/ObserverDriver/Factory';
+import { create as createRneder } from 'react-form-simple/driver/RenderDriver';
 import { useContextApi } from './useContextApi';
-import { useFormExtraApis } from './useFormExtraApis';
-import { useRender } from './useRender';
-import { usePrivateSubscribe } from './useSubscribe';
-import { usePrivateWatch } from './useWatch';
+import { useFormExtraApi } from './useFormExtraApi';
 
-const useForm = <T extends Record<string, any>>(
+const useForm = <T extends DefaultRecord>(
   model: T,
   config?: UseFormNamespace.ShareConfig,
 ) => {
   const proxyTarget = useRef(cloneDeep(model) || {});
 
-  const defaultValues = useRef<T>(cloneDeep(model) || {}).current;
+  const defaultValues = useRef(cloneDeep(model) || {}).current;
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
 
-  const globalMaps = useRef({
-    proxyMap: new WeakMap(),
-    rawMap: new WeakMap(),
-  });
-
   const debounceFn = useRef({
     watch: debounce(() => {
-      watchInstance.emit();
+      observerFactory.watchManager.notify();
     }),
     onChangeLength: debounce(() => {
       replaceTarget(proxymodel, proxymodel);
@@ -42,34 +39,32 @@ const useForm = <T extends Record<string, any>>(
       proxyTarget.current as T,
       ({ path, value }) => {
         set(path, value);
-        subscribes.emit();
+        observerFactory.subscribeManager.notify();
         debounceFn.watch();
       },
       {
         path: [],
         onChangeLength: debounceFn.onChangeLength,
-        rawMap: globalMaps.current.rawMap,
-        proxyMap: globalMaps.current.proxyMap,
       },
     );
   }).current;
 
   const proxymodel = useRef(_createObserverForm()).current;
 
-  const { useWatch, watchInstance } = usePrivateWatch({ model: proxymodel });
+  const observerFactory = useRef(new ObserverFactory<T>()).current;
+  observerFactory.create('watch');
+  observerFactory.create('subscribe');
 
-  const { subscribes, useSubscribe } = usePrivateSubscribe<T>({
-    model: proxymodel as T,
-  });
-
-  const _contextProps = useRef<GlobalProps.ContextProps>({
+  const _contextProps = useRef<UseFormReturnType<T>['contextProps']>({
     ...contextProps,
+    model: proxymodel,
+    observerFactory,
     updated({ bindId, value }) {
       updateProxyValue(proxymodel, bindId, value);
     },
   }).current;
 
-  const { render, set } = useRender({
+  const { set, render } = createRneder({
     ...config,
     model: proxymodel,
     contextProps: _contextProps,
@@ -81,10 +76,12 @@ const useForm = <T extends Record<string, any>>(
     model: proxymodel,
     contextProps: _contextProps,
     render,
-    useSubscribe,
-    useWatch,
     ...overlayApis,
-    ...useFormExtraApis({ model: proxymodel, overlayApis, defaultValues }),
+    ...useFormExtraApi<T>({
+      overlayApis,
+      defaultValues,
+      contextProps: _contextProps,
+    }),
   };
 };
 
