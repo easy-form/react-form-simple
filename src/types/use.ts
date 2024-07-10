@@ -216,3 +216,12 @@ export namespace UseWatchNamespace {
     (key: string | symbol): void;
   }
 }
+export namespace UseRenderNamespace {
+  export interface UseRenderOptions extends UseFormNamespace.ShareConfig {
+    model: Record<string, any>;
+    globalDatas: Record<string, any>;
+    contextProps: GlobalProps.ContextProps;
+    defaultValues: Record<string, any>;
+  }
+}
+
