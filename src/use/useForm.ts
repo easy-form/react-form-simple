@@ -11,7 +11,7 @@ import {
   updateProxyValue,
 } from 'react-form-simple/driver/ControllerDriver';
 import { ObserverFactory } from 'react-form-simple/driver/ObserverDriver/Factory';
-import { create as createRneder } from 'react-form-simple/driver/RenderDriver';
+import { create as createRender } from 'react-form-simple/driver/RenderDriver';
 import { useContextApi } from './useContextApi';
 import { useFormExtraApi } from './useFormExtraApi';
 
@@ -64,7 +64,7 @@ const useForm = <T extends DefaultRecord>(
     },
   }).current;
 
-  const { set, render } = createRneder({
+  const { set, render } = createRender({
     ...config,
     model: proxymodel,
     contextProps: _contextProps,
