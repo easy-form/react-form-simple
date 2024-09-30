@@ -11,6 +11,8 @@ toc: content
 
 **React Form Simple** provides form watch functionality, which is very useful for handling specific logic when certain form fields change.
 
+**useWatch** uses a deep comparison algorithm, which means that as long as the new value and the old value are exactly the same, no matter how deep the level is, it will not trigger the listener function.
+
 ### <Mdh>Basic Usage</Mdh>
 
 Use **useWatch** to monitor changes in a specific field.

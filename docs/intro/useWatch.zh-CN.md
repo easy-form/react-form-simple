@@ -11,6 +11,8 @@ toc: content
 
 _React Form Simple_ 提供表单监听操作，对于在某些表单项字段变化后需要处理特定逻辑的情况非常有用。
 
+_useWatch_ 采用深度对比算法，也就是说只要新的value和旧的value不管层级多深只要值完全相同那它就不会触发listener函数。
+
 ### <Mdh>基本用法</Mdh>
 
 使用 _useWatch_ 监听某个字段的变化。

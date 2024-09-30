@@ -9,9 +9,11 @@ toc: content
 
 # Subscribe to latest value
 
-Using form model data **model** to control form controls through dot assignment. However, this will not cause the entire view to be re-rendered, thus achieving part of the performance optimization. If you directly use model.xx to render the latest value outside the form item, it may not achieve the expected effect.
+Using form model data **model** to control form controls through point assignment. However, this will not cause the entire view to be re-rendered, which means that it cannot be consumed as a state variable externally. This is also part of achieving performance optimization. If you want to directly use model.xx to render the latest value outside the form item, it may not achieve the expected effect.
 
-Therefore, we can use the **useSubscribe** hook to solve this problem.
+Therefore, we can use **useSubscribe** hook to solve this problem.
+
+**useSubscribe** uses a deep comparison algorithm, which means that as long as the new value and the old value are exactly the same, no matter how deep the hierarchy is, it will not re-render.
 
 ### <Mdh>Basic Usage</Mdh>
 
