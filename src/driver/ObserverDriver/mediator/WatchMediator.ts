@@ -5,14 +5,14 @@ import type {
   CallbackType,
   KeyType,
   RequiredContextType,
-  SubscripeFunType,
+  SubscribeFunType,
 } from '../type';
 
 export class WatchMediator<T> extends AbstractObserver<Watch<T>> {
   public register(
     key: KeyType,
     contextProps: RequiredContextType<T>,
-    subscribeFun: SubscripeFunType<T>,
+    subscribeFun: SubscribeFunType<T>,
     cb: CallbackType,
     options?: UseWatchNamespace.WatchOptions,
   ) {

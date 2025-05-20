@@ -68,7 +68,6 @@
   "dependencies": {
     "@emotion/css": "^11.11.2",
     "lodash": "^4.17.21",
-    "proxy-polyfill": "^0.3.2",
     "react-transition-group": "^4.4.5"
   },
   "devDependencies": {

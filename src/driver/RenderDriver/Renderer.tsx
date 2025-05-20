@@ -30,13 +30,13 @@ export const renderer = (
 
   const renderReactNode = (options: GlobalProps.GetContentOptions) => {
     const { attrs } = options;
-    const controllerprops = {
+    const controllerProps = {
       attrs,
       ...defineProps?.(options),
     } as GlobalProps.GetContentOptions;
     return (
       <Controller
-        {...controllerprops}
+        {...controllerProps}
         otherProps={{
           'data-form-simple-test-id': bindId,
         }}

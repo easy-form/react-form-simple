@@ -3,23 +3,27 @@ import type {
   GlobalProps,
   UseFormNamespace,
 } from 'react-form-simple';
+import { getProxyValue } from '../ControllerDriver';
 import { renderer } from './Renderer';
 
 interface CreateOptions<T = DefaultRecord>
   extends UseFormNamespace.ShareConfig {
   model: T;
-  globalDatas: Record<string, any>;
+  uidWithFormItemAPIs: Map<GlobalProps.BindId, GlobalProps.ApiEffectOptions>;
   contextProps: GlobalProps.ContextProps<T>;
   defaultValues: T;
 }
 
 export const create = (options: CreateOptions) => {
-  const { globalDatas } = options;
-  const { bindIdMapUid, apis } = globalDatas;
+  const {
+    uidWithFormItemAPIs,
+    contextProps: { model },
+  } = options;
 
-  const set = (key: string, value: any) => {
-    const uid = bindIdMapUid.get(key);
-    apis.get(uid)?.setValue(value);
+  const set = () => {
+    uidWithFormItemAPIs.forEach((v) => {
+      v.setValue(getProxyValue(model, v.bindId));
+    });
   };
 
   const render: UseFormNamespace.UseFormReturnType['render'] =

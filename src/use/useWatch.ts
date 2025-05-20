@@ -4,12 +4,12 @@ import type {
   CallbackType,
   KeyType,
   RequiredContextType,
-  SubscripeFunType,
+  SubscribeFunType,
 } from 'react-form-simple/driver/ObserverDriver/type';
 
 export const useWatch = <T>(
   contextProps: RequiredContextType<T>,
-  subscribeFun: SubscripeFunType<T>,
+  subscribeFun: SubscribeFunType<T>,
   cb: CallbackType,
   // options?: UseWatchNamespace.WatchOptions,
 ) => {
@@ -43,7 +43,7 @@ export const unWatch = <T>(
 
 export const watch = <T>(
   contextProps: RequiredContextType<T>,
-  subscribeFun: SubscripeFunType<T>,
+  subscribeFun: SubscribeFunType<T>,
   cb: UseWatchNamespace.CallbackType,
   key: KeyType,
 ) => {

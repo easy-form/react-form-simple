@@ -3,15 +3,11 @@ import type { Apis, GlobalProps } from 'react-form-simple';
 import { isMeaningful } from 'react-form-simple/utils/util';
 
 export const useContextApi = () => {
-  const globalDatas = useRef({
-    apis: new Map<string, GlobalProps.ApiEffectOptions>(),
-    bindIdMapUid: new Map(),
-  }).current;
-  const { apis, bindIdMapUid } = globalDatas;
+  const uidWithFormItemAPIs = useRef(
+    new Map<GlobalProps.BindId, GlobalProps.ApiEffectOptions>(),
+  ).current;
 
-  const getUid = (bindId: any) => bindIdMapUid.get(bindId);
-
-  const formarStringToArray = (value: Apis.ValidateBindIds) =>
+  const formatStringToArray = (value: Apis.ValidateBindIds) =>
     typeof value === 'string'
       ? [value]
       : (value as (number | string | boolean)[]);
@@ -23,14 +19,15 @@ export const useContextApi = () => {
       ...args: any[]
     ) => {
       if (!isMeaningful(bindId)) {
-        Array.from(apis.values()).forEach((api) => void api?.[methodName]?.());
+        Array.from(uidWithFormItemAPIs.values()).forEach(
+          (api) => void api?.[methodName]?.(),
+        );
         return;
       }
-      const _bindIds = formarStringToArray(bindId);
+      const _bindIds = formatStringToArray(bindId);
       _bindIds?.forEach((bindId) => {
-        const uid = getUid(bindId);
-        const api = apis.get(uid);
-        api?.[methodName]?.(...args);
+        const options = uidWithFormItemAPIs.get(bindId);
+        options?.[methodName]?.(...args);
       });
     },
     [],
@@ -38,34 +35,31 @@ export const useContextApi = () => {
 
   const contextProps = useRef<GlobalProps.ContextProps>({
     apiEffect(option) {
-      const { uid, bindId } = option;
-      apis.set(uid, option);
-      bindIdMapUid.set(bindId, uid);
-      // bindIdApis.set(bindId, option);
+      uidWithFormItemAPIs.set(option.bindId, option);
     },
-    destroy({ uid, bindId }) {
-      apis.delete(uid);
-      bindIdMapUid.delete(bindId);
-      // bindIdApis.delete(bindId);
+    destroy({ bindId }) {
+      uidWithFormItemAPIs.delete(bindId);
     },
   }).current;
 
   const overlayApis = useRef<Apis.FormApis>({
     validate(names) {
-      const _apiValues = Array.from(apis.values());
+      const _apiValues = Array.from(uidWithFormItemAPIs.values());
       if (isMeaningful(names)) {
-        const _bindIds = formarStringToArray(names);
-        const _uid = _bindIds.map((bindId) => bindIdMapUid.get(bindId));
-        const _validateFuns = _apiValues.filter((api) =>
-          _uid.includes(api.uid),
+        const bindIds = formatStringToArray(names);
+
+        const _validateFunc = _apiValues.filter((api) =>
+          bindIds.includes(api.bindId),
         );
-        return Promise.all(_validateFuns.map(({ validate }) => validate()));
+        return Promise.all(_validateFunc.map(({ validate }) => validate()));
       }
 
       return Promise.all(_apiValues.map(({ validate }) => validate()));
     },
     reset() {
-      Array.from(apis.values()).forEach(({ reset }) => void reset?.());
+      Array.from(uidWithFormItemAPIs.values()).forEach(
+        ({ reset }) => void reset?.(),
+      );
     },
     clearValidate(bindId) {
       executeMethodFromApis(bindId, 'clearValidate');
@@ -76,18 +70,13 @@ export const useContextApi = () => {
     reapplyValidator(bindId) {
       executeMethodFromApis(bindId, 'reapplyValidator');
     },
-    setValue(bindId, value) {
-      const api = apis.get(getUid(bindId));
-      if (api) {
-        api.setValue(value);
-      }
-    },
+    setValue() {},
     setError(bindId, message) {
       executeMethodFromApis(bindId, 'setError', message);
     },
   }).current;
 
-  return { globalDatas, contextProps, overlayApis };
+  return { contextProps, overlayApis, uidWithFormItemAPIs };
 };
 
 export default useContextApi;

@@ -1,12 +1,12 @@
 import AbstractObserver from '../abstract/AbstractObserver';
 import { Subscribe } from '../implementation/Subscribe';
-import type { KeyType, RequiredContextType, SubscripeFunType } from '../type';
+import type { KeyType, RequiredContextType, SubscribeFunType } from '../type';
 
 export class SubscribeMediator<T> extends AbstractObserver<Subscribe<T>> {
   public register(
     key: KeyType,
     contextProps: RequiredContextType<T>,
-    subscribeFun: SubscripeFunType<T>,
+    subscribeFun: SubscribeFunType<T>,
     cb: (value: any) => void,
   ) {
     const index = this.findKeyIndex(key);

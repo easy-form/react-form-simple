@@ -37,7 +37,37 @@ export const useFormExtraApi = <T extends DefaultRecord>({
   const extraApis = useRef<ExtraApisType<T>>({
     setState: forceUpdate,
     forceUpdate,
-    setValues: (...args) => replaceTarget(model, ...args),
+    setValues: (updates) => {
+      const processUpdate = (currentPath: string, value: any) => {
+        if (value && typeof value === 'object') {
+          if (Array.isArray(value)) {
+            // 数组处理 - 更新整个数组
+            updateProxyValue(model, currentPath, value, {
+              createPath: true,
+              forceUpdate: true,
+            });
+            console.log(`更新数组: ${currentPath}`);
+          } else {
+            // 普通对象递归处理
+            Object.entries(value).forEach(([key, val]) => {
+              const newPath = currentPath ? `${currentPath}.${key}` : key;
+              processUpdate(newPath, val);
+            });
+          }
+        } else {
+          // 基本类型
+          updateProxyValue(model, currentPath, value, {
+            createPath: true,
+            forceUpdate: true,
+          });
+          console.log(`更新路径: ${currentPath}`);
+        }
+      };
+
+      Object.entries(updates).forEach(([key, value]) => {
+        processUpdate(key, value);
+      });
+    },
     setValue: (...args) => updateProxyValue(model, ...args),
     reset: () => {
       overlayApis.reset();

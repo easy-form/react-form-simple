@@ -6,13 +6,13 @@ import {
   CallbackType,
   KeyType,
   RequiredContextType,
-  SubscripeFunType,
+  SubscribeFunType,
 } from '../type';
 
 export class Watch<T> extends AbstractImp {
   private cb: CallbackType = () => {};
-  private preRet: UseWatchNamespace.SubscripeFunReturnType = null;
-  private subscribeFun: SubscripeFunType<T> = () => ({});
+  private preRet: UseWatchNamespace.SubscribeFunReturnType = null;
+  private subscribeFun: SubscribeFunType<T> = () => ({});
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
@@ -41,7 +41,7 @@ export class Watch<T> extends AbstractImp {
     }
     this.preRet = cloneDeep(ret);
   }
-  public update(subscribeFun: SubscripeFunType<T>, cb: CallbackType) {
+  public update(subscribeFun: SubscribeFunType<T>, cb: CallbackType) {
     this.cb = cb;
     this.subscribeFun = subscribeFun;
   }

@@ -47,11 +47,11 @@ describe('form', () => {
 
 describe.concurrent('form item', () => {
   test('contextProps', async ({ expect }) => {
-    let apiEffectOptionss = null;
+    let apiEffectOptions = null;
     const contextProps: FormItemProps['contextProps'] = {
       destroy() {},
       apiEffect(args) {
-        apiEffectOptionss = args;
+        apiEffectOptions = args;
       },
       mounted() {},
     };
@@ -88,9 +88,9 @@ describe.concurrent('form item', () => {
 
     expect(mockApiEffectFn).toHaveBeenCalled();
 
-    expect(apiEffectOptionss).not.toBeNull();
+    expect(apiEffectOptions).not.toBeNull();
 
-    expect(apiEffectOptionss).toBeTypeOf('object');
+    expect(apiEffectOptions).toBeTypeOf('object');
 
     expect(mockMounter).toHaveBeenCalled();
 
@@ -224,7 +224,7 @@ describe.concurrent('form item', () => {
   });
   // test('form item vaild test', async () => {
   //   const onError = vi.fn();
-  //   const comppnentRef = React.createRef();
+  //   const componentRef = React.createRef();
   //   const TestDemo = React.forwardRef<any, any>((props, ref) => {
   //     return (
   //       <FormItem
@@ -237,15 +237,15 @@ describe.concurrent('form item', () => {
   //       />
   //     );
   //   });
-  //   const { unmount } = testRender(<TestDemo ref={comppnentRef} />);
-  //   (comppnentRef.current as any).validate();
+  //   const { unmount } = testRender(<TestDemo ref={componentRef} />);
+  //   (componentRef.current as any).validate();
   //   await expect(onError).toHaveBeenCalled();
   //   unmount();
   // });
 });
 
 describe.concurrent('use Form Item api', () => {
-  test('clear vaild', async ({ expect }) => {
+  test('clear valid', async ({ expect }) => {
     const TestDemo = () => {
       const { render, clearValidate } = useForm({ clearName: 'default value' });
       useEffect(() => {
@@ -262,11 +262,11 @@ describe.concurrent('use Form Item api', () => {
 
     fireEvent.change(input, { target: { value: '' } });
     const getErrorText = () => {
-      const componet = container.querySelector(
+      const component = container.querySelector(
         '[data-error-id="clearName-PleaseInput"]',
       ) as HTMLElement;
-      if (componet) {
-        return componet.getAttribute('data-error-text');
+      if (component) {
+        return component.getAttribute('data-error-text');
       }
       return null;
     };
@@ -290,14 +290,14 @@ describe.concurrent('use Form Item api', () => {
   });
   test('reset', async ({ expect }) => {
     const TestDemo = () => {
-      const { render, reset, model } = useForm({ restVaild: '' });
+      const { render, reset, model } = useForm({ restValid: '' });
 
       useEffect(() => {
-        model.restVaild = 'test value';
+        model.restValid = 'test value';
         reset();
       }, []);
 
-      return <>{render('restVaild')(<input id="reset-value-test" />)}</>;
+      return <>{render('restValid')(<input id="reset-value-test" />)}</>;
     };
     const { container, unmount } = testRender(<TestDemo />);
 
@@ -319,15 +319,15 @@ describe.concurrent('use Form Item api', () => {
     expect(getInputValue()).toBe('');
     unmount();
   });
-  test('remove and reapply vaild', async ({ expect }) => {
-    const comppnentRef = React.createRef();
+  test('remove and reapply valid', async ({ expect }) => {
+    const componentRef = React.createRef();
     const TestDemo = React.forwardRef((props, ref) => {
       const { render, removeValidator, reapplyValidator, validate } = useForm({
         removeName: 'test value',
       });
 
       useImperativeHandle(ref, () => ({
-        vaild() {
+        validate() {
           return validate();
         },
       }));
@@ -345,7 +345,7 @@ describe.concurrent('use Form Item api', () => {
           click
         </button>
       );
-      const buttonVaild = (
+      const buttonValid = (
         <button
           type="button"
           id="valid-button"
@@ -357,7 +357,7 @@ describe.concurrent('use Form Item api', () => {
       return (
         <>
           {button}
-          {buttonVaild}
+          {buttonValid}
           {render('removeName', { rules: { required: 'Please Input' } })(
             <input id="remove-input" />,
           )}
@@ -365,7 +365,7 @@ describe.concurrent('use Form Item api', () => {
       );
     });
 
-    const { container, unmount } = testRender(<TestDemo ref={comppnentRef} />);
+    const { container, unmount } = testRender(<TestDemo ref={componentRef} />);
 
     const input = container.querySelector('#remove-input') as HTMLInputElement;
     await vi.waitFor(() => Promise.resolve(), { timeout: 1000, interval: 100 });
@@ -380,7 +380,7 @@ describe.concurrent('use Form Item api', () => {
     fireEvent.click(button);
 
     await expect(() =>
-      (comppnentRef.current as any).vaild(),
+      (componentRef.current as any).validate(),
     ).rejects.toThrowError('Please Input');
 
     unmount();

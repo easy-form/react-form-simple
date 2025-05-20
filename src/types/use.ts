@@ -119,7 +119,7 @@ export namespace UseFormNamespace {
      * @version 1.5.2
      * @description form watch
      * @localKey API.useForm.watch.desc
-     * @resetType (subscribeFun: SubscripeFunType<T>,cb: CallbackType,key: string | symbol) => { unWatch: () => void }
+     * @resetType (subscribeFun: SubscribeFunType<T>,cb: CallbackType,key: string | symbol) => { unWatch: () => void }
      */
     watch: UseWatchNamespace.Watch<T>;
     /**
@@ -182,20 +182,20 @@ export namespace UseWatchNamespace {
     | number
     | boolean
     | Record<string, any>;
-  export type SubscripeFunReturnType =
+  export type SubscribeFunReturnType =
     | SubscripeFunReturnOriginalType
     | SubscripeFunReturnOriginalType[]
     | null
     | undefined;
 
-  export interface SubscripeFunType<T> {
-    (options: { model: T }): SubscripeFunReturnType;
+  export interface SubscribeFunType<T> {
+    (options: { model: T }): SubscribeFunReturnType;
   }
   export interface CallbackType {
-    (newValue: SubscripeFunReturnType, preValue: SubscripeFunReturnType): void;
+    (newValue: SubscribeFunReturnType, preValue: SubscribeFunReturnType): void;
   }
   export interface UseWatch<T = DefaultRecord> {
-    (subscripeFun: SubscripeFunType<T>, cb: CallbackType): void;
+    (subscripeFun: SubscribeFunType<T>, cb: CallbackType): void;
   }
   export interface WatchOptions {
     /**
@@ -206,7 +206,7 @@ export namespace UseWatchNamespace {
   }
   export interface Watch<T = DefaultRecord> {
     (
-      subscribeFun: SubscripeFunType<T>,
+      subscribeFun: SubscribeFunType<T>,
       cb: CallbackType,
       key: string | symbol,
     ): { unWatch: () => void };
@@ -219,9 +219,7 @@ export namespace UseWatchNamespace {
 export namespace UseRenderNamespace {
   export interface UseRenderOptions extends UseFormNamespace.ShareConfig {
     model: Record<string, any>;
-    globalDatas: Record<string, any>;
     contextProps: GlobalProps.ContextProps;
     defaultValues: Record<string, any>;
   }
 }
-

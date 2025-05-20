@@ -50,14 +50,12 @@ export const FormItem = React.forwardRef<
       ...assigns,
     });
 
-  const { uid, subscribe, vaildUtil, bindId: _bindId } = globalDatas;
-
-  // const { setError } = apis;
+  const { uid, subscribe, validUtil } = globalDatas;
 
   useEffect(() => {
-    mounted?.({ uid, bindId: _bindId });
+    mounted?.({ uid, bindId });
     return () => {
-      destroy?.({ uid, bindId: _bindId });
+      destroy?.({ uid, bindId });
       subscribe.clear();
     };
   }, []);
@@ -77,7 +75,6 @@ export const FormItem = React.forwardRef<
   const renderFormItemErrorTxt = !customErrTips && (
     <FormItemErrorTxt
       bindId={bindId}
-      // off={() => setError('')}
       errorStyle={errorStyle}
       errorClassName={errorClassName}
       subscribe={globalDatas.subscribe}
@@ -118,7 +115,7 @@ export const FormItem = React.forwardRef<
       onBlur={() => {
         triggers.blur();
       }}
-      vaildUtil={vaildUtil}
+      validUtil={validUtil}
       getContent={(...args) => getContent?.(...args) || children}
     />
   );

@@ -1,9 +1,6 @@
-import { useEffect, useRef } from 'react';
-import {
-  getProxyValue,
-  updateProxyValue,
-} from 'react-form-simple/driver/ControllerDriver';
-import { VaildUtils } from 'react-form-simple/driver/VaildDriver';
+import { useRef, useState } from 'react';
+import { updateProxyValue } from 'react-form-simple/driver/ControllerDriver';
+import { ValidUtils } from 'react-form-simple/driver/ValidDriver';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
 import useForceUpdate from 'react-form-simple/use/useForceUpdate';
 import Subscribe from 'react-form-simple/utils/subscribe';
@@ -30,7 +27,7 @@ const convertStringToObject = (
 
 export interface UseFormItemContentController
   extends GlobalProps.FormItemProps {
-  vaildUtil: VaildUtils;
+  validUtil: ValidUtils;
   subscribe: InstanceType<typeof Subscribe>;
   onChange: (...args: any[]) => void;
   onBlur: () => void;
@@ -43,7 +40,7 @@ export function useFormItemContentController(
   const {
     bindId,
     initialValue,
-    vaildUtil,
+    validUtil,
     getContent,
     subscribe,
     onChange,
@@ -51,15 +48,16 @@ export function useFormItemContentController(
     readOnly,
     apis,
     formatChangeValue,
+    contextProps,
   } = options;
 
-  const preBindId = useRef(bindId);
+  const [value, setValue] = useState(initialValue);
 
   const forceUpdate = useForceUpdate();
 
-  const modelValue = useRef(convertStringToObject(bindId, initialValue));
+  const { model } = contextProps || {};
 
-  vaildUtil.updateModel(modelValue.current);
+  validUtil.updateValue(value);
 
   const isError = useRef(false);
   const errorMessage = useRef('');
@@ -67,7 +65,7 @@ export function useFormItemContentController(
   const isInitSubscribeEvent = useRef(true);
 
   if (isInitSubscribeEvent.current) {
-    subscribe.on('update', (value) => {
+    subscribe.on('update', (value: any) => {
       methods.set(value);
     });
     subscribe.on('onErr', (value) => {
@@ -80,37 +78,26 @@ export function useFormItemContentController(
     isInitSubscribeEvent.current = false;
   }
 
-  useEffect(() => {
-    if (bindId !== preBindId.current) {
-      modelValue.current = convertStringToObject(bindId, initialValue);
-      preBindId.current = bindId;
-      forceUpdate(false);
-    }
-  }, [bindId]);
-
   const methods = {
-    set(value: any) {
-      updateProxyValue(modelValue.current, preBindId.current as string, value);
-      forceUpdate(false);
+    set(v: any) {
+      if (Object.is(v, value)) return;
+      setValue(v);
     },
   };
 
-  const value = getProxyValue(modelValue.current, preBindId.current) ?? '';
-
   const renderContent =
     getContent?.({
-      model: modelValue.current,
-      bindId: preBindId.current as string,
+      model: convertStringToObject(bindId, value),
+      bindId,
       attrs: {
         readOnly,
         onChange: (e, tagType) => {
           const _value = getEventCbValue(e, tagType, formatChangeValue);
-          methods.set(_value);
+          updateProxyValue(model, bindId, _value);
+          setValue(_value);
           onChange?.(_value);
         },
-        onBlur: () => {
-          onBlur?.();
-        },
+        onBlur,
         value,
         checked: Boolean(value),
       },
