@@ -3,7 +3,6 @@ import type {
   GlobalProps,
   UseFormNamespace,
 } from 'react-form-simple';
-import { getProxyValue } from '../ControllerDriver';
 import { renderer } from './Renderer';
 
 interface CreateOptions<T = DefaultRecord>
@@ -20,10 +19,8 @@ export const create = (options: CreateOptions) => {
     contextProps: { model },
   } = options;
 
-  const set = () => {
-    uidWithFormItemAPIs.forEach((v) => {
-      v.setValue(getProxyValue(model, v.bindId));
-    });
+  const set = (path: string, value: string) => {
+    uidWithFormItemAPIs.get(path)?.setValue(value);
   };
 
   const render: UseFormNamespace.UseFormReturnType['render'] =

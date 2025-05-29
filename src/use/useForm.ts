@@ -32,9 +32,9 @@ const useForm = <T extends DefaultRecord>(
     () =>
       createObserverForm(
         proxyTarget.current as T,
-        ({ path }) => {
+        ({ path, value }) => {
           console.log(path);
-          set();
+          set(path, value);
           observerFactory.subscribeManager.notify();
           debounceFn.watch();
         },
