@@ -1,83 +1,83 @@
 import type { CSSInterpolation } from '@emotion/css';
 import { css } from '@emotion/css';
-import { isArray } from 'lodash';
 import type { GlobalProps, TagType } from 'react-form-simple/types/form';
 
-export const isMeaningful = (val: any) =>
+// 检查值是否有意义（不为空）
+export const isMeaningful = (val: any): boolean =>
   val !== '' && val !== undefined && val !== null;
 
-export const getUuid = () => {
-  const s = [];
-  const hexDigits = '0123456789abcdef';
-  for (let i = 0; i < 36; i++) {
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-  }
-  s[14] = '4'; // bits 12-15 of the time_hi_and_version field to 0010
-  s[19] = hexDigits.substr((s[19] as bigint & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
-  s[8] = s[13] = s[18] = s[23] = '-';
-
-  const uuid = s.join('');
-  return uuid;
+// 生成唯一ID
+export const getUuid = (): string => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 };
 
-export const isEqual = (sourceValue: any, targetValue: any): boolean => {
-  if (
-    typeof sourceValue !== 'object' ||
-    sourceValue === null ||
-    targetValue === null
-  ) {
-    const bool = String(sourceValue) === String(targetValue);
+// 深度比较两个值是否相等
+export const isEqual = (a: any, b: any): boolean => {
+  if (a === b) return true;
 
-    return bool;
+  if (a === null || b === null || a === undefined || b === undefined) {
+    return a === b;
   }
 
-  if (typeof sourceValue !== typeof targetValue) {
+  if (typeof a !== typeof b) return false;
+
+  if (typeof a !== 'object') {
+    return String(a) === String(b);
+  }
+
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    return a.every((item, index) => isEqual(item, b[index]));
+  }
+
+  if (Array.isArray(a) || Array.isArray(b)) {
     return false;
   }
 
-  if (Array.isArray(sourceValue) && Array.isArray(targetValue)) {
-    if (sourceValue.length !== targetValue.length) {
-      return false;
-    }
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
 
-    return !sourceValue?.some((v, i) => !isEqual(v, targetValue[i]));
-  }
+  if (keysA.length !== keysB.length) return false;
 
-  const keys1 = Object.keys(sourceValue);
-  const keys2 = Object.keys(targetValue);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  for (const key of keys1) {
-    if (!keys2.includes(key) || !isEqual(sourceValue[key], targetValue[key])) {
-      return false;
-    }
-  }
-  return true;
+  return keysA.every((key) => keysB.includes(key) && isEqual(a[key], b[key]));
 };
 
-export const isObject = (val: unknown) =>
-  Object.prototype.toString.call(val) === '[object Object]';
+// 检查是否为普通对象
+export const isObject = (val: unknown): val is Record<string, any> =>
+  val !== null && typeof val === 'object' && !Array.isArray(val);
 
-export const isObjectOrArray = (value: unknown) =>
-  isObject(value) || isArray(value);
+// 检查是否为对象或数组
+export const isObjectOrArray = (value: unknown): boolean =>
+  isObject(value) || Array.isArray(value);
 
-export const isCheckBox = (e: any, tagType?: TagType) =>
+// 检查是否为复选框
+export const isCheckBox = (e: any, tagType?: TagType): boolean =>
   tagType === 'checkbox' || e?.target?.type === 'checkbox';
 
+// 获取事件回调值
 export const getEventCbValue = (
   e: any,
   tagType?: TagType,
   formatChangeValue?: GlobalProps.FormShareProps['formatChangeValue'],
-) => {
-  const _formatChangeValue =
-    typeof formatChangeValue === 'function'
-      ? formatChangeValue
-      : (e: any) =>
-          isCheckBox(e, tagType) ? e?.target?.checked : e?.target?.value;
+): any => {
+  if (typeof formatChangeValue === 'function') {
+    return formatChangeValue(e);
+  }
 
-  return _formatChangeValue(e);
+  return isCheckBox(e, tagType) ? e?.target?.checked : e?.target?.value;
 };
 
-export const getCssInClasses = (classes: string[], sx?: CSSInterpolation) =>
-  [...classes, css(sx)].filter((c) => isMeaningful(c)).join(' ');
+// 生成CSS类名
+export const getCssInClasses = (
+  classes: (string | undefined)[],
+  sx?: CSSInterpolation,
+): string => {
+  const validClasses = classes.filter(isMeaningful);
+  const cssClass = sx ? css(sx) : '';
+
+  return [...validClasses, cssClass].filter(Boolean).join(' ');
+};

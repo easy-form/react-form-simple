@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { Subscribe } from 'react-form-simple/utils/subscribe';
 
@@ -7,7 +7,7 @@ import {
   StaticVaildUtils,
   VaildUtils,
 } from 'react-form-simple/driver/VaildDriver';
-import { GlobalProps, GlobalRules } from 'react-form-simple/types/form';
+import { GlobalProps } from 'react-form-simple/types/form';
 import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
 const defaultValueSymbol = Symbol('defaultValue');
@@ -22,143 +22,127 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     contextProps,
   } = options;
 
-  const globalDatas = useRef({
-    uid: getUuid(),
-    subscribe: new Subscribe(),
-    vaildUtil: new VaildUtils({
+  const state = useMemo(() => {
+    const uid = getUuid();
+    const subscribe = new Subscribe();
+    const vaildUtil = new VaildUtils({
       defaultValue,
       onError(msg) {
-        globalDatas.subscribe.emit('onErr', msg);
+        subscribe.emit('onErr', msg);
       },
-    }),
-    bindId,
-    rules: [] as GlobalRules.Rules,
-    errorText: '',
-  }).current;
+    });
 
-  globalDatas.bindId = bindId;
-  globalDatas.rules = rules;
-
-  const { vaildUtil, subscribe } = globalDatas;
-
-  vaildUtil.updateRule(rules);
-
-  useEffect(() => {
-    vaildUtil.updateBindId(bindId);
-  }, [bindId]);
-
-  useEffect(() => {
-    return () => {
-      vaildUtil.clearValidate();
+    return {
+      uid,
+      subscribe,
+      vaildUtil,
+      bindId,
+      rules: rules || [],
+      errorText: '',
     };
   }, []);
 
-  const onErrorDebounce = useMemo<typeof onError | null>(
+  useMemo(() => {
+    state.bindId = bindId;
+    state.rules = rules || [];
+    state.vaildUtil.updateRule(rules);
+    state.vaildUtil.updateBindId(bindId);
+  }, [bindId, rules, state]);
+
+  useEffect(() => {
+    return () => {
+      state.vaildUtil.clearValidate();
+    };
+  }, [state]);
+
+  const onErrorDebounce = useMemo(
     () => (onError && typeof onError === 'function' ? debounce(onError) : null),
     [onError],
   );
 
-  const vailds = useMemo(
-    () => ({
-      each() {
-        let shareErrRet = null;
-        if (isMeaningful(globalDatas.errorText)) {
-          return globalDatas.errorText;
+  const validate = useCallback(() => {
+    let shareErrRet = null;
+    if (isMeaningful(state.errorText)) {
+      return state.errorText;
+    }
+    const _rules = state.vaildUtil.getRules();
+    if (isArray(_rules)) {
+      for (let r of _rules) {
+        const errResult = state.vaildUtil.vaild(r);
+        state.subscribe.emit('onErr', errResult);
+        onErrorDebounce?.(errResult as string, state.bindId);
+        if (isMeaningful(errResult)) {
+          shareErrRet = errResult;
+          break;
         }
-        const _rules = vaildUtil.getRules();
-        if (isArray(_rules)) {
-          for (let r of _rules) {
-            const errRet = vailds.vaild(r);
-            if (isMeaningful(errRet)) {
-              shareErrRet = errRet;
-              break;
-            }
-          }
+      }
+    }
+    return shareErrRet;
+  }, [state, onErrorDebounce]);
+
+  const triggers = useMemo(() => {
+    const triggerList = StaticVaildUtils.getTriggers(trigger);
+    return {
+      get: () => triggerList,
+      change: () => {
+        if (triggerList.includes('change')) {
+          validate();
         }
-        return shareErrRet;
       },
-      vaild(rule: GlobalRules.RulesSingle) {
-        const bindId = globalDatas.bindId;
+      blur: () => {
+        if (triggerList.includes('blur')) {
+          validate();
+        }
+      },
+    };
+  }, [trigger, validate]);
 
-        const errResult = vaildUtil.vaild(rule);
-
-        globalDatas.subscribe.emit('onErr', errResult);
-
-        onErrorDebounce?.(errResult as string, bindId);
-        return errResult;
+  const apis = useMemo(
+    () => ({
+      validate() {
+        const ret = validate();
+        return isMeaningful(ret) ? Promise.reject(ret) : Promise.resolve();
+      },
+      reset() {
+        if (contextProps?.reset) {
+          contextProps.reset({
+            bindId: state.bindId,
+            uid: state.uid,
+            value: defaultValue,
+          });
+        }
+        if (defaultValueSymbol !== defaultValue) {
+          state.vaildUtil.reset();
+        }
+      },
+      clearValidate() {
+        state.errorText = '';
+        state.vaildUtil.clearValidate();
+      },
+      removeValidator() {
+        state.vaildUtil.clearValidate();
+        state.vaildUtil.removeValidator();
+      },
+      reapplyValidator() {
+        state.vaildUtil.updateRule(state.rules);
+      },
+      setError(err: any) {
+        state.errorText = err;
+        state.subscribe.emit('onErr', err);
+      },
+      setValue(value: any) {
+        state.subscribe.emit('update', value);
       },
     }),
-    [onErrorDebounce],
+    [state, contextProps, defaultValue, validate],
   );
-
-  const triggers = useMemo(
-    () => ({
-      get() {
-        return StaticVaildUtils.getTriggers(trigger);
-      },
-      change() {
-        const t = triggers.get();
-        if (t.includes('change')) {
-          vailds.each();
-        }
-      },
-      blur() {
-        const t = triggers.get();
-        if (t.includes('blur')) {
-          vailds.each();
-        }
-      },
-    }),
-    [trigger],
-  );
-
-  const exportApis = useRef({
-    validate() {
-      const ret = vailds.each();
-      return isMeaningful(ret) ? Promise.reject(ret) : Promise.resolve();
-    },
-    reset() {
-      if (contextProps?.reset) {
-        contextProps?.reset?.({
-          bindId: globalDatas.bindId,
-          uid: globalDatas.uid,
-          value: defaultValue,
-        });
-      }
-      if (defaultValueSymbol !== defaultValue) {
-        vaildUtil.reset();
-      }
-    },
-    clearValidate() {
-      globalDatas.errorText = '';
-      vaildUtil.clearValidate();
-    },
-    removeValidator() {
-      vaildUtil.clearValidate();
-      vaildUtil.removeValidator();
-    },
-    reapplyValidator() {
-      vaildUtil.updateRule(globalDatas.rules);
-    },
-    setError(err: any) {
-      globalDatas.errorText = err;
-      globalDatas.subscribe.emit('onErr', err);
-    },
-    setValue(value: any) {
-      subscribe.emit('update', value);
-    },
-  }).current;
-
-  const exportEffectApis = useRef({
-    ...exportApis,
-  }).current;
 
   return {
-    apis: exportApis,
-    exportEffectApis,
+    apis,
+    exportEffectApis: apis,
     triggers,
-    globalDatas,
-    bindId: globalDatas.bindId,
+    globalDatas: state,
+    bindId: state.bindId,
   };
 };
 

@@ -148,6 +148,7 @@ export namespace UseFormNamespace {
      * @version 1.4.1
      */
     forceUpdate: (delay?: boolean) => void;
+
     /**
      * @description Set values uniformly for form items
      * @localKey API.form.setValues.desc
@@ -224,4 +225,3 @@ export namespace UseRenderNamespace {
     defaultValues: Record<string, any>;
   }
 }
-

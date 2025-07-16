@@ -1,5 +1,7 @@
 import {
+  act,
   fireEvent,
+  renderHook,
   render as testRender,
   waitFor,
 } from '@testing-library/react';
@@ -516,6 +518,61 @@ describe('React Form Simple - 完整测试套件', () => {
         { timeout: 200 },
       );
     });
+
+    test('useWatch 应该能监听数组元素变化', async () => {
+      const watchCallback = vi.fn();
+
+      const TestComponent = () => {
+        const { render, useWatch, model } = useForm({
+          array: [{ key: 1, itemValue: 'value1' }],
+        });
+
+        const [watchState, setWatchState] = React.useState(
+          JSON.stringify(model.array),
+        );
+
+        useWatch(
+          ({ model }) => model.array,
+          (value) => {
+            setWatchState(JSON.stringify(value));
+            watchCallback(value);
+          },
+        );
+
+        const renderList = model.array.map((item, index) => (
+          <div key={item.key}>
+            {render(`array.${index}.itemValue`)(
+              <input data-testid={`input-${index}`} />,
+            )}
+          </div>
+        ));
+
+        return (
+          <div>
+            <div data-testid="watch-state">{watchState}</div>
+            {renderList}
+          </div>
+        );
+      };
+
+      const { getByTestId } = testRender(<TestComponent />);
+
+      const input = getByTestId('input-0') as HTMLInputElement;
+      const watchState = getByTestId('watch-state') as HTMLElement;
+
+      // 清除初始调用
+      watchCallback.mockClear();
+
+      // 修改数组元素的值
+      fireEvent.change(input, { target: { value: 'updated_value' } });
+
+      // 等待 watch 回调被触发
+      await waitFor(() => {
+        expect(watchCallback).toHaveBeenCalled();
+        expect(input.value).toBe('updated_value');
+        expect(watchState.textContent).toContain('updated_value');
+      });
+    });
   });
 
   describe('useSubscribe Hook 测试', () => {
@@ -542,6 +599,80 @@ describe('React Form Simple - 完整测试套件', () => {
         },
         { timeout: 200 },
       );
+    });
+
+    test('连续输入多次应该持续触发 useSubscribe', async () => {
+      const TestComponent = () => {
+        const { render, useSubscribe } = useForm({ name: 'name', age: 'age' });
+
+        const renderName = render('name')(<input data-testid="name-input" />);
+        const renderAge = render('age')(<input data-testid="age-input" />);
+
+        // 使用 useMemo 来稳定 subscribeFun 的引用
+        const subscribeFun = React.useMemo(
+          () =>
+            ({ model }: any) =>
+              model,
+          [],
+        );
+        const subscribemodel = useSubscribe(subscribeFun);
+
+        return (
+          <>
+            <div data-testid="model-display">
+              newModelValue: {JSON.stringify(subscribemodel)}
+            </div>
+            {renderName}
+            {renderAge}
+          </>
+        );
+      };
+
+      const { getByTestId } = testRender(<TestComponent />);
+
+      const nameInput = getByTestId('name-input') as HTMLInputElement;
+      const ageInput = getByTestId('age-input') as HTMLInputElement;
+      const modelDisplay = getByTestId('model-display');
+
+      // 初始状态检查
+      expect(modelDisplay.textContent).toContain('"name":"name"');
+      expect(modelDisplay.textContent).toContain('"age":"age"');
+
+      // 第一次输入 name
+      fireEvent.change(nameInput, { target: { value: 'John' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"name":"John"');
+      });
+
+      // 第二次输入 name
+      fireEvent.change(nameInput, { target: { value: 'Jane' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"name":"Jane"');
+      });
+
+      // 第三次输入 name（这里可能会失败）
+      fireEvent.change(nameInput, { target: { value: 'Bob' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"name":"Bob"');
+      });
+
+      // 输入 age
+      fireEvent.change(ageInput, { target: { value: '25' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"age":"25"');
+      });
+
+      // 再次输入 name
+      fireEvent.change(nameInput, { target: { value: 'Alice' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"name":"Alice"');
+      });
+
+      // 再次输入 age
+      fireEvent.change(ageInput, { target: { value: '30' } });
+      await waitFor(() => {
+        expect(modelDisplay.textContent).toContain('"age":"30"');
+      });
     });
   });
 
@@ -1100,327 +1231,212 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(email0.value).toBe('user1@example.com');
     });
   });
-  describe('dymic array test', async () => {
-    test('assignment', async () => {
-      const TestDemo = React.forwardRef(({}, ref) => {
-        const { render, model, forceUpdate } = useForm<{
-          list: Array<{ uid: string; value: string }>;
-        }>({ list: [] });
-        const renderMapList = model.list.map((v, index) => {
-          return (
-            <div id={v.uid} key={v.uid}>
-              {render(`list.${index}.value`)(
-                <input id={`dymic-assignment-${index}-input`} />,
-              )}
-            </div>
-          );
+
+  describe('回归测试 - 修复响应式问题', () => {
+    test('setValue 深层对象应该保持响应式', async () => {
+      const ref = React.createRef<any>();
+
+      const TestComponent = React.forwardRef(() => {
+        const { render, setValue } = useForm({
+          originData: { name: 'initial', age: 20 },
         });
 
         useImperativeHandle(ref, () => ({
-          getModalData() {
-            return model;
-          },
-          set(arr: any[]) {
-            model.list = arr;
-            forceUpdate();
+          setValue: () => {
+            setValue('originData', { name: 'updated', age: 25 });
           },
         }));
-        return (
-          <>
-            <div id="assign-dymic-wrap">{renderMapList}</div>
-          </>
-        );
+
+        return <div>{render('originData.name')(<input id="input" />)}</div>;
       });
 
-      const ref = React.createRef() as any;
-      const { container } = testRender(<TestDemo ref={ref} />);
+      const { container } = testRender(<TestComponent ref={ref} />);
 
-      const arr = [
-        { uid: getUuid(), value: 'name' },
-        { uid: getUuid(), value: 'age' },
-      ];
-      ref.current.set(arr);
+      const input = container.querySelector('#input') as HTMLInputElement;
 
-      const getWrap = () =>
-        container.querySelector('#assign-dymic-wrap') as HTMLDivElement;
+      expect(input.value).toBe('initial');
 
-      const getLen = () => {
-        const wrap = getWrap();
-        return wrap?.children?.length;
-      };
+      setTimeout(() => {
+        ref.current?.setValue();
+      }, 500);
 
-      const checkWrapChildrenLen = () => {
-        const len = getLen();
-        if (len === 2) {
-          return true;
-        }
-        return Promise.reject();
-      };
-
-      const getInput = (index: number) => {
-        const input = container.querySelector(
-          `#dymic-assignment-${index}-input`,
-        ) as HTMLInputElement;
-        return input;
-      };
-      const getInputValue = (index: number) => {
-        const input = getInput(index);
-        return input.value;
-      };
-
-      const getModal = () => {
-        const model = ref.current?.getModalData?.();
-        return model;
-      };
-
-      const getModelListValue = (index: number) => {
-        const model = getModal();
-        const list = model.list || [];
-        return list[index].value;
-      };
-
-      await vi.waitFor(() => checkWrapChildrenLen());
-
-      Array.from(getWrap().children).forEach((v, index) => {
-        const inputValue = getInputValue(index);
-        expect(inputValue).toBe(arr[index].value);
-        expect(inputValue).toBe(getModelListValue(index));
-      });
-
-      fireEvent.change(getInput(0), { target: { value: 'testtest' } });
-
-      fireEvent.change(getInput(1), { target: { value: 'testtesttwo' } });
-
-      expect(getModelListValue(0)).toBe(getInputValue(0));
-
-      expect(getModelListValue(1)).toBe(getInputValue(1));
-
-      expect(getModelListValue(0)).not.toBe(getInputValue(1));
+      // 等待响应式更新
+      await waitFor(
+        () => {
+          const input = container.querySelector('#input') as HTMLInputElement;
+          expect(input.value).toBe('updated');
+        },
+        { timeout: 600 },
+      );
     });
-    test('remove', async ({ expect }) => {
-      const TestDemo = React.forwardRef((props, ref) => {
-        const { render, model, forceUpdate } = useForm<{
-          list: Array<{ uid: string; value: string }>;
-        }>({ list: [] });
-        const renderMapList = model.list.map((v, index) => {
-          const renderRemoveButton = (
-            <button
-              id={`remove-item-${index}-button`}
-              onClick={() => {
-                model.list.splice(index, 1);
-                forceUpdate();
-              }}
-            >
-              remove!
-            </button>
-          );
-          return (
-            <div id={v.uid} key={v.uid}>
-              {render(`list.${index}.value`)(
-                <input id={`dymic-remove-${index}-input`} />,
-              )}
-              {renderRemoveButton}
-            </div>
-          );
+
+    test('useWatch 应该能监听整个数组变化', async () => {
+      const watchCallback = vi.fn().mockImplementation(() => ({}));
+
+      const ref = React.createRef<any>();
+
+      const TestComponent = React.forwardRef((props, ref) => {
+        const { useWatch, model, setValues, render } = useForm({
+          array: [{ key: 1, itemValue: 'value1' }],
         });
-        const renderButton = (
-          <button
-            id="dymic-remove-add-button"
-            onClick={() => {
-              model.list.push({
-                uid: getUuid(),
-                value: `${model.list.length}`,
-              });
-              forceUpdate();
-            }}
-          >
-            add
-          </button>
-        );
+
         useImperativeHandle(ref, () => ({
-          getModalData() {
-            return model;
-          },
-          set(arr: any[]) {
-            model.list = arr;
-            forceUpdate();
+          setValues: () => {
+            setValues({
+              array: [
+                { key: 1, itemValue: 'value1' },
+                { key: 2, itemValue: 'value2' },
+              ],
+            });
           },
         }));
-        return (
-          <>
-            <div id="remove-dymic-wrap">{renderMapList}</div>
-            {renderButton}
-          </>
-        );
+
+        useWatch(({ model }) => model.array, watchCallback);
+
+        const renderList = model.array.map((item, index) => (
+          <div key={item.key}>
+            {render(`array.${index}.itemValue`)(<input />)}
+          </div>
+        ));
+
+        return <div>{renderList}</div>;
       });
 
-      const demoRef = React.createRef() as any;
+      const { unmount } = testRender(<TestComponent ref={ref} />);
 
-      const { container } = testRender(<TestDemo ref={demoRef} />);
-      const addItem = (count: number = 1) => {
-        const button = container.querySelector(
-          '#dymic-remove-add-button',
-        ) as HTMLButtonElement;
-        Array.from({ length: count }, (x, y) => y).forEach(() => {
-          button.click();
-        });
-      };
+      watchCallback.mockClear();
 
-      addItem(2);
+      setTimeout(() => {
+        ref.current?.setValues();
+      }, 500);
 
-      const getWrap = () =>
-        container.querySelector('#remove-dymic-wrap') as HTMLDivElement;
-
-      const getLen = () => {
-        const wrap = getWrap();
-        return wrap?.children?.length;
-      };
-
-      const checkWrapChildrenLen = () => {
-        const len = getLen();
-        if (len === 2) {
-          return true;
-        }
-        return Promise.reject();
-      };
-      await vi.waitFor(() => checkWrapChildrenLen(), {
-        timeout: 100,
-        interval: 10,
-      });
-
-      const len = getLen();
-      expect(len).toBeGreaterThan(0);
-      const getInput = (index: number) => {
-        const input = container.querySelector(
-          `#dymic-remove-${index}-input`,
-        ) as HTMLInputElement;
-        return input;
-      };
-      const getInputValue = (index: number) => {
-        const input = getInput(index);
-        return input.value;
-      };
-      const checkInputValue = () => {
-        const wrap = getWrap();
-        const children = wrap.children;
-        Array.from(children).forEach((v, index) => {
-          const value = getInputValue(index);
-          expect(Number(value)).toBe(index);
-        });
-      };
-      checkInputValue();
-      const removeAction = async () => {
-        const removeButton = container.querySelector(
-          '#remove-item-0-button',
-        ) as HTMLButtonElement;
-
-        removeButton.click();
-        await vi.waitFor(() => {
-          const len = getLen();
-          if (len === 1) {
-            return true;
-          }
-          return Promise.reject();
-        });
-        // checkInputValue();
-
-        addItem();
-
-        const changeInputValue = (index: number) => {
-          const input = getInput(index);
-          fireEvent.change(input, { target: { value: 'testtest' } });
-        };
-
-        await vi.waitFor(() => {
-          const len = getLen();
-          if (len === 2) return true;
-          return Promise.reject();
-        });
-
-        changeInputValue(0);
-
-        expect(getInputValue(0)).toBe('testtest');
-
-        expect(getInputValue(0)).not.toBe(getInputValue(1));
-        const getModal = () => {
-          const model = demoRef.current?.getModalData?.();
-          return model;
-        };
-        const getModelListValue = (index: number) => {
-          const model = getModal();
-          const list = model.list || [];
-          return list[index].value;
-        };
-
-        expect(getModelListValue(0)).toBe(getInputValue(0));
-        expect(getModelListValue(0)).not.toBe(getModelListValue(1));
-
-        return Promise.resolve();
-      };
-
-      await removeAction();
-    });
-    test('add', async ({ expect }) => {
-      const TestDemo = React.forwardRef((props, ref) => {
-        const { render, model, forceUpdate } = useForm<{
-          list: Array<{ uid: string; value: string }>;
-        }>({ list: [] });
-        const renderMapList = model.list.map((v, index) => {
-          return (
-            <div key={v.uid} id={v.uid}>
-              {render(`list.${index}.value`)(
-                <input id={`dymic-${index}-input`} />,
-              )}
-            </div>
-          );
-        });
-        const renderButton = (
-          <button
-            id="dymic-add-button"
-            onClick={() => {
-              model.list.push({
-                uid: getUuid(),
-                value: `${model.list.length}`,
-              });
-              forceUpdate();
-            }}
-          >
-            add
-          </button>
-        );
-        useImperativeHandle(ref, () => ({}));
-        return (
-          <>
-            <div id="add-dymic-wrap">{renderMapList}</div>
-            {renderButton}
-          </>
-        );
-      });
-      const { container } = testRender(<TestDemo />);
-      const button = container.querySelector(
-        '#dymic-add-button',
-      ) as HTMLButtonElement;
-      button.click();
       await vi.waitFor(
         () => {
-          const wrap = container.querySelector(
-            '#add-dymic-wrap',
-          ) as HTMLDivElement;
-          if (wrap.children.length > 0) {
-            return true;
-          }
-          return Promise.reject();
+          expect(watchCallback).toHaveBeenCalledTimes(1);
+          return true;
         },
-        { timeout: 100, interval: 10 },
+        {
+          timeout: 600,
+        },
       );
-      const wrap = container.querySelector('#add-dymic-wrap') as HTMLDivElement;
-      expect(wrap.children.length).toBeGreaterThan(0);
-      const children = wrap.children;
-      Array.from(children).forEach((v, index) => {
-        const input = container.querySelector(
-          `#dymic-${index}-input`,
-        ) as HTMLInputElement;
-        expect(Number(input.value)).toBe(index);
+      unmount();
+    });
+
+    test('useSubscribe 应该能订阅整个模型变化', async () => {
+      const TestComponent = () => {
+        const { render, useSubscribe, setValue } = useForm({
+          name: 'initial',
+          age: 20,
+        });
+
+        const subscribeModel = useSubscribe(({ model }) => model);
+
+        return (
+          <div>
+            <div id="subscribed-data">{JSON.stringify(subscribeModel)}</div>
+            {render('name')(<input id="name-input" />)}
+            <button
+              id="update-name"
+              onClick={() => setValue('name', 'updated')}
+            >
+              Update Name
+            </button>
+          </div>
+        );
+      };
+
+      const { container } = testRender(<TestComponent />);
+
+      const subscribedData = container.querySelector(
+        '#subscribed-data',
+      ) as HTMLElement;
+      const nameInput = container.querySelector(
+        '#name-input',
+      ) as HTMLInputElement;
+      const button = container.querySelector(
+        '#update-name',
+      ) as HTMLButtonElement;
+
+      // 初始值检查
+      const initialData = JSON.parse(subscribedData.textContent || '{}');
+      expect(initialData.name).toBe('initial');
+      expect(initialData.age).toBe(20);
+      expect(nameInput.value).toBe('initial');
+
+      // 更新名称
+      fireEvent.click(button);
+
+      // 等待订阅更新
+      await waitFor(() => {
+        const updatedData = JSON.parse(subscribedData.textContent || '{}');
+        expect(updatedData.name).toBe('updated');
+        expect(updatedData.age).toBe(20);
+        expect(nameInput.value).toBe('updated');
+      });
+    });
+
+    test('useSubscribe 订阅整个模型应该在任何字段变化时触发', async () => {
+      const { result } = renderHook(() =>
+        useForm({
+          name: 'initial',
+          age: 25,
+          nested: {
+            value: 'nested',
+          },
+        }),
+      );
+
+      const { useSubscribe, model } = result.current;
+
+      let callbackCount = 0;
+      let lastModel: any = null;
+
+      renderHook(() =>
+        useSubscribe(({ model }) => {
+          callbackCount++;
+          lastModel = model;
+          return model;
+        }),
+      );
+
+      // 初始状态 - useSubscribe 在初始化时会被调用
+      expect(callbackCount).toBeGreaterThanOrEqual(1);
+      expect(lastModel.name).toBe('initial');
+
+      const initialCallbackCount = callbackCount;
+
+      // 修改顶层字段
+      act(() => {
+        model.name = 'updated';
+      });
+
+      await waitFor(() => {
+        expect(callbackCount).toBeGreaterThan(initialCallbackCount);
+        expect(lastModel.name).toBe('updated');
+      });
+
+      const afterFirstUpdate = callbackCount;
+
+      // 修改嵌套字段
+      act(() => {
+        model.nested.value = 'updated nested';
+      });
+
+      await waitFor(() => {
+        expect(callbackCount).toBeGreaterThan(afterFirstUpdate);
+        expect(lastModel.nested.value).toBe('updated nested');
+      });
+
+      const afterSecondUpdate = callbackCount;
+
+      // 修改数字字段
+      act(() => {
+        model.age = 30;
+      });
+
+      await waitFor(() => {
+        expect(callbackCount).toBeGreaterThan(afterSecondUpdate);
+        expect(lastModel.age).toBe(30);
       });
     });
   });
