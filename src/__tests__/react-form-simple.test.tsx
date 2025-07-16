@@ -1441,3 +1441,330 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 });
+
+describe.concurrent('dymic form', () => {
+  test('add', async ({ expect }) => {
+    const TestDemo = React.forwardRef((props, ref) => {
+      const { render, model, forceUpdate } = useForm<{
+        list: Array<{ uid: string; value: string }>;
+      }>({ list: [] });
+      const renderMapList = model.list.map((v, index) => {
+        return (
+          <div key={v.uid} id={v.uid}>
+            {render(`list.${index}.value`)(
+              <input id={`dymic-${index}-input`} />,
+            )}
+          </div>
+        );
+      });
+      const renderButton = (
+        <button
+          id="dymic-add-button"
+          onClick={() => {
+            model.list.push({
+              uid: getUuid(),
+              value: `${model.list.length}`,
+            });
+            forceUpdate();
+          }}
+        >
+          add
+        </button>
+      );
+      useImperativeHandle(ref, () => ({}));
+      return (
+        <>
+          <div id="add-dymic-wrap">{renderMapList}</div>
+          {renderButton}
+        </>
+      );
+    });
+    const { container } = testRender(<TestDemo />);
+    const button = container.querySelector(
+      '#dymic-add-button',
+    ) as HTMLButtonElement;
+    button.click();
+    await vi.waitFor(
+      () => {
+        const wrap = container.querySelector(
+          '#add-dymic-wrap',
+        ) as HTMLDivElement;
+        if (wrap.children.length > 0) {
+          return true;
+        }
+        return Promise.reject();
+      },
+      { timeout: 100, interval: 10 },
+    );
+    const wrap = container.querySelector('#add-dymic-wrap') as HTMLDivElement;
+    expect(wrap.children.length).toBeGreaterThan(0);
+    const children = wrap.children;
+    Array.from(children).forEach((v, index) => {
+      const input = container.querySelector(
+        `#dymic-${index}-input`,
+      ) as HTMLInputElement;
+      expect(Number(input.value)).toBe(index);
+    });
+  });
+
+  test('remove', async ({ expect }) => {
+    const TestDemo = React.forwardRef((props, ref) => {
+      const { render, model, forceUpdate } = useForm<{
+        list: Array<{ uid: string; value: string }>;
+      }>({ list: [] });
+      const renderMapList = model.list.map((v, index) => {
+        const renderRemoveButton = (
+          <button
+            id={`remove-item-${index}-button`}
+            onClick={() => {
+              model.list.splice(index, 1);
+              forceUpdate();
+            }}
+          >
+            remove!
+          </button>
+        );
+        return (
+          <div id={v.uid} key={v.uid}>
+            {render(`list.${index}.value`)(
+              <input id={`dymic-remove-${index}-input`} />,
+            )}
+            {renderRemoveButton}
+          </div>
+        );
+      });
+      const renderButton = (
+        <button
+          id="dymic-remove-add-button"
+          onClick={() => {
+            model.list.push({
+              uid: getUuid(),
+              value: `${model.list.length}`,
+            });
+            forceUpdate();
+          }}
+        >
+          add
+        </button>
+      );
+      useImperativeHandle(ref, () => ({
+        getModalData() {
+          return model;
+        },
+        set(arr: any[]) {
+          model.list = arr;
+          forceUpdate();
+        },
+      }));
+      return (
+        <>
+          <div id="remove-dymic-wrap">{renderMapList}</div>
+          {renderButton}
+        </>
+      );
+    });
+
+    const demoRef = React.createRef() as any;
+
+    const { container } = testRender(<TestDemo ref={demoRef} />);
+    const addItem = (count: number = 1) => {
+      const button = container.querySelector(
+        '#dymic-remove-add-button',
+      ) as HTMLButtonElement;
+      Array.from({ length: count }, (x, y) => y).forEach(() => {
+        button.click();
+      });
+    };
+
+    addItem(2);
+
+    const getWrap = () =>
+      container.querySelector('#remove-dymic-wrap') as HTMLDivElement;
+
+    const getLen = () => {
+      const wrap = getWrap();
+      return wrap?.children?.length;
+    };
+
+    const checkWrapChildrenLen = () => {
+      const len = getLen();
+      if (len === 2) {
+        return true;
+      }
+      return Promise.reject();
+    };
+    await vi.waitFor(() => checkWrapChildrenLen(), {
+      timeout: 100,
+      interval: 10,
+    });
+
+    const len = getLen();
+    expect(len).toBeGreaterThan(0);
+    const getInput = (index: number) => {
+      const input = container.querySelector(
+        `#dymic-remove-${index}-input`,
+      ) as HTMLInputElement;
+      return input;
+    };
+    const getInputValue = (index: number) => {
+      const input = getInput(index);
+      return input.value;
+    };
+    const checkInputValue = () => {
+      const wrap = getWrap();
+      const children = wrap.children;
+      Array.from(children).forEach((v, index) => {
+        const value = getInputValue(index);
+        expect(Number(value)).toBe(index);
+      });
+    };
+    checkInputValue();
+    const removeAction = async () => {
+      const removeButton = container.querySelector(
+        '#remove-item-0-button',
+      ) as HTMLButtonElement;
+
+      removeButton.click();
+      await vi.waitFor(() => {
+        const len = getLen();
+        if (len === 1) {
+          return true;
+        }
+        return Promise.reject();
+      });
+      // checkInputValue();
+
+      addItem();
+
+      const changeInputValue = (index: number) => {
+        const input = getInput(index);
+        fireEvent.change(input, { target: { value: 'testtest' } });
+      };
+
+      await vi.waitFor(() => {
+        const len = getLen();
+        if (len === 2) return true;
+        return Promise.reject();
+      });
+
+      changeInputValue(0);
+
+      expect(getInputValue(0)).toBe('testtest');
+
+      expect(getInputValue(0)).not.toBe(getInputValue(1));
+      const getModal = () => {
+        const model = demoRef.current?.getModalData?.();
+        return model;
+      };
+      const getModelListValue = (index: number) => {
+        const model = getModal();
+        const list = model.list || [];
+        return list[index].value;
+      };
+
+      expect(getModelListValue(0)).toBe(getInputValue(0));
+      expect(getModelListValue(0)).not.toBe(getModelListValue(1));
+
+      return Promise.resolve();
+    };
+
+    await removeAction();
+  });
+
+  test('assignment', async () => {
+    const TestDemo = React.forwardRef(({}, ref) => {
+      const { render, model, forceUpdate } = useForm<{
+        list: Array<{ uid: string; value: string }>;
+      }>({ list: [] });
+      const renderMapList = model.list.map((v, index) => {
+        return (
+          <div id={v.uid} key={v.uid}>
+            {render(`list.${index}.value`)(
+              <input id={`dymic-assignment-${index}-input`} />,
+            )}
+          </div>
+        );
+      });
+
+      useImperativeHandle(ref, () => ({
+        getModalData() {
+          return model;
+        },
+        set(arr: any[]) {
+          model.list = arr;
+          forceUpdate();
+        },
+      }));
+      return (
+        <>
+          <div id="assign-dymic-wrap">{renderMapList}</div>
+        </>
+      );
+    });
+
+    const ref = React.createRef() as any;
+    const { container } = testRender(<TestDemo ref={ref} />);
+
+    const arr = [
+      { uid: getUuid(), value: 'name' },
+      { uid: getUuid(), value: 'age' },
+    ];
+    ref.current.set(arr);
+
+    const getWrap = () =>
+      container.querySelector('#assign-dymic-wrap') as HTMLDivElement;
+
+    const getLen = () => {
+      const wrap = getWrap();
+      return wrap?.children?.length;
+    };
+
+    const checkWrapChildrenLen = () => {
+      const len = getLen();
+      if (len === 2) {
+        return true;
+      }
+      return Promise.reject();
+    };
+
+    const getInput = (index: number) => {
+      const input = container.querySelector(
+        `#dymic-assignment-${index}-input`,
+      ) as HTMLInputElement;
+      return input;
+    };
+    const getInputValue = (index: number) => {
+      const input = getInput(index);
+      return input.value;
+    };
+
+    const getModal = () => {
+      const model = ref.current?.getModalData?.();
+      return model;
+    };
+
+    const getModelListValue = (index: number) => {
+      const model = getModal();
+      const list = model.list || [];
+      return list[index].value;
+    };
+
+    await vi.waitFor(() => checkWrapChildrenLen());
+
+    Array.from(getWrap().children).forEach((v, index) => {
+      const inputValue = getInputValue(index);
+      expect(inputValue).toBe(arr[index].value);
+      expect(inputValue).toBe(getModelListValue(index));
+    });
+
+    fireEvent.change(getInput(0), { target: { value: 'testtest' } });
+
+    fireEvent.change(getInput(1), { target: { value: 'testtesttwo' } });
+
+    expect(getModelListValue(0)).toBe(getInputValue(0));
+
+    expect(getModelListValue(1)).toBe(getInputValue(1));
+
+    expect(getModelListValue(0)).not.toBe(getInputValue(1));
+  });
+});

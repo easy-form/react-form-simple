@@ -10,10 +10,8 @@ export type ObserverOptions = {
   onArrayChange?: () => void;
 };
 
-// 简化的目标对象克隆
 export const cloneTarget = (proxy: any) => cloneDeep(proxy);
 
-// 优化的值获取函数
 export const getProxyValue = (obj: any, path: string): any => {
   if (!path || typeof path !== 'string') return undefined;
 
@@ -34,7 +32,6 @@ export const getProxyValue = (obj: any, path: string): any => {
   return current;
 };
 
-// 优化的值设置函数 - 修复响应式丢失问题
 export const updateProxyValue = (obj: any, path: string, value: any): void => {
   if (!path || typeof path !== 'string') return;
 
@@ -80,7 +77,6 @@ export const updateProxyValue = (obj: any, path: string, value: any): void => {
   }
 };
 
-// 简化的特殊对象检测
 const isSpecialObject = (obj: any): boolean => {
   if (!obj || typeof obj !== 'object') return false;
 
@@ -96,7 +92,6 @@ const isSpecialObject = (obj: any): boolean => {
   );
 };
 
-// 大幅简化的replaceTarget函数
 export const replaceTarget = (target: any, source: any): any => {
   if (!isObject(target) || !isObject(source)) {
     return source;
@@ -144,8 +139,7 @@ export const replaceTarget = (target: any, source: any): any => {
   return target;
 };
 
-// 优化的观察者创建函数
-export const observer = <T extends DefaultRecord>(
+const observer = <T extends DefaultRecord>(
   target: T,
   callback: ObserverCallback,
   options: ObserverOptions = {},
@@ -202,5 +196,4 @@ export const observer = <T extends DefaultRecord>(
   });
 };
 
-// 向后兼容的导出
 export const createObserverForm = observer;

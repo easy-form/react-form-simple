@@ -27,16 +27,7 @@ export namespace UseFormNamespace {
       | 'requireIndicator'
       | 'label'
       | 'contextProps'
-    > {
-    /**
-     * @localKey API.useForm.deep.desc
-     * @description deep collection
-     * @default true
-     * @version 1.4.6
-     * @ignore true
-     */
-    deep?: boolean;
-  }
+    > {}
 
   export type RenderConfigType = GlobalProps.FormItemProps & {
     /**
@@ -56,14 +47,6 @@ export namespace UseFormNamespace {
       string,
       GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions] | any
     >;
-    /**
-     * @localKey API.useForm.deep.desc
-     * @description deep collection
-     * @default true
-     * @version 1.4.6
-     * @ignore true
-     */
-    deep?: boolean;
   };
 
   export interface RenderFnReturnFnCallbackArgTypes

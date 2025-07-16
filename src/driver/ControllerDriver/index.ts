@@ -1,1 +1,7 @@
-export * from './controller';
+export {
+  cloneTarget,
+  createObserverForm,
+  getProxyValue,
+  replaceTarget,
+  updateProxyValue,
+} from './controller';

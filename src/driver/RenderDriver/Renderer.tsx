@@ -14,7 +14,7 @@ export const renderer = (
   config: UseFormNamespace.RenderConfigType &
     UseRenderNamespace.UseRenderOptions,
 ) => {
-  const { model, contextProps, defineProps, deep, ...rests } = config;
+  const { model, contextProps, defineProps, ...rests } = config;
 
   const defaultValue = getProxyValue(rests.defaultValues, bindId);
   const value = getProxyValue(model, bindId);
@@ -30,17 +30,16 @@ export const renderer = (
 
   const renderReactNode = (options: GlobalProps.GetContentOptions) => {
     const { attrs } = options;
-    const controllerprops = {
+    const controllerProps = {
       attrs,
       ...defineProps?.(options),
     } as GlobalProps.GetContentOptions;
     return (
       <Controller
-        {...controllerprops}
+        {...controllerProps}
         otherProps={{
           'data-form-simple-test-id': bindId,
         }}
-        deep={deep}
       >
         {renderComponent}
       </Controller>
