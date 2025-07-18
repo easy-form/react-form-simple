@@ -18,7 +18,7 @@ export const useContextApi = () => {
     [bindIdMapUid],
   );
 
-  const formarStringToArray = useCallback(
+  const formatToArray = useCallback(
     (value: Apis.ValidateBindIds) =>
       typeof value === 'string'
         ? [value]
@@ -36,14 +36,14 @@ export const useContextApi = () => {
         Array.from(apis.values()).forEach((api) => void api?.[methodName]?.());
         return;
       }
-      const _bindIds = formarStringToArray(bindId);
-      _bindIds?.forEach((bindId) => {
+      const bindIds = formatToArray(bindId);
+      bindIds?.forEach((bindId) => {
         const uid = getUid(bindId);
         const api = apis.get(uid);
         api?.[methodName]?.(...args);
       });
     },
-    [apis, formarStringToArray, getUid],
+    [apis, formatToArray, getUid],
   );
 
   const contextProps = useMemo<GlobalProps.ContextProps>(
@@ -64,17 +64,19 @@ export const useContextApi = () => {
   const overlayApis = useMemo<Apis.FormApis>(
     () => ({
       validate(names) {
-        const _apiValues = Array.from(apis.values());
+        const apiValues = Array.from(apis.values());
         if (isMeaningful(names)) {
-          const _bindIds = formarStringToArray(names);
-          const _uid = _bindIds.map((bindId) => bindIdMapUid.get(bindId));
-          const _validateFuns = _apiValues.filter((api) =>
-            _uid.includes(api.uid),
+          const bindIds = formatToArray(names);
+          const uids = bindIds.map((bindId) => bindIdMapUid.get(bindId));
+          const validateFunctions = apiValues.filter((api) =>
+            uids.includes(api.uid),
           );
-          return Promise.all(_validateFuns.map(({ validate }) => validate()));
+          return Promise.all(
+            validateFunctions.map(({ validate }) => validate()),
+          );
         }
 
-        return Promise.all(_apiValues.map(({ validate }) => validate()));
+        return Promise.all(apiValues.map(({ validate }) => validate()));
       },
       reset() {
         Array.from(apis.values()).forEach(({ reset }) => void reset?.());
@@ -98,7 +100,7 @@ export const useContextApi = () => {
         executeMethodFromApis(bindId, 'setError', message);
       },
     }),
-    [apis, bindIdMapUid, executeMethodFromApis, formarStringToArray, getUid],
+    [apis, bindIdMapUid, executeMethodFromApis, formatToArray, getUid],
   );
 
   return { globalDatas, contextProps, overlayApis };

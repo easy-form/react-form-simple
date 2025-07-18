@@ -4,36 +4,39 @@ import { isEqual } from 'react-form-simple/utils/util';
 import AbstractImp from '../abstract/AbstractImp';
 import type { KeyType, RequiredContextType } from '../type';
 
-type SubscribeFunType<T> = UseSubscribeNamespace.SubscribeFunType<T, any>;
+type SubscribeFunctionType<T> = UseSubscribeNamespace.SubscribeFunType<T, any>;
 
 export class Subscribe<T> extends AbstractImp {
-  private subscribeFun: SubscribeFunType<T> = () => ({});
-  private cb: (value: any) => void = () => {};
-  private preRet = null;
+  private subscribeFunction: SubscribeFunctionType<T> = () => ({});
+  private callback: (value: any) => void = () => {};
+  private previousResult = null;
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
   ) {
     super();
   }
-  private getCallbackRet() {
+  private getCallbackResult() {
     const { model } = this.contextProps;
-    return this.subscribeFun({ model });
+    return this.subscribeFunction({ model });
   }
-  update(subscribeFun: SubscribeFunType<T>, cb: (value: any) => void) {
-    this.subscribeFun = subscribeFun;
-    this.cb = cb;
+  update(
+    subscribeFunction: SubscribeFunctionType<T>,
+    callback: (value: any) => void,
+  ) {
+    this.subscribeFunction = subscribeFunction;
+    this.callback = callback;
   }
   emit() {
-    const value = cloneDeep(this.getCallbackRet());
-    if (isEqual(value, this.preRet)) return;
-    this.preRet = value;
-    this.cb(value);
+    const value = cloneDeep(this.getCallbackResult());
+    if (isEqual(value, this.previousResult)) return;
+    this.previousResult = value;
+    this.callback(value);
   }
   destroy() {
-    this.cb = () => {};
-    this.subscribeFun = () => {};
-    this.preRet = null;
+    this.callback = () => {};
+    this.subscribeFunction = () => {};
+    this.previousResult = null;
   }
 }
 

@@ -3,7 +3,7 @@ import {
   getProxyValue,
   updateProxyValue,
 } from 'react-form-simple/driver/ControllerDriver';
-import { VaildUtils } from 'react-form-simple/driver/VaildDriver';
+import { ValidationUtils } from 'react-form-simple/driver/ValidDriver';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
 import { Subscribe } from 'react-form-simple/utils/subscribe';
 import { getEventCbValue, isMeaningful } from 'react-form-simple/utils/util';
@@ -29,7 +29,7 @@ const convertStringToObject = (
 
 export interface UseFormItemContentController
   extends GlobalProps.FormItemProps {
-  vaildUtil: VaildUtils;
+  validationUtil: ValidationUtils;
   subscribe: InstanceType<typeof Subscribe>;
   onChange: (...args: any[]) => void;
   onBlur: () => void;
@@ -43,7 +43,7 @@ export function useFormItemContentController(
   const {
     bindId,
     initialValue,
-    vaildUtil,
+    validationUtil,
     getContent,
     subscribe,
     onChange,
@@ -54,7 +54,7 @@ export function useFormItemContentController(
     contextProps,
   } = options;
 
-  const preBindId = useRef(bindId);
+  const previousBindId = useRef(bindId);
 
   // 简化的forceUpdate实现
   const [, setTick] = useState(0);
@@ -72,14 +72,14 @@ export function useFormItemContentController(
     modelValue.current = sharedModel;
   }
 
-  vaildUtil.updateModel(modelValue.current);
+  validationUtil.updateModel(modelValue.current);
 
   const isError = useRef(false);
   const errorMessage = useRef('');
 
-  const isInitSubscribeEvent = useRef(true);
+  const isSubscribeEventInitialized = useRef(true);
 
-  if (isInitSubscribeEvent.current) {
+  if (isSubscribeEventInitialized.current) {
     subscribe.on('update', (value) => {
       methods.set(value);
     });
@@ -90,15 +90,15 @@ export function useFormItemContentController(
       errorMessage.current = value;
       isError.current = isMeaningful(value);
     });
-    isInitSubscribeEvent.current = false;
+    isSubscribeEventInitialized.current = false;
   }
 
   useEffect(() => {
-    if (bindId !== preBindId.current) {
+    if (bindId !== previousBindId.current) {
       if (!sharedModel) {
         modelValue.current = convertStringToObject(bindId, initialValue);
       }
-      preBindId.current = bindId;
+      previousBindId.current = bindId;
       forceUpdate();
     }
   }, [bindId, forceUpdate, sharedModel]);
@@ -109,7 +109,7 @@ export function useFormItemContentController(
         // 如果使用共享模型，直接更新共享模型
 
         // 尝试直接触发Proxy的set trap
-        const path = preBindId.current as string;
+        const path = previousBindId.current as string;
         const pathParts = path.split('.');
 
         if (pathParts.length === 3 && pathParts[0] === 'array') {
@@ -134,7 +134,7 @@ export function useFormItemContentController(
         // 否则更新本地模型
         updateProxyValue(
           modelValue.current,
-          preBindId.current as string,
+          previousBindId.current as string,
           value,
         );
       }
@@ -142,18 +142,18 @@ export function useFormItemContentController(
     },
   };
 
-  const value = getProxyValue(modelValue.current, preBindId.current) ?? '';
+  const value = getProxyValue(modelValue.current, previousBindId.current) ?? '';
 
   const renderContent =
     getContent?.({
       model: modelValue.current,
-      bindId: preBindId.current as string,
+      bindId: previousBindId.current as string,
       attrs: {
         readOnly,
         onChange: (e, tagType) => {
-          const _value = getEventCbValue(e, tagType, formatChangeValue);
-          methods.set(_value);
-          onChange?.(_value);
+          const formattedValue = getEventCbValue(e, tagType, formatChangeValue);
+          methods.set(formattedValue);
+          onChange?.(formattedValue);
         },
         onBlur: () => {
           onBlur?.();

@@ -10,9 +10,9 @@ import {
 } from '../type';
 
 export class Watch<T> extends AbstractImp {
-  private cb: CallbackType = () => {};
-  private preRet: UseWatchNamespace.SubscripeFunReturnType = null;
-  private subscribeFun: SubscripeFunType<T> = () => ({});
+  private callback: CallbackType = () => {};
+  private previousResult: UseWatchNamespace.SubscripeFunReturnType = null;
+  private subscribeFunction: SubscripeFunType<T> = () => ({});
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
@@ -25,30 +25,36 @@ export class Watch<T> extends AbstractImp {
         this.emit({ equal: false });
         return;
       }
-      this.preRet = cloneDeep(this.getCallbackRet());
+      this.previousResult = cloneDeep(this.getCallbackResult());
     });
   }
 
-  private getCallbackRet() {
+  private getCallbackResult() {
     const { model } = this.contextProps;
-    return this.subscribeFun({ model });
+    return this.subscribeFunction({ model });
   }
+
   public emit(option?: { equal?: boolean }) {
     const { equal = true } = option || {};
-    const ret = this.getCallbackRet();
-    if (!equal || !isEqual(ret, this.preRet)) {
-      this.cb(cloneDeep(ret), this.preRet);
+    const result = this.getCallbackResult();
+    if (!equal || !isEqual(result, this.previousResult)) {
+      this.callback(cloneDeep(result), this.previousResult);
     }
-    this.preRet = cloneDeep(ret);
+    this.previousResult = cloneDeep(result);
   }
-  public update(subscribeFun: SubscripeFunType<T>, cb: CallbackType) {
-    this.cb = cb;
-    this.subscribeFun = subscribeFun;
+
+  public update(
+    subscribeFunction: SubscripeFunType<T>,
+    callback: CallbackType,
+  ) {
+    this.callback = callback;
+    this.subscribeFunction = subscribeFunction;
   }
+
   public destroy() {
-    this.cb = () => {};
-    this.preRet = null;
-    this.subscribeFun = () => ({});
+    this.callback = () => {};
+    this.previousResult = null;
+    this.subscribeFunction = () => ({});
   }
 }
 

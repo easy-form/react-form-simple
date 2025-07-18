@@ -10,17 +10,17 @@ export const Controller: React.FC<ControlProps> = ({
   children,
   attrs,
   otherProps,
-  ...rests
+  ...restProps
 }) => {
-  const { value, onChange, onBlur, ...restAttrs } = attrs;
+  const { value, onChange, onBlur, ...remainingAttrs } = attrs;
 
   const cloneElement = (element: any) =>
     React.cloneElement(element, {
       ...otherProps,
-      ...restAttrs,
+      ...remainingAttrs,
       ...element?.props,
       value: element?.props?.value ?? value,
-      ...rests,
+      ...restProps,
       onChange(e: any, ...args: any[]) {
         onChange?.(e, ...args);
         element?.props?.onChange?.(e, ...args);

@@ -4,9 +4,9 @@ import { Subscribe } from 'react-form-simple/utils/subscribe';
 
 import { debounce, isArray } from 'lodash';
 import {
-  StaticVaildUtils,
-  VaildUtils,
-} from 'react-form-simple/driver/VaildDriver';
+  StaticValidationUtils,
+  ValidationUtils,
+} from 'react-form-simple/driver/ValidDriver';
 import { GlobalProps } from 'react-form-simple/types/form';
 import { getUuid, isMeaningful } from 'react-form-simple/utils/util';
 
@@ -25,7 +25,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
   const state = useMemo(() => {
     const uid = getUuid();
     const subscribe = new Subscribe();
-    const vaildUtil = new VaildUtils({
+    const validationUtil = new ValidationUtils({
       defaultValue,
       onError(msg) {
         subscribe.emit('onErr', msg);
@@ -35,7 +35,7 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
     return {
       uid,
       subscribe,
-      vaildUtil,
+      validationUtil,
       bindId,
       rules: rules || [],
       errorText: '',
@@ -45,13 +45,13 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
   useMemo(() => {
     state.bindId = bindId;
     state.rules = rules || [];
-    state.vaildUtil.updateRule(rules);
-    state.vaildUtil.updateBindId(bindId);
+    state.validationUtil.updateRule(rules);
+    state.validationUtil.updateBindId(bindId);
   }, [bindId, rules, state]);
 
   useEffect(() => {
     return () => {
-      state.vaildUtil.clearValidate();
+      state.validationUtil.clearValidate();
     };
   }, [state]);
 
@@ -61,27 +61,27 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
   );
 
   const validate = useCallback(() => {
-    let shareErrRet = null;
+    let validationError = null;
     if (isMeaningful(state.errorText)) {
       return state.errorText;
     }
-    const _rules = state.vaildUtil.getRules();
-    if (isArray(_rules)) {
-      for (let r of _rules) {
-        const errResult = state.vaildUtil.vaild(r);
+    const validationRules = state.validationUtil.getRules();
+    if (isArray(validationRules)) {
+      for (let rule of validationRules) {
+        const errResult = state.validationUtil.validate(rule);
         state.subscribe.emit('onErr', errResult);
         onErrorDebounce?.(errResult as string, state.bindId);
         if (isMeaningful(errResult)) {
-          shareErrRet = errResult;
+          validationError = errResult;
           break;
         }
       }
     }
-    return shareErrRet;
+    return validationError;
   }, [state, onErrorDebounce]);
 
   const triggers = useMemo(() => {
-    const triggerList = StaticVaildUtils.getTriggers(trigger);
+    const triggerList = StaticValidationUtils.getTriggers(trigger);
     return {
       get: () => triggerList,
       change: () => {
@@ -112,19 +112,19 @@ export const useFormItemController = (options: GlobalProps.FormItemProps) => {
           });
         }
         if (defaultValueSymbol !== defaultValue) {
-          state.vaildUtil.reset();
+          state.validationUtil.reset();
         }
       },
       clearValidate() {
         state.errorText = '';
-        state.vaildUtil.clearValidate();
+        state.validationUtil.clearValidate();
       },
       removeValidator() {
-        state.vaildUtil.clearValidate();
-        state.vaildUtil.removeValidator();
+        state.validationUtil.clearValidate();
+        state.validationUtil.removeValidator();
       },
       reapplyValidator() {
-        state.vaildUtil.updateRule(state.rules);
+        state.validationUtil.updateRule(state.rules);
       },
       setError(err: any) {
         state.errorText = err;

@@ -23,7 +23,7 @@ const useForm = <T extends DefaultRecord>(
     observerFactory.create('watch');
     observerFactory.create('subscribe');
 
-    const watchDebounce = debounce(() => {
+    const debouncedWatchNotify = debounce(() => {
       observerFactory.watchManager.notify();
     });
 
@@ -32,7 +32,7 @@ const useForm = <T extends DefaultRecord>(
       ({ path, value }) => {
         set(path, value);
         observerFactory.subscribeManager.notify();
-        watchDebounce();
+        debouncedWatchNotify();
       },
       {
         path: [],
@@ -50,7 +50,7 @@ const useForm = <T extends DefaultRecord>(
 
   const { contextProps, overlayApis, globalDatas } = useContextApi();
 
-  const _contextProps = useMemo<UseFormReturnType<T>['contextProps']>(
+  const formContextProps = useMemo<UseFormReturnType<T>['contextProps']>(
     () => ({
       ...contextProps,
       model: state.proxyModel,
@@ -67,22 +67,22 @@ const useForm = <T extends DefaultRecord>(
       createRender({
         ...config,
         model: state.proxyModel,
-        contextProps: _contextProps,
+        contextProps: formContextProps,
         globalDatas,
         defaultValues: state.defaultValues,
       }),
-    [config, state, _contextProps, globalDatas],
+    [config, state, formContextProps, globalDatas],
   );
 
   const extraApis = useFormExtraApi<T>({
     overlayApis,
     defaultValues: state.defaultValues,
-    contextProps: _contextProps,
+    contextProps: formContextProps,
   });
 
   return {
     model: state.proxyModel,
-    contextProps: _contextProps,
+    contextProps: formContextProps,
     render,
     ...overlayApis,
     ...extraApis,

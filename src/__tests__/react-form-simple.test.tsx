@@ -1767,4 +1767,132 @@ describe.concurrent('dymic form', () => {
 
     expect(getModelListValue(0)).not.toBe(getInputValue(1));
   });
+
+  describe('setValues 展开语法测试', () => {
+    const random = Math.random();
+    const nameRandomId = `name-input-${random}`;
+    const ageRandomId = `age-input-${random}`;
+    test(
+      'setValues 使用展开语法设置嵌套对象应该正确更新视图',
+      async () => {
+        const ref = React.createRef<{
+          setValues: () => void;
+          getModel: () => any;
+        }>();
+
+        const TestComponent = React.forwardRef(() => {
+          const { render, setValues, model } = useForm({
+            info: { name: 'initial', age: 20 },
+          });
+
+          useImperativeHandle(ref, () => ({
+            setValues: () => {
+              setValues({ info: { ...model.info, name: 'updated' } });
+            },
+            getModel: () => model,
+          }));
+
+          return (
+            <div>
+              {render('info.age')(<input data-testid={ageRandomId} />)}
+              {render('info.name')(<input data-testid={nameRandomId} />)}
+            </div>
+          );
+        });
+
+        const { getByTestId, unmount } = testRender(
+          <TestComponent ref={ref} />,
+        );
+
+        // 验证初始值
+
+        expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('20');
+        expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+          'initial',
+        );
+
+        setTimeout(() => {
+          ref.current?.setValues();
+        }, 200);
+
+        await waitFor(() => {
+          const modal = ref.current?.getModel();
+          expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe(
+            '20',
+          );
+          expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+            'updated',
+          );
+          expect(modal.info.age).toBe(20);
+          expect(modal.info.name).toBe('updated');
+        });
+        unmount();
+      },
+      { timeout: 1000 },
+    );
+
+    test('setValues 部分更新嵌套对象应该保持其他属性不变', async () => {
+      const ref = React.createRef() as any;
+      const random = Math.random();
+      const nameRandomId = `name-input-${random}`;
+      const ageRandomId = `age-input-${random}`;
+      const TestComponent = React.forwardRef(() => {
+        const { render, setValues, model } = useForm({
+          user: {
+            profile: { name: 'John', age: 30, city: 'NYC' },
+            settings: { theme: 'dark', lang: 'en' },
+          },
+        });
+
+        useImperativeHandle(ref, () => ({
+          setValues: () => {
+            // 只更新部分嵌套属性
+            setValues({
+              user: {
+                ...model.user,
+                profile: { ...model.user.profile, name: 'Jane', age: 25 },
+              },
+            });
+          },
+          getModel: () => model,
+        }));
+
+        return (
+          <div>
+            {render('user.profile.age')(<input data-testid={ageRandomId} />)}
+            {render('user.profile.name')(<input data-testid={nameRandomId} />)}
+          </div>
+        );
+      });
+
+      const { getByTestId } = testRender(<TestComponent ref={ref} />);
+
+      // 验证初始值
+      expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('30');
+      expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+        'John',
+      );
+
+      // 触发部分更新
+      setTimeout(() => {
+        ref.current?.setValues();
+      }, 200);
+
+      // 等待更新并验证
+      await waitFor(
+        () => {
+          const model = ref.current?.getModel();
+          expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe(
+            '25',
+          );
+          expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+            'Jane',
+          );
+          expect(model.user.profile.age).toBe(25);
+          expect(model.user.profile.name).toBe('Jane');
+        },
+        { timeout: 1000 },
+      );
+    });
+  });
 });

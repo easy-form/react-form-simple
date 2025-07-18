@@ -86,17 +86,17 @@ type FormItemErrorTxtProps = {
 
 export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
   const { errorStyle, subscribe, bindId, errorClassName } = props;
-  const errRef = useRef(null);
+  const errorRef = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [err, setErr] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    subscribe.on('onErr', (err: string) => {
-      const isErr = isMeaningful(err);
-      setErr(isErr);
-      if (isErr) {
-        setErrorMessage(err);
+    subscribe.on('onErr', (error: string) => {
+      const isError = isMeaningful(error);
+      setHasError(isError);
+      if (isError) {
+        setErrorMessage(error);
       }
     });
   }, []);
@@ -109,7 +109,7 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
   return (
     <>
       <CSSTransition
-        in={err}
+        in={hasError}
         timeout={300}
         classNames="alert"
         unmountOnExit
@@ -120,7 +120,7 @@ export const FormItemErrorTxt = React.memo((props: FormItemErrorTxtProps) => {
         <div
           data-error-id={`${bindId}-${errorMessage}`}
           data-error-text={errorMessage}
-          ref={errRef}
+          ref={errorRef}
           className={classes}
         >
           {errorMessage}

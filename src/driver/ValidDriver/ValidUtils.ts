@@ -2,19 +2,18 @@ import { cloneDeep } from 'lodash';
 import { GlobalProps, GlobalRules } from 'react-form-simple/types/form';
 import { isMeaningful } from 'react-form-simple/utils/util';
 import { getProxyValue, updateProxyValue } from '../ControllerDriver';
-import { VaildMethods } from './VaildMethods';
+import { ValidationMethods } from './ValidMethods';
 
 type RecordObj = Record<string, any>;
 type Trigger = GlobalProps.FormShareProps['trigger'];
-type VaildMessage = string | number | null | undefined | boolean;
+type ValidationMessage = string | number | null | undefined | boolean;
 
-interface VaildUtilsConfig {
+interface ValidationUtilsConfig {
   defaultValue: any;
-  onError: (msg: VaildMessage) => void;
+  onError: (msg: ValidationMessage) => void;
 }
 
-// 简化的静态验证工具
-export class StaticVaildUtils {
+export class StaticValidationUtils {
   static formatArray(args: any) {
     if (!args) return [];
     return Array.isArray(args) ? cloneDeep(args) : [args];
@@ -27,7 +26,7 @@ export class StaticVaildUtils {
   static validate(value: any, rule: GlobalRules.RulesSingle) {
     const { required, validator } = rule;
 
-    if (Boolean(required) && !VaildMethods.required(value)) {
+    if (Boolean(required) && !ValidationMethods.required(value)) {
       return typeof required === 'string' && isMeaningful(required)
         ? required
         : 'Required';
@@ -52,8 +51,8 @@ export class StaticVaildUtils {
 
   static getTriggers(trigger: Trigger) {
     if (!trigger) return [];
-    const _trigger: Trigger = Array.isArray(trigger) ? trigger : [trigger];
-    return _trigger.filter(Boolean);
+    const triggerArray: Trigger = Array.isArray(trigger) ? trigger : [trigger];
+    return triggerArray.filter(Boolean);
   }
 
   static getRules(rules: GlobalRules.Rules) {
@@ -61,13 +60,12 @@ export class StaticVaildUtils {
   }
 }
 
-// 大幅简化的验证工具类
-export class VaildUtils {
+export class ValidationUtils {
   private model: RecordObj = {};
   private bindId: GlobalProps.BindId = '';
   private rules: GlobalRules.Rules = [];
 
-  constructor(private configOptions: VaildUtilsConfig) {}
+  constructor(private configOptions: ValidationUtilsConfig) {}
 
   updateModel(model: RecordObj) {
     this.model = model;
@@ -79,7 +77,7 @@ export class VaildUtils {
 
   updateRule(rule: GlobalRules.Rules) {
     if (!rule) return;
-    this.rules = StaticVaildUtils.formatArray(rule);
+    this.rules = StaticValidationUtils.formatArray(rule);
   }
 
   clearValidate() {
@@ -87,20 +85,21 @@ export class VaildUtils {
   }
 
   getRules() {
-    return StaticVaildUtils.getRules(this.rules);
+    return StaticValidationUtils.getRules(this.rules);
   }
 
-  vaild(rule: GlobalRules.RulesSingle) {
-    const value = StaticVaildUtils.getValue(this.model, this.bindId);
-    return StaticVaildUtils.validate(value, rule);
+  validate(rule: GlobalRules.RulesSingle) {
+    const value = StaticValidationUtils.getValue(this.model, this.bindId);
+    return StaticValidationUtils.validate(value, rule);
   }
 
   reset() {
-    StaticVaildUtils.reset(
+    StaticValidationUtils.reset(
       this.model,
       this.bindId,
       this.configOptions.defaultValue,
     );
+    this.clearValidate();
   }
 
   removeValidator() {
