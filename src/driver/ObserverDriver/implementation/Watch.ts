@@ -13,45 +13,82 @@ export class Watch<T> extends AbstractImp {
   private callback: CallbackType = () => {};
   private previousResult: UseWatchNamespace.SubscripeFunReturnType = null;
   private subscribeFunction: SubscripeFunType<T> = () => ({});
+  private isDestroyed = false;
+  private initTimer: number | null = null;
+
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
     public options?: UseWatchNamespace.WatchOptions,
   ) {
     super();
-    const { initialEmit } = options || {};
-    setTimeout(() => {
+    this.initializeWithDelay();
+  }
+
+  private initializeWithDelay(): void {
+    const { initialEmit } = this.options || {};
+
+    // Use requestAnimationFrame for better performance than setTimeout
+    this.initTimer = requestAnimationFrame(() => {
+      if (this.isDestroyed) return;
+
       if (initialEmit) {
         this.emit({ equal: false });
-        return;
+      } else {
+        // Only clone when necessary for initial comparison
+        this.previousResult = cloneDeep(this.getCallbackResult());
       }
-      this.previousResult = cloneDeep(this.getCallbackResult());
+      this.initTimer = null;
     });
   }
 
   private getCallbackResult() {
+    if (this.isDestroyed) return null;
     const { model } = this.contextProps;
     return this.subscribeFunction({ model });
   }
 
-  public emit(option?: { equal?: boolean }) {
+  public emit(option?: { equal?: boolean }): void {
+    if (this.isDestroyed) return;
+
     const { equal = true } = option || {};
     const result = this.getCallbackResult();
-    if (!equal || !isEqual(result, this.previousResult)) {
-      this.callback(cloneDeep(result), this.previousResult);
+
+    // Avoid unnecessary cloning by comparing first
+    const hasChanged = !equal || !isEqual(result, this.previousResult);
+
+    if (hasChanged) {
+      // Only clone when we actually need to pass the value
+      const clonedResult = cloneDeep(result);
+      const clonedPrevious = this.previousResult;
+
+      this.callback(clonedResult, clonedPrevious);
     }
-    this.previousResult = cloneDeep(result);
+
+    // Always update previous result, but only clone if changed
+    this.previousResult = hasChanged ? cloneDeep(result) : this.previousResult;
   }
 
   public update(
     subscribeFunction: SubscripeFunType<T>,
     callback: CallbackType,
-  ) {
+  ): void {
+    if (this.isDestroyed) return;
+
     this.callback = callback;
     this.subscribeFunction = subscribeFunction;
   }
 
-  public destroy() {
+  public destroy(): void {
+    this.isDestroyed = true;
+
+    // Cancel pending initialization
+    if (this.initTimer !== null) {
+      cancelAnimationFrame(this.initTimer);
+      this.initTimer = null;
+    }
+
+    // Clear references to prevent memory leaks
     this.callback = () => {};
     this.previousResult = null;
     this.subscribeFunction = () => ({});

@@ -13,19 +13,20 @@ export class WatchMediator<T> extends AbstractObserver<Watch<T>> {
     key: KeyType,
     contextProps: RequiredContextType<T>,
     subscribeFun: SubscripeFunType<T>,
-    cb: CallbackType,
+    callback: CallbackType,
     options?: UseWatchNamespace.WatchOptions,
-  ) {
-    const index = this.findKeyIndex(key);
-    if (index >= 0) {
-      this.get(index).update(subscribeFun, cb);
-    } else {
-      const watch = new Watch<T>(key, contextProps, options);
-      watch.update(subscribeFun, cb);
-      this.queue.push(watch);
-    }
+  ): void {
+    this.registerObserver(
+      key,
+      () => new Watch<T>(key, contextProps, options),
+      (observer, subscribeFun, callback) =>
+        observer.update(subscribeFun, callback),
+      subscribeFun,
+      callback,
+    );
   }
-  public getMountedState() {
+
+  public getMountedState(): boolean {
     return this.mounted;
   }
 }

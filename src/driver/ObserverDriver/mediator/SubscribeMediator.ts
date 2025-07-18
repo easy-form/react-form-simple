@@ -7,18 +7,19 @@ export class SubscribeMediator<T> extends AbstractObserver<Subscribe<T>> {
     key: KeyType,
     contextProps: RequiredContextType<T>,
     subscribeFun: SubscripeFunType<T>,
-    cb: (value: any) => void,
-  ) {
-    const index = this.findKeyIndex(key);
-    if (index >= 0) {
-      this.get(index).update(subscribeFun, cb);
-    } else {
-      const watch = new Subscribe<T>(key, contextProps);
-      watch.update(subscribeFun, cb);
-      this.queue.push(watch);
-    }
+    callback: (value: any) => void,
+  ): void {
+    this.registerObserver(
+      key,
+      () => new Subscribe<T>(key, contextProps),
+      (observer, subscribeFun, callback) =>
+        observer.update(subscribeFun, callback),
+      subscribeFun,
+      callback,
+    );
   }
-  public getMountedState() {
+
+  public getMountedState(): boolean {
     return this.mounted;
   }
 }
