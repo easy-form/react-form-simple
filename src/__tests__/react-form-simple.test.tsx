@@ -17,7 +17,7 @@ import {
 import { getUuid } from 'react-form-simple/utils/util';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-describe('React Form Simple - 完整测试套件', () => {
+describe('React Form Simple - Complete Test Suite', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -26,8 +26,8 @@ describe('React Form Simple - 完整测试套件', () => {
     vi.restoreAllMocks();
   });
 
-  describe('Form 组件 API 测试', () => {
-    test('Form 组件应该暴露所有必需的 API', async () => {
+  describe('Form Component API Tests', () => {
+    test('Form component should expose all required APIs', async () => {
       let fnKeys: (keyof FormApis)[] = [];
       let fns = {} as FormApis;
 
@@ -60,13 +60,13 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('Form 组件应该支持 validate 方法', async () => {
+    test('Form component should support validate method', async () => {
       const ref = React.createRef<FormApis>();
       const TestDemo = () => (
         <Form ref={ref}>
           <FormItem
             bindId="testField"
-            rules={{ required: '请输入内容' }}
+            rules={{ required: 'Please enter content' }}
             getContent={({ attrs }) => <input {...attrs} />}
           />
         </Form>
@@ -78,9 +78,9 @@ describe('React Form Simple - 完整测试套件', () => {
         if (ref.current) {
           try {
             await ref.current.validate('testField');
-            expect.fail('应该抛出验证错误');
+            expect.fail('Should throw validation error');
           } catch (error) {
-            expect(error).toBe('请输入内容');
+            expect(error).toBe('Please enter content');
           }
         }
       });
@@ -88,7 +88,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('Form 组件应该支持 setValue 和 reset 方法', async () => {
+    test('Form component should support setValue and reset methods', async () => {
       const TestDemo = () => {
         const { render, setValue, reset } = useForm({ testField: '' });
 
@@ -118,14 +118,14 @@ describe('React Form Simple - 完整测试套件', () => {
         '#reset-btn',
       ) as HTMLButtonElement;
 
-      // 点击设置值按钮
+      // Click set value button
       fireEvent.click(setBtn);
 
       await waitFor(() => {
         expect(input.value).toBe('test value');
       });
 
-      // 点击重置按钮
+      // Click reset button
       fireEvent.click(resetBtn);
 
       await waitFor(() => {
@@ -136,8 +136,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('FormItem 组件测试', () => {
-    test('FormItem 应该暴露所有必需的 API', async () => {
+  describe('FormItem Component Tests', () => {
+    test('FormItem should expose all required APIs', async () => {
       let fnKeys: (keyof FormItemApis)[] = [];
       let fns = {} as FormItemApis;
 
@@ -169,7 +169,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('FormItem 应该支持 contextProps 生命周期', async () => {
+    test('FormItem should support contextProps lifecycle', async () => {
       let apiEffectOptions = null;
       const contextProps: FormItemProps['contextProps'] = {
         destroy: vi.fn(),
@@ -206,7 +206,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('FormItem 应该支持值变化监听', async () => {
+    test('FormItem should support value change monitoring', async () => {
       let capturedValue: any = null;
       const contextProps: FormItemProps['contextProps'] = {
         updated: vi.fn(({ value }) => {
@@ -236,13 +236,13 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('FormItem 应该支持验证功能', async () => {
+    test('FormItem should support validation', async () => {
       const onError = vi.fn();
       const TestDemo = () => (
         <FormItem
           getContent={({ attrs }) => <input {...attrs} id="validate-input" />}
           trigger="blur"
-          rules={{ required: '请输入内容' }}
+          rules={{ required: 'Please enter content' }}
           bindId="validateField"
           onError={onError}
         />
@@ -262,7 +262,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('FormItem 应该支持样式配置', () => {
+    test('FormItem should support style configuration', () => {
       const { container, unmount } = testRender(
         <FormItem
           fullWidth
@@ -287,7 +287,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('FormItem 应该支持只读模式', () => {
+    test('FormItem should support read-only mode', () => {
       const { queryByText, unmount } = testRender(
         <FormItem
           readOnly
@@ -301,8 +301,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('useForm Hook 测试', () => {
-    test('useForm 应该返回正确的 API', () => {
+  describe('useForm Hook Tests', () => {
+    test('useForm should return correct API', () => {
       const TestDemo = () => {
         const formApi = useForm({ name: '' });
 
@@ -323,7 +323,7 @@ describe('React Form Simple - 完整测试套件', () => {
       testRender(<TestDemo />);
     });
 
-    test('useForm render 方法应该正常工作', () => {
+    test('useForm render method should work properly', () => {
       const TestDemo = () => {
         const { render } = useForm({ name: '' });
         return render('name', { label: '姓名' })(<input id="render-test" />);
@@ -337,7 +337,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(input).toBeTruthy();
     });
 
-    test('useForm 应该支持设置和获取值', () => {
+    test('useForm should support setting and getting values', () => {
       const TestDemo = () => {
         const { render, model } = useForm({ name: '' });
 
@@ -353,7 +353,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(input.value).toBe('test value');
     });
 
-    test('useForm 应该支持 defineProps 动态属性', () => {
+    test('useForm should support defineProps dynamic properties', () => {
       const TestDemo = () => {
         const { render, model } = useForm({ name: 'test' });
 
@@ -370,7 +370,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(input.readOnly).toBe(true);
     });
 
-    test('useForm 应该支持表单值变化', async () => {
+    test('useForm should support form value changes', async () => {
       const TestDemo = () => {
         const { render } = useForm({ name: '' });
         return render('name')(<input id="change-test" />);
@@ -388,7 +388,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('useForm 应该支持 reset 功能', async () => {
+    test('useForm should support reset functionality', async () => {
       const ref = React.createRef<any>();
       const TestDemo = React.forwardRef((props, ref) => {
         const { render, reset, model } = useForm({ name: '' });
@@ -419,7 +419,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('useForm 应该支持 setValues 批量设置值', () => {
+    test('useForm should support setValues batch setting', () => {
       const TestDemo = () => {
         const { render, setValues } = useForm({
           name: '',
@@ -462,8 +462,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('useWatch Hook 测试', () => {
-    test('useWatch 应该监听值变化', async () => {
+  describe('useWatch Hook Tests', () => {
+    test('useWatch should monitor value changes', async () => {
       const watchCallback = vi.fn();
       const TestDemo = () => {
         const { useWatch, model } = useForm({ name: 'initial' });
@@ -489,7 +489,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('useWatch 应该支持多个值监听', async () => {
+    test('useWatch should support monitoring multiple values', async () => {
       const watchCallback = vi.fn();
       const TestDemo = () => {
         const { useWatch, model } = useForm({
@@ -519,7 +519,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('useWatch 应该能监听数组元素变化', async () => {
+    test('useWatch should monitor array element changes', async () => {
       const watchCallback = vi.fn();
 
       const TestComponent = () => {
@@ -560,13 +560,13 @@ describe('React Form Simple - 完整测试套件', () => {
       const input = getByTestId('input-0') as HTMLInputElement;
       const watchState = getByTestId('watch-state') as HTMLElement;
 
-      // 清除初始调用
+      // Clear initial call
       watchCallback.mockClear();
 
-      // 修改数组元素的值
+      // Modify array element value
       fireEvent.change(input, { target: { value: 'updated_value' } });
 
-      // 等待 watch 回调被触发
+      // Wait for watch callback to be triggered
       await waitFor(() => {
         expect(watchCallback).toHaveBeenCalled();
         expect(input.value).toBe('updated_value');
@@ -575,8 +575,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('useSubscribe Hook 测试', () => {
-    test('useSubscribe 应该订阅值变化', async () => {
+  describe('useSubscribe Hook Tests', () => {
+    test('useSubscribe should subscribe to value changes', async () => {
       const TestDemo = () => {
         const { useSubscribe, model } = useForm({ name: 'initial' });
         const subscribedName = useSubscribe(({ model }) => model.name);
@@ -601,14 +601,14 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('连续输入多次应该持续触发 useSubscribe', async () => {
+    test('Multiple consecutive inputs should continuously trigger useSubscribe', async () => {
       const TestComponent = () => {
         const { render, useSubscribe } = useForm({ name: 'name', age: 'age' });
 
         const renderName = render('name')(<input data-testid="name-input" />);
         const renderAge = render('age')(<input data-testid="age-input" />);
 
-        // 使用 useMemo 来稳定 subscribeFun 的引用
+        // Use useMemo to stabilize subscribeFun reference
         const subscribeFun = React.useMemo(
           () =>
             ({ model }: any) =>
@@ -634,41 +634,41 @@ describe('React Form Simple - 完整测试套件', () => {
       const ageInput = getByTestId('age-input') as HTMLInputElement;
       const modelDisplay = getByTestId('model-display');
 
-      // 初始状态检查
+      // Initial state check
       expect(modelDisplay.textContent).toContain('"name":"name"');
       expect(modelDisplay.textContent).toContain('"age":"age"');
 
-      // 第一次输入 name
+      // Input field changes
       fireEvent.change(nameInput, { target: { value: 'John' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"name":"John"');
       });
 
-      // 第二次输入 name
+      // Input field changes
       fireEvent.change(nameInput, { target: { value: 'Jane' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"name":"Jane"');
       });
 
-      // 第三次输入 name（这里可能会失败）
+      // Input field changes
       fireEvent.change(nameInput, { target: { value: 'Bob' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"name":"Bob"');
       });
 
-      // 输入 age
+      // Input field changes
       fireEvent.change(ageInput, { target: { value: '25' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"age":"25"');
       });
 
-      // 再次输入 name
+      // Input field changes again
       fireEvent.change(nameInput, { target: { value: 'Alice' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"name":"Alice"');
       });
 
-      // 再次输入 age
+      // Input field changes again
       fireEvent.change(ageInput, { target: { value: '30' } });
       await waitFor(() => {
         expect(modelDisplay.textContent).toContain('"age":"30"');
@@ -676,8 +676,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('动态表单测试', () => {
-    test('应该支持动态添加表单项', async () => {
+  describe('Dynamic Form Tests', () => {
+    test('Should support dynamically adding form items', async () => {
       const TestDemo = () => {
         const { model, render, forceUpdate } = useForm({
           fields: [{ value: 0, uid: getUuid() }],
@@ -724,7 +724,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('应该支持动态删除表单项', async () => {
+    test('Should support dynamically removing form items', async () => {
       const TestDemo = () => {
         const { model, render, forceUpdate } = useForm({
           fields: [
@@ -767,7 +767,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('动态表单应该保持数据一致性', async () => {
+    test('Dynamic forms should maintain data consistency', async () => {
       const ref = React.createRef<any>();
       const TestDemo = React.forwardRef((props, ref) => {
         const { model, render, forceUpdate } = useForm({
@@ -812,8 +812,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('表单验证测试', () => {
-    test('应该支持必填验证', async () => {
+  describe('Form Validation Tests', () => {
+    test('Should support required validation', async () => {
       const ref = React.createRef<any>();
       const TestDemo = React.forwardRef((props, ref) => {
         const { render, validate } = useForm({ name: '' });
@@ -823,7 +823,7 @@ describe('React Form Simple - 完整测试套件', () => {
         }));
 
         return render('name', {
-          rules: { required: '姓名不能为空' },
+          rules: { required: 'Name cannot be empty' },
         })(<input id="required-test" />);
       });
 
@@ -831,13 +831,13 @@ describe('React Form Simple - 完整测试套件', () => {
 
       try {
         await ref.current?.validate();
-        expect.fail('应该抛出验证错误');
+        expect.fail('Should throw validation error');
       } catch (error) {
-        expect(error).toBe('姓名不能为空');
+        expect(error).toBe('Name cannot be empty');
       }
     });
 
-    test('应该支持自定义验证器', async () => {
+    test('Should support custom validators', async () => {
       const ref = React.createRef<any>();
       const TestDemo = React.forwardRef((props, ref) => {
         const { render, validate } = useForm({ email: 'invalid-email' });
@@ -850,7 +850,9 @@ describe('React Form Simple - 完整测试套件', () => {
           rules: {
             validator: (value) => {
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-              return emailRegex.test(value) ? null : '请输入有效的邮箱地址';
+              return emailRegex.test(value)
+                ? null
+                : 'Please enter a valid email address';
             },
           },
         })(<input id="email-test" />);
@@ -860,13 +862,13 @@ describe('React Form Simple - 完整测试套件', () => {
 
       try {
         await ref.current?.validate();
-        expect.fail('应该抛出验证错误');
+        expect.fail('Should throw validation error');
       } catch (error) {
-        expect(error).toBe('请输入有效的邮箱地址');
+        expect(error).toBe('Please enter a valid email address');
       }
     });
 
-    test('应该支持清除验证错误', async () => {
+    test('Should support clearing validation errors', async () => {
       const TestDemo = () => {
         const { render, clearValidate } = useForm({ name: '' });
 
@@ -899,7 +901,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('应该支持移除和重新应用验证规则', async () => {
+    test('Should support removing and reapplying validation rules', async () => {
       const ref = React.createRef<any>();
       const TestDemo = React.forwardRef((props, ref) => {
         const { render, removeValidator, reapplyValidator, validate } = useForm(
@@ -921,23 +923,23 @@ describe('React Form Simple - 完整测试套件', () => {
 
       testRender(<TestDemo ref={ref} />);
 
-      // 移除验证规则
+      // Remove validation rules
       ref.current?.removeValidator();
 
-      // 此时验证应该通过（因为验证器已被移除）
+      // Validation should pass now
       const result = await ref.current?.validate();
-      expect(result).toEqual([undefined]); // 实际返回的是数组
+      expect(result).toEqual([undefined]); // Actually returns an array
 
-      // 重新应用验证规则
+      // Re-apply validation rules
       ref.current?.reapplyValidator();
 
-      // 此时验证应该失败
+      // Validation should fail now
       await expect(ref.current?.validate()).rejects.toBe('请输入姓名');
     });
   });
 
-  describe('表单布局和样式测试', () => {
-    test('应该支持不同的标签位置', () => {
+  describe('Form Layout and Style Tests', () => {
+    test('Should support different label positions', () => {
       const { container } = testRender(
         <FormItem
           label="测试标签"
@@ -950,7 +952,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(formItem?.className).toContain('react-form-simple-form-item-top');
     });
 
-    test('应该支持全宽度布局', () => {
+    test('Should support full-width layout', () => {
       const { container } = testRender(
         <FormItem fullWidth getContent={({ attrs }) => <input {...attrs} />} />,
       );
@@ -960,7 +962,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(computedStyle.width).toBe('100%');
     });
 
-    test('应该支持自定义样式', () => {
+    test('Should support custom styles', () => {
       const customStyle = { backgroundColor: 'red' };
       const { container } = testRender(
         <FormItem
@@ -973,19 +975,19 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(formItem).toBeTruthy();
     });
 
-    test('应该支持无样式模式', () => {
+    test('Should support no-style mode', () => {
       const { container } = testRender(
         <FormItem noStyle getContent={({ attrs }) => <input {...attrs} />} />,
       );
 
-      // 在无样式模式下，应该没有默认的表单项包装器
+      // In no-style mode, there should be no default form item wrapper
       const formItem = container.querySelector('.react-form-simple-form-item');
-      expect(formItem).toBeFalsy(); // 无样式模式下不应该有默认的包装器
+      expect(formItem).toBeFalsy(); // Should not have default wrapper in no-style mode
     });
   });
 
-  describe('高级功能测试', () => {
-    test('应该支持表单项错误设置', async () => {
+  describe('Advanced Feature Tests', () => {
+    test('Should support form item error setting', async () => {
       const ref = React.createRef<FormItemApis>();
       const TestDemo = () => (
         <FormItem ref={ref} getContent={({ attrs }) => <input {...attrs} />} />
@@ -999,7 +1001,7 @@ describe('React Form Simple - 完整测试套件', () => {
       });
     });
 
-    test('应该支持格式化值', () => {
+    test('Should support value formatting', () => {
       const formatChangeValue = vi.fn((e) => e.target.value.toUpperCase());
 
       const TestDemo = () => {
@@ -1017,7 +1019,7 @@ describe('React Form Simple - 完整测试套件', () => {
       expect(formatChangeValue).toHaveBeenCalled();
     });
 
-    test('应该支持初始值设置', async () => {
+    test('Should support initial value setting', async () => {
       const TestDemo = () => (
         <FormItem
           bindId="testField"
@@ -1036,13 +1038,13 @@ describe('React Form Simple - 完整测试套件', () => {
       });
     });
 
-    test('应该支持触发器配置', async () => {
+    test('Should support trigger configuration', async () => {
       const onError = vi.fn();
       const TestDemo = () => (
         <FormItem
           bindId="triggerField"
           trigger="blur"
-          rules={{ required: '请输入内容' }}
+          rules={{ required: 'Please enter content' }}
           onError={onError}
           getContent={({ attrs }) => <input {...attrs} id="trigger-test" />}
         />
@@ -1056,13 +1058,16 @@ describe('React Form Simple - 完整测试套件', () => {
       fireEvent.blur(input);
 
       await waitFor(() => {
-        expect(onError).toHaveBeenCalledWith('请输入内容', 'triggerField');
+        expect(onError).toHaveBeenCalledWith(
+          'Please enter content',
+          'triggerField',
+        );
       });
     });
   });
 
-  describe('集成测试', () => {
-    test('完整的表单提交流程', async () => {
+  describe('Integration Tests', () => {
+    test('Complete form submission flow', async () => {
       const onSubmit = vi.fn();
       const TestDemo = () => {
         const { render, validate, model } = useForm({
@@ -1093,7 +1098,9 @@ describe('React Form Simple - 完整测试套件', () => {
                 required: '请输入邮箱',
                 validator: (value) => {
                   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                  return emailRegex.test(value) ? null : '请输入有效邮箱';
+                  return emailRegex.test(value)
+                    ? null
+                    : 'Please enter a valid email';
                 },
               },
             })(<input id="submit-email" />)}
@@ -1117,7 +1124,7 @@ describe('React Form Simple - 完整测试套件', () => {
 
       const { container } = testRender(<TestDemo />);
 
-      // 填写表单
+      // Fill form
       const nameInput = container.querySelector(
         '#submit-name',
       ) as HTMLInputElement;
@@ -1143,12 +1150,12 @@ describe('React Form Simple - 完整测试套件', () => {
         expect(onSubmit).toHaveBeenCalledWith({
           name: '张三',
           email: 'zhangsan@example.com',
-          age: '25', // 输入框的值是字符串
+          age: '25', // Input field changes
         });
       });
     });
 
-    test('复杂的动态表单场景', async () => {
+    test('Complex dynamic form scenarios', async () => {
       const TestDemo = () => {
         const { model, render, validate, forceUpdate } = useForm({
           users: [{ id: getUuid(), name: '', email: '' }],
@@ -1209,7 +1216,7 @@ describe('React Form Simple - 完整测试套件', () => {
 
       const { container } = testRender(<TestDemo />);
 
-      // 添加用户
+      // Add user
       const addButton = container.querySelector(
         '#add-user',
       ) as HTMLButtonElement;
@@ -1220,7 +1227,7 @@ describe('React Form Simple - 完整测试套件', () => {
         expect(users.length).toBe(2);
       });
 
-      // 填写第一个用户信息
+      // Fill first user information
       const name0 = container.querySelector('#name-0') as HTMLInputElement;
       const email0 = container.querySelector('#email-0') as HTMLInputElement;
 
@@ -1232,8 +1239,8 @@ describe('React Form Simple - 完整测试套件', () => {
     });
   });
 
-  describe('回归测试 - 修复响应式问题', () => {
-    test('setValue 深层对象应该保持响应式', async () => {
+  describe('Regression Tests - Fix Reactive Issues', () => {
+    test('setValue deep objects should maintain reactivity', async () => {
       const ref = React.createRef<any>();
 
       const TestComponent = React.forwardRef(() => {
@@ -1260,7 +1267,7 @@ describe('React Form Simple - 完整测试套件', () => {
         ref.current?.setValue();
       }, 500);
 
-      // 等待响应式更新
+      // Wait for reactive update
       await waitFor(
         () => {
           const input = container.querySelector('#input') as HTMLInputElement;
@@ -1270,7 +1277,7 @@ describe('React Form Simple - 完整测试套件', () => {
       );
     });
 
-    test('useWatch 应该能监听整个数组变化', async () => {
+    test('useWatch should monitor entire array changes', async () => {
       const watchCallback = vi.fn().mockImplementation(() => ({}));
 
       const ref = React.createRef<any>();
@@ -1322,7 +1329,7 @@ describe('React Form Simple - 完整测试套件', () => {
       unmount();
     });
 
-    test('useSubscribe 应该能订阅整个模型变化', async () => {
+    test('useSubscribe should subscribe to entire model changes', async () => {
       const TestComponent = () => {
         const { render, useSubscribe, setValue } = useForm({
           name: 'initial',
@@ -1357,16 +1364,16 @@ describe('React Form Simple - 完整测试套件', () => {
         '#update-name',
       ) as HTMLButtonElement;
 
-      // 初始值检查
+      // Initial value check
       const initialData = JSON.parse(subscribedData.textContent || '{}');
       expect(initialData.name).toBe('initial');
       expect(initialData.age).toBe(20);
       expect(nameInput.value).toBe('initial');
 
-      // 更新名称
+      // Update name
       fireEvent.click(button);
 
-      // 等待订阅更新
+      // Wait for subscription update
       await waitFor(() => {
         const updatedData = JSON.parse(subscribedData.textContent || '{}');
         expect(updatedData.name).toBe('updated');
@@ -1375,7 +1382,7 @@ describe('React Form Simple - 完整测试套件', () => {
       });
     });
 
-    test('useSubscribe 订阅整个模型应该在任何字段变化时触发', async () => {
+    test('useSubscribe subscription to entire model should trigger on any field change', async () => {
       const { result } = renderHook(() =>
         useForm({
           name: 'initial',
@@ -1399,13 +1406,13 @@ describe('React Form Simple - 完整测试套件', () => {
         }),
       );
 
-      // 初始状态 - useSubscribe 在初始化时会被调用
+      // Initial state - useSubscribe is called during initialization
       expect(callbackCount).toBeGreaterThanOrEqual(1);
       expect(lastModel.name).toBe('initial');
 
       const initialCallbackCount = callbackCount;
 
-      // 修改顶层字段
+      // Modify top-level field
       act(() => {
         model.name = 'updated';
       });
@@ -1417,7 +1424,7 @@ describe('React Form Simple - 完整测试套件', () => {
 
       const afterFirstUpdate = callbackCount;
 
-      // 修改嵌套字段
+      // Modify nested field
       act(() => {
         model.nested.value = 'updated nested';
       });
@@ -1429,7 +1436,7 @@ describe('React Form Simple - 完整测试套件', () => {
 
       const afterSecondUpdate = callbackCount;
 
-      // 修改数字字段
+      // Modify number field
       act(() => {
         model.age = 30;
       });
@@ -1442,7 +1449,7 @@ describe('React Form Simple - 完整测试套件', () => {
   });
 });
 
-describe.concurrent('dymic form', () => {
+describe('Dynamic Form', () => {
   test('add', async ({ expect }) => {
     const TestDemo = React.forwardRef((props, ref) => {
       const { render, model, forceUpdate } = useForm<{
@@ -1767,132 +1774,124 @@ describe.concurrent('dymic form', () => {
 
     expect(getModelListValue(0)).not.toBe(getInputValue(1));
   });
+});
 
-  describe('setValues 展开语法测试', () => {
-    const random = Math.random();
-    const nameRandomId = `name-input-${random}`;
-    const ageRandomId = `age-input-${random}`;
-    test(
-      'setValues 使用展开语法设置嵌套对象应该正确更新视图',
-      async () => {
-        const ref = React.createRef<{
-          setValues: () => void;
-          getModel: () => any;
-        }>();
+describe('setValues Spread Syntax Tests', () => {
+  const random = Math.random();
+  const nameRandomId = `name-input-${random}`;
+  const ageRandomId = `age-input-${random}`;
+  test(
+    'setValues using spread syntax for nested objects should correctly update view',
+    async () => {
+      const ref = React.createRef<{
+        setValues: () => void;
+        getModel: () => any;
+      }>();
 
-        const TestComponent = React.forwardRef(() => {
-          const { render, setValues, model } = useForm({
-            info: { name: 'initial', age: 20 },
-          });
-
-          useImperativeHandle(ref, () => ({
-            setValues: () => {
-              setValues({ info: { ...model.info, name: 'updated' } });
-            },
-            getModel: () => model,
-          }));
-
-          return (
-            <div>
-              {render('info.age')(<input data-testid={ageRandomId} />)}
-              {render('info.name')(<input data-testid={nameRandomId} />)}
-            </div>
-          );
-        });
-
-        const { getByTestId, unmount } = testRender(
-          <TestComponent ref={ref} />,
-        );
-
-        // 验证初始值
-
-        expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('20');
-        expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
-          'initial',
-        );
-
-        setTimeout(() => {
-          ref.current?.setValues();
-        }, 200);
-
-        await waitFor(() => {
-          const modal = ref.current?.getModel();
-          expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe(
-            '20',
-          );
-          expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
-            'updated',
-          );
-          expect(modal.info.age).toBe(20);
-          expect(modal.info.name).toBe('updated');
-        });
-        unmount();
-      },
-      { timeout: 1000 },
-    );
-
-    test('setValues 部分更新嵌套对象应该保持其他属性不变', async () => {
-      const ref = React.createRef() as any;
-      const random = Math.random();
-      const nameRandomId = `name-input-${random}`;
-      const ageRandomId = `age-input-${random}`;
       const TestComponent = React.forwardRef(() => {
         const { render, setValues, model } = useForm({
-          user: {
-            profile: { name: 'John', age: 30, city: 'NYC' },
-            settings: { theme: 'dark', lang: 'en' },
-          },
+          info: { name: 'initial', age: 20 },
         });
 
         useImperativeHandle(ref, () => ({
           setValues: () => {
-            // 只更新部分嵌套属性
-            setValues({
-              user: {
-                ...model.user,
-                profile: { ...model.user.profile, name: 'Jane', age: 25 },
-              },
-            });
+            setValues({ info: { ...model.info, name: 'updated' } });
           },
           getModel: () => model,
         }));
 
         return (
           <div>
-            {render('user.profile.age')(<input data-testid={ageRandomId} />)}
-            {render('user.profile.name')(<input data-testid={nameRandomId} />)}
+            {render('info.age')(<input data-testid={ageRandomId} />)}
+            {render('info.name')(<input data-testid={nameRandomId} />)}
           </div>
         );
       });
 
-      const { getByTestId } = testRender(<TestComponent ref={ref} />);
+      const { getByTestId, unmount } = testRender(<TestComponent ref={ref} />);
 
-      // 验证初始值
-      expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('30');
+      // Verify initial values
+
+      expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('20');
       expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
-        'John',
+        'initial',
       );
 
-      // 触发部分更新
       setTimeout(() => {
         ref.current?.setValues();
       }, 200);
 
-      // 等待更新并验证
-      await waitFor(
-        () => {
-          const model = ref.current?.getModel();
-          expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe(
-            '25',
-          );
-          expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
-            'Jane',
-          );
-          expect(model.user.profile.age).toBe(25);
-          expect(model.user.profile.name).toBe('Jane');
+      await waitFor(() => {
+        const modal = ref.current?.getModel();
+        expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('20');
+        expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+          'updated',
+        );
+        expect(modal.info.age).toBe(20);
+        expect(modal.info.name).toBe('updated');
+      });
+      unmount();
+    },
+    { timeout: 1000 },
+  );
+
+  test('setValues partial update of nested objects should preserve other properties', async () => {
+    const ref = React.createRef() as any;
+    const random = Math.random();
+    const nameRandomId = `name-input-${random}`;
+    const ageRandomId = `age-input-${random}`;
+    const TestComponent = React.forwardRef(() => {
+      const { render, setValues, model } = useForm({
+        user: {
+          profile: { name: 'John', age: 30, city: 'NYC' },
+          settings: { theme: 'dark', lang: 'en' },
         },
-        { timeout: 1000 },
+      });
+
+      useImperativeHandle(ref, () => ({
+        setValues: () => {
+          // Only update partial nested properties
+          setValues({
+            user: {
+              ...model.user,
+              profile: { ...model.user.profile, name: 'Jane', age: 25 },
+            },
+          });
+        },
+        getModel: () => model,
+      }));
+
+      return (
+        <div>
+          {render('user.profile.age')(<input data-testid={ageRandomId} />)}
+          {render('user.profile.name')(<input data-testid={nameRandomId} />)}
+        </div>
       );
     });
+
+    const { getByTestId } = testRender(<TestComponent ref={ref} />);
+
+    // Verify initial values
+    expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('30');
+    expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe('John');
+
+    // Trigger partial update
+    setTimeout(() => {
+      ref.current?.setValues();
+    }, 200);
+
+    // Wait for update and verify
+    await waitFor(
+      () => {
+        const model = ref.current?.getModel();
+        expect((getByTestId(ageRandomId) as HTMLInputElement).value).toBe('25');
+        expect((getByTestId(nameRandomId) as HTMLInputElement).value).toBe(
+          'Jane',
+        );
+        expect(model.user.profile.age).toBe(25);
+        expect(model.user.profile.name).toBe('Jane');
+      },
+      { timeout: 1000 },
+    );
   });
 });

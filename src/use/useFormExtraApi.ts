@@ -30,20 +30,20 @@ export const useFormExtraApi = <T extends DefaultRecord>({
   defaultValues: T;
   contextProps: UseFormReturnType<T>['contextProps'];
 }) => {
-  // 简化的forceUpdate实现
+  // Simplified forceUpdate implementation
   const [, setTick] = useState(0);
   const forceUpdate = useCallback(() => setTick((prev) => prev + 1), []);
 
   const { model } = contextProps;
 
-  // 简化API对象
+  // Simplified API object
   const extraApis = useMemo<ExtraApisType<T>>(
     () => ({
       setState: forceUpdate,
       forceUpdate,
       setValues: (...args) => {
         replaceTarget(model, ...args);
-        // // 手动触发观察者通知
+        // Manually trigger observer notification
         // contextProps.observerFactory.subscribeManager.notify();
         // contextProps.observerFactory.watchManager.notify();
         // forceUpdate();
@@ -54,7 +54,7 @@ export const useFormExtraApi = <T extends DefaultRecord>({
       reset: () => {
         overlayApis.reset();
         replaceTarget(model, defaultValues);
-        // 手动触发观察者通知
+        // Manually trigger observer notification
         contextProps.observerFactory.subscribeManager.notify();
         contextProps.observerFactory.watchManager.notify();
         forceUpdate();

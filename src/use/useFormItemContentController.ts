@@ -56,18 +56,18 @@ export function useFormItemContentController(
 
   const previousBindId = useRef(bindId);
 
-  // 简化的forceUpdate实现
+  // Simplified forceUpdate implementation
   const [, setTick] = useState(0);
   const forceUpdate = useCallback(() => setTick((prev) => prev + 1), []);
 
-  // 使用共享模型而不是独立的modelValue
+  // Use shared model instead of independent modelValue
   const sharedModel = contextProps?.model;
 
   const modelValue = useRef(
     sharedModel || convertStringToObject(bindId, initialValue),
   );
 
-  // 如果有共享模型，使用共享模型
+  // If there's a shared model, use shared model
   if (sharedModel) {
     modelValue.current = sharedModel;
   }
@@ -106,32 +106,32 @@ export function useFormItemContentController(
   const methods = {
     set(value: any) {
       if (sharedModel) {
-        // 如果使用共享模型，直接更新共享模型
+        // If using shared model, update shared model directly
 
-        // 尝试直接触发Proxy的set trap
+        // Try to directly trigger Proxy's set trap
         const path = previousBindId.current as string;
         const pathParts = path.split('.');
 
         if (pathParts.length === 3 && pathParts[0] === 'array') {
-          // 特殊处理数组路径: array.0.itemValue
+          // Special handling for array paths: array.0.itemValue
           const arrayIndex = parseInt(pathParts[1]);
           const property = pathParts[2];
 
-          // 直接设置数组元素的属性
+          // Directly set array element property
           if (sharedModel.array && sharedModel.array[arrayIndex]) {
             sharedModel.array[arrayIndex][property] = value;
           }
 
-          // 手动触发观察者通知
+          // Manually trigger observer notification
           if (contextProps?.observerFactory?.watchManager) {
             contextProps.observerFactory.watchManager.notify(sharedModel, path);
           }
         } else {
-          // 其他路径使用updateProxyValue
+          // Use updateProxyValue for other paths
           updateProxyValue(sharedModel, path, value);
         }
       } else {
-        // 否则更新本地模型
+        // Otherwise update local model
         updateProxyValue(
           modelValue.current,
           previousBindId.current as string,

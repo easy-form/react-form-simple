@@ -1,17 +1,17 @@
 import { isMeaningful } from './util';
 
-// 极简事件发布订阅类
+// Minimal event publish-subscribe class
 export class Subscribe {
   private readonly observers = new Map<
     string,
     Array<(...args: any[]) => void>
   >();
 
-  // 发布事件
+  // Publish event
   emit(eventName: string, ...args: any[]): void {
     const callbacks = this.observers.get(eventName);
     if (callbacks && callbacks.length > 0) {
-      // 直接遍历，不复制数组
+      // Iterate directly without copying array
       callbacks.forEach((callback) => {
         try {
           callback(...args);
@@ -22,7 +22,7 @@ export class Subscribe {
     }
   }
 
-  // 订阅事件
+  // Subscribe to event
   on(eventName: string, callback: (...args: any[]) => void): void {
     if (!isMeaningful(eventName) || typeof callback !== 'function') {
       return;
@@ -36,14 +36,14 @@ export class Subscribe {
     }
   }
 
-  // 取消订阅指定事件
+  // Unsubscribe from specific event
   off(eventName: string): void {
     if (isMeaningful(eventName)) {
       this.observers.delete(eventName);
     }
   }
 
-  // 清空所有订阅
+  // Clear all subscriptions
   clear(): void {
     this.observers.clear();
   }

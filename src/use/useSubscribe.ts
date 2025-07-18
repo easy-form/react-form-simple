@@ -9,7 +9,7 @@ export const useSubscribe = <T>(
   const symbolKey = useRef(Symbol('symbol')).current;
   const subscribeFunRef = useRef(subscribeFun);
 
-  // 每次都更新 ref，但不触发重新注册
+  // Update ref every time but don't trigger re-registration
   subscribeFunRef.current = subscribeFun;
 
   const [state, setState] = useState<any>(
@@ -18,13 +18,13 @@ export const useSubscribe = <T>(
 
   const { observerFactory } = contextProps;
 
-  // 使用 useCallback 来稳定回调函数的引用
+  // Use useCallback to stabilize callback function reference
   const stableCallback = useCallback((value: any) => {
     setState(value);
   }, []);
 
   useEffect(() => {
-    // 使用包装函数来获取最新的 subscribeFun
+    // Use wrapper function to get latest subscribeFun
     const wrappedSubscribeFun = (args: any) => subscribeFunRef.current(args);
 
     observerFactory.subscribeManager.register(
@@ -37,10 +37,9 @@ export const useSubscribe = <T>(
     return () => {
       observerFactory.subscribeManager.destroy(symbolKey);
     };
-  }, [observerFactory.subscribeManager]); // 只依赖 observerFactory.subscribeManager
+  }, [observerFactory.subscribeManager]); // Only depend on observerFactory.subscribeManager
   return state;
 };
-
 // export const subscribe = <T>(
 //   contextProps: RequiredContextType<T>,
 //   sub: UseSubscribeNamespace.SubscribeFunType<T, any>,

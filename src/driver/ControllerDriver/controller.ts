@@ -38,11 +38,11 @@ export const updateProxyValue = (obj: any, path: string, value: any): void => {
   const keys = path.split('.');
   let current = obj;
 
-  // 通过Proxy的get trap导航到目标位置，确保每一层都是Proxy
+  // Navigate to target position through Proxy's get trap, ensuring each level is a Proxy
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i];
 
-    // 通过Proxy的get trap获取值，这会确保返回Proxy包装的对象
+    // Get value through Proxy's get trap, this ensures returning Proxy-wrapped object
     const nextLevel = current[key];
 
     if (
@@ -50,29 +50,29 @@ export const updateProxyValue = (obj: any, path: string, value: any): void => {
       nextLevel === undefined ||
       typeof nextLevel !== 'object'
     ) {
-      // 直接赋值让 Proxy 的 set trap 处理
+      // Direct assignment lets Proxy's set trap handle it
       current[key] = {};
-      current = current[key]; // 重新获取，确保是Proxy
+      current = current[key]; // Re-get to ensure it's a Proxy
     } else {
-      current = nextLevel; // 这应该是通过get trap返回的Proxy
+      current = nextLevel; // This should be a Proxy returned through get trap
     }
   }
 
-  // 设置值，这会触发Proxy的set trap
+  // Set value, this will trigger Proxy's set trap
   const finalKey = keys[keys.length - 1];
 
-  // 如果设置的是对象类型，需要确保现有的嵌套结构保持响应式
+  // If setting object type, need to ensure existing nested structure maintains reactivity
   if (isObject(value) && !isSpecialObject(value)) {
     const existingValue = current[finalKey];
     if (isObject(existingValue)) {
-      // 如果已经存在对象，使用 replaceTarget 来保持响应式
+      // If object already exists, use replaceTarget to maintain reactivity
       replaceTarget(existingValue, value);
     } else {
-      // 如果不存在或不是对象，直接设置（会触发 Proxy set trap 创建新的响应式对象）
+      // If doesn't exist or not an object, set directly (will trigger Proxy set trap to create new reactive object)
       current[finalKey] = value;
     }
   } else {
-    // 非对象类型直接设置
+    // Non-object types set directly
     current[finalKey] = value;
   }
 };
@@ -80,7 +80,7 @@ export const updateProxyValue = (obj: any, path: string, value: any): void => {
 const isSpecialObject = (obj: any): boolean => {
   if (!obj || typeof obj !== 'object') return false;
 
-  // 检查是否为React元素、DOM节点、函数等特殊对象
+  // Check if it's a React element, DOM node, function, or other special objects
   return (
     React.isValidElement(obj) ||
     obj.nodeType !== undefined ||
@@ -97,13 +97,13 @@ export const replaceTarget = (target: any, source: any): any => {
     return source;
   }
 
-  // 处理数组情况
+  // Handle array case
   if (Array.isArray(source)) {
     if (!Array.isArray(target)) {
       return [...source];
     }
 
-    // 简化数组更新逻辑
+    // Simplified array update logic
     target.length = source.length;
     for (let i = 0; i < source.length; i++) {
       if (isSpecialObject(source[i])) {
@@ -118,7 +118,7 @@ export const replaceTarget = (target: any, source: any): any => {
     return target;
   }
 
-  // 处理对象情况
+  // Handle object case
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
       const sourceValue = source[key];
@@ -150,7 +150,7 @@ const observer = <T extends DefaultRecord>(
     return target;
   }
 
-  // 使用更高效的Proxy实现
+  // Use more efficient Proxy implementation
   return new Proxy(target, {
     get(obj: any, prop: string | symbol) {
       const value = obj[prop];
@@ -173,12 +173,12 @@ const observer = <T extends DefaultRecord>(
       const currentPath = [...path, String(prop)].join('.');
       const oldValue = obj[prop];
 
-      // 优化：只在值真正改变时触发回调
+      // Optimization: only trigger callback when value actually changes
       if (oldValue !== value) {
         obj[prop] = value;
         callback({ path: currentPath, value });
 
-        // 数组长度变化时触发特殊回调
+        // Trigger special callback when array length changes
         if (Array.isArray(obj) && prop === 'length' && onArrayChange) {
           onArrayChange();
         }

@@ -2,11 +2,11 @@ import type { CSSInterpolation } from '@emotion/css';
 import { css } from '@emotion/css';
 import type { GlobalProps, TagType } from 'react-form-simple/types/form';
 
-// 检查值是否有意义（不为空）
+// Check if value is meaningful (not empty)
 export const isMeaningful = (val: any): boolean =>
   val !== '' && val !== undefined && val !== null;
 
-// 生成唯一ID
+// Generate unique ID
 export const getUuid = (): string => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
@@ -15,7 +15,7 @@ export const getUuid = (): string => {
   });
 };
 
-// 深度比较两个值是否相等
+// Deep comparison of two values for equality
 export const isEqual = (a: any, b: any): boolean => {
   if (a === b) return true;
 
@@ -46,19 +46,19 @@ export const isEqual = (a: any, b: any): boolean => {
   return keysA.every((key) => keysB.includes(key) && isEqual(a[key], b[key]));
 };
 
-// 检查是否为普通对象
+// Check if it's a plain object
 export const isObject = (val: unknown): val is Record<string, any> =>
   val !== null && typeof val === 'object' && !Array.isArray(val);
 
-// 检查是否为对象或数组
+// Check if it's an object or array
 export const isObjectOrArray = (value: unknown): boolean =>
   isObject(value) || Array.isArray(value);
 
-// 检查是否为复选框
+// Check if it's a checkbox
 export const isCheckBox = (e: any, tagType?: TagType): boolean =>
   tagType === 'checkbox' || e?.target?.type === 'checkbox';
 
-// 获取事件回调值
+// Get event callback value
 export const getEventCbValue = (
   e: any,
   tagType?: TagType,
@@ -71,7 +71,7 @@ export const getEventCbValue = (
   return isCheckBox(e, tagType) ? e?.target?.checked : e?.target?.value;
 };
 
-// 生成CSS类名
+// Generate CSS class names
 export const getCssInClasses = (
   classes: (string | undefined)[],
   sx?: CSSInterpolation,
