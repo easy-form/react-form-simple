@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.2](https://github.com/easy-form/react-form-simple/compare/v1.5.2...v1.6.2) (2025-07-21)
+
+### Bug Fixes
+
+- fix setValue with setValues bug ([f792a3c](https://github.com/easy-form/react-form-simple/commit/f792a3cfe1306146539c8507dd2f287b3ab706f3))
+
 ## [1.5.2](https://github.com/easy-form/react-form-simple/compare/v1.5.1...v1.5.2) (2024-07-10)
 
 ### Bug Fixes
@@ -10,7 +16,7 @@
 
 - add global useWatch\useSubscribe and form.watch ([8616687](https://github.com/easy-form/react-form-simple/commit/8616687e750bdaa5304cda9887484aeba412583c))
 - add vaildate select field vaild ([eb5a9b7](https://github.com/easy-form/react-form-simple/commit/eb5a9b70a0d53e1dbc22d3635f629665cb035654))
-  
+
 ## [1.4.6](https://github.com/easy-form/react-form-simple/compare/v1.4.5...v1.4.6) (2024-04-27)
 
 ### Bug Fixes
