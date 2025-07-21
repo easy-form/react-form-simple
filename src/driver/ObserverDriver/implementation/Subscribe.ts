@@ -4,36 +4,62 @@ import { isEqual } from 'react-form-simple/utils/util';
 import AbstractImp from '../abstract/AbstractImp';
 import type { KeyType, RequiredContextType } from '../type';
 
-type SubscribeFunType<T> = UseSubscribeNamespace.SubscribeFunType<T, any>;
+type SubscribeFunctionType<T> = UseSubscribeNamespace.SubscribeFunType<T, any>;
 
 export class Subscribe<T> extends AbstractImp {
-  private subscribeFun: SubscribeFunType<T> = () => ({});
-  private cb: (value: any) => void = () => {};
-  private preRet = null;
+  private subscribeFunction: SubscribeFunctionType<T> = () => ({});
+  private callback: (value: any) => void = () => {};
+  private previousResult: any = null;
+  private isDestroyed = false;
+
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
   ) {
     super();
   }
-  private getCallbackRet() {
+
+  private getCallbackResult() {
+    if (this.isDestroyed) return null;
     const { model } = this.contextProps;
-    return this.subscribeFun({ model });
+    return this.subscribeFunction({ model });
   }
-  update(subscribeFun: SubscribeFunType<T>, cb: (value: any) => void) {
-    this.subscribeFun = subscribeFun;
-    this.cb = cb;
+
+  update(
+    subscribeFunction: SubscribeFunctionType<T>,
+    callback: (value: any) => void,
+  ): void {
+    if (this.isDestroyed) return;
+
+    this.subscribeFunction = subscribeFunction;
+    this.callback = callback;
   }
-  emit() {
-    const value = cloneDeep(this.getCallbackRet());
-    if (isEqual(value, this.preRet)) return;
-    this.preRet = value;
-    this.cb(value);
+
+  emit(): void {
+    if (this.isDestroyed) return;
+
+    const currentResult = this.getCallbackResult();
+
+    // Skip if result hasn't changed
+    if (isEqual(currentResult, this.previousResult)) {
+      return;
+    }
+
+    // Only clone when result has actually changed
+    const clonedResult = cloneDeep(currentResult);
+    this.previousResult = clonedResult;
+
+    // Execute callback with cloned result
+    this.callback(clonedResult);
   }
-  destroy() {
-    this.cb = () => {};
-    this.subscribeFun = () => {};
-    this.preRet = null;
+
+  destroy(): void {
+    this.isDestroyed = true;
+
+    // Clear references to prevent memory leaks
+    this.callback = () => {};
+    this.subscribeFunction = () => ({});
+    this.previousResult = null;
   }
 }
 

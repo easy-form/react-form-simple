@@ -27,16 +27,7 @@ export namespace UseFormNamespace {
       | 'requireIndicator'
       | 'label'
       | 'contextProps'
-    > {
-    /**
-     * @localKey API.useForm.deep.desc
-     * @description deep collection
-     * @default true
-     * @version 1.4.6
-     * @ignore true
-     */
-    deep?: boolean;
-  }
+    > {}
 
   export type RenderConfigType = GlobalProps.FormItemProps & {
     /**
@@ -56,14 +47,6 @@ export namespace UseFormNamespace {
       string,
       GlobalProps.GetContentOptions[keyof GlobalProps.GetContentOptions] | any
     >;
-    /**
-     * @localKey API.useForm.deep.desc
-     * @description deep collection
-     * @default true
-     * @version 1.4.6
-     * @ignore true
-     */
-    deep?: boolean;
   };
 
   export interface RenderFnReturnFnCallbackArgTypes
@@ -148,6 +131,7 @@ export namespace UseFormNamespace {
      * @version 1.4.1
      */
     forceUpdate: (delay?: boolean) => void;
+
     /**
      * @description Set values uniformly for form items
      * @localKey API.form.setValues.desc
@@ -224,4 +208,3 @@ export namespace UseRenderNamespace {
     defaultValues: Record<string, any>;
   }
 }
-

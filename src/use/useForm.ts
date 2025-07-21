@@ -1,15 +1,12 @@
 import { cloneDeep, debounce } from 'lodash';
-import { useRef } from 'react';
+import { useMemo } from 'react';
 import type {
   DefaultRecord,
   UseFormNamespace,
   UseFormReturnType,
 } from 'react-form-simple';
 import { createObserverForm } from 'react-form-simple';
-import {
-  replaceTarget,
-  updateProxyValue,
-} from 'react-form-simple/driver/ControllerDriver';
+import { updateProxyValue } from 'react-form-simple/driver/ControllerDriver';
 import { ObserverFactory } from 'react-form-simple/driver/ObserverDriver/Factory';
 import { create as createRender } from 'react-form-simple/driver/RenderDriver';
 import { useContextApi } from './useContextApi';
@@ -19,69 +16,76 @@ const useForm = <T extends DefaultRecord>(
   model: T,
   config?: UseFormNamespace.ShareConfig,
 ) => {
-  const proxyTarget = useRef(cloneDeep(model) || {});
+  const state = useMemo(() => {
+    const proxyTarget = cloneDeep(model) || {};
+    const defaultValues = cloneDeep(model) || {};
+    const observerFactory = new ObserverFactory<T>();
+    observerFactory.create('watch');
+    observerFactory.create('subscribe');
 
-  const defaultValues = useRef(cloneDeep(model) || {}).current;
-
-  const { contextProps, overlayApis, globalDatas } = useContextApi();
-
-  const debounceFn = useRef({
-    watch: debounce(() => {
+    const debouncedWatchNotify = debounce(() => {
       observerFactory.watchManager.notify();
-    }),
-    onChangeLength: debounce(() => {
-      replaceTarget(proxymodel, proxymodel);
-    }),
-  }).current;
+    });
 
-  const _createObserverForm = useRef(() => {
-    return createObserverForm(
-      proxyTarget.current as T,
+    const proxyModel = createObserverForm(
+      proxyTarget as T,
       ({ path, value }) => {
         set(path, value);
         observerFactory.subscribeManager.notify();
-        debounceFn.watch();
+        debouncedWatchNotify();
       },
       {
         path: [],
-        onChangeLength: debounceFn.onChangeLength,
+        // onArrayChange: debounceFn.onChangeLength,
       },
     );
-  }).current;
 
-  const proxymodel = useRef(_createObserverForm()).current;
+    return {
+      proxyTarget,
+      defaultValues,
+      observerFactory,
+      proxyModel,
+    };
+  }, []);
 
-  const observerFactory = useRef(new ObserverFactory<T>()).current;
-  observerFactory.create('watch');
-  observerFactory.create('subscribe');
+  const { contextProps, overlayApis, globalDatas } = useContextApi();
 
-  const _contextProps = useRef<UseFormReturnType<T>['contextProps']>({
-    ...contextProps,
-    model: proxymodel,
-    observerFactory,
-    updated({ bindId, value }) {
-      updateProxyValue(proxymodel, bindId, value);
-    },
-  }).current;
+  const formContextProps = useMemo<UseFormReturnType<T>['contextProps']>(
+    () => ({
+      ...contextProps,
+      model: state.proxyModel,
+      observerFactory: state.observerFactory,
+      updated({ bindId, value }) {
+        updateProxyValue(state.proxyModel, bindId, value);
+      },
+    }),
+    [contextProps, state],
+  );
 
-  const { set, render } = createRender({
-    ...config,
-    model: proxymodel,
-    contextProps: _contextProps,
-    globalDatas,
-    defaultValues,
+  const { set, render } = useMemo(
+    () =>
+      createRender({
+        ...config,
+        model: state.proxyModel,
+        contextProps: formContextProps,
+        globalDatas,
+        defaultValues: state.defaultValues,
+      }),
+    [config, state, formContextProps, globalDatas],
+  );
+
+  const extraApis = useFormExtraApi<T>({
+    overlayApis,
+    defaultValues: state.defaultValues,
+    contextProps: formContextProps,
   });
 
   return {
-    model: proxymodel,
-    contextProps: _contextProps,
+    model: state.proxyModel,
+    contextProps: formContextProps,
     render,
     ...overlayApis,
-    ...useFormExtraApi<T>({
-      overlayApis,
-      defaultValues,
-      contextProps: _contextProps,
-    }),
+    ...extraApis,
   };
 };
 

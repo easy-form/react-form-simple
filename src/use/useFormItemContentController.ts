@@ -1,12 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   getProxyValue,
   updateProxyValue,
 } from 'react-form-simple/driver/ControllerDriver';
-import { VaildUtils } from 'react-form-simple/driver/VaildDriver';
+import { ValidationUtils } from 'react-form-simple/driver/ValidDriver';
 import { Apis, GlobalProps } from 'react-form-simple/types/form';
-import useForceUpdate from 'react-form-simple/use/useForceUpdate';
-import Subscribe from 'react-form-simple/utils/subscribe';
+import { Subscribe } from 'react-form-simple/utils/subscribe';
 import { getEventCbValue, isMeaningful } from 'react-form-simple/utils/util';
 
 const convertStringToObject = (
@@ -30,11 +29,12 @@ const convertStringToObject = (
 
 export interface UseFormItemContentController
   extends GlobalProps.FormItemProps {
-  vaildUtil: VaildUtils;
+  validationUtil: ValidationUtils;
   subscribe: InstanceType<typeof Subscribe>;
   onChange: (...args: any[]) => void;
   onBlur: () => void;
   apis: Apis.FormItemApis;
+  contextProps?: { model?: Record<string, any>; observerFactory?: any };
 }
 
 export function useFormItemContentController(
@@ -43,7 +43,7 @@ export function useFormItemContentController(
   const {
     bindId,
     initialValue,
-    vaildUtil,
+    validationUtil,
     getContent,
     subscribe,
     onChange,
@@ -51,62 +51,109 @@ export function useFormItemContentController(
     readOnly,
     apis,
     formatChangeValue,
+    contextProps,
   } = options;
 
-  const preBindId = useRef(bindId);
+  const previousBindId = useRef(bindId);
 
-  const forceUpdate = useForceUpdate();
+  // Simplified forceUpdate implementation
+  const [, setTick] = useState(0);
+  const forceUpdate = useCallback(() => setTick((prev) => prev + 1), []);
 
-  const modelValue = useRef(convertStringToObject(bindId, initialValue));
+  // Use shared model instead of independent modelValue
+  const sharedModel = contextProps?.model;
 
-  vaildUtil.updateModel(modelValue.current);
+  const modelValue = useRef(
+    sharedModel || convertStringToObject(bindId, initialValue),
+  );
+
+  // If there's a shared model, use shared model
+  if (sharedModel) {
+    modelValue.current = sharedModel;
+  }
+
+  validationUtil.updateModel(modelValue.current);
 
   const isError = useRef(false);
   const errorMessage = useRef('');
 
-  const isInitSubscribeEvent = useRef(true);
+  const isSubscribeEventInitialized = useRef(true);
 
-  if (isInitSubscribeEvent.current) {
+  if (isSubscribeEventInitialized.current) {
     subscribe.on('update', (value) => {
       methods.set(value);
     });
     subscribe.on('onErr', (value) => {
       if (errorMessage.current !== value) {
-        forceUpdate(false);
+        forceUpdate();
       }
       errorMessage.current = value;
       isError.current = isMeaningful(value);
     });
-    isInitSubscribeEvent.current = false;
+    isSubscribeEventInitialized.current = false;
   }
 
   useEffect(() => {
-    if (bindId !== preBindId.current) {
-      modelValue.current = convertStringToObject(bindId, initialValue);
-      preBindId.current = bindId;
-      forceUpdate(false);
+    if (bindId !== previousBindId.current) {
+      if (!sharedModel) {
+        modelValue.current = convertStringToObject(bindId, initialValue);
+      }
+      previousBindId.current = bindId;
+      forceUpdate();
     }
-  }, [bindId]);
+  }, [bindId, forceUpdate, sharedModel]);
 
   const methods = {
     set(value: any) {
-      updateProxyValue(modelValue.current, preBindId.current as string, value);
-      forceUpdate(false);
+      if (sharedModel) {
+        // If using shared model, update shared model directly
+
+        // Try to directly trigger Proxy's set trap
+        const path = previousBindId.current as string;
+        const pathParts = path.split('.');
+
+        if (pathParts.length === 3 && pathParts[0] === 'array') {
+          // Special handling for array paths: array.0.itemValue
+          const arrayIndex = parseInt(pathParts[1]);
+          const property = pathParts[2];
+
+          // Directly set array element property
+          if (sharedModel.array && sharedModel.array[arrayIndex]) {
+            sharedModel.array[arrayIndex][property] = value;
+          }
+
+          // Manually trigger observer notification
+          if (contextProps?.observerFactory?.watchManager) {
+            contextProps.observerFactory.watchManager.notify(sharedModel, path);
+          }
+        } else {
+          // Use updateProxyValue for other paths
+          updateProxyValue(sharedModel, path, value);
+        }
+      } else {
+        // Otherwise update local model
+        updateProxyValue(
+          modelValue.current,
+          previousBindId.current as string,
+          value,
+        );
+      }
+      forceUpdate();
     },
   };
 
-  const value = getProxyValue(modelValue.current, preBindId.current) ?? '';
+  const value = getProxyValue(modelValue.current, previousBindId.current) ?? '';
 
   const renderContent =
     getContent?.({
       model: modelValue.current,
-      bindId: preBindId.current as string,
+      bindId: previousBindId.current as string,
       attrs: {
         readOnly,
         onChange: (e, tagType) => {
-          const _value = getEventCbValue(e, tagType, formatChangeValue);
-          methods.set(_value);
-          onChange?.(_value);
+          const formattedValue = getEventCbValue(e, tagType, formatChangeValue);
+          methods.set(formattedValue);
+          onChange?.(formattedValue);
         },
         onBlur: () => {
           onBlur?.();

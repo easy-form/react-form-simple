@@ -4,25 +4,23 @@ import type { GlobalProps } from 'react-form-simple/types/form';
 export type ControlProps = {
   children: any;
   otherProps: Record<string, any>;
-  deep?: boolean;
 } & GlobalProps.GetContentOptions;
 
 export const Controller: React.FC<ControlProps> = ({
   children,
   attrs,
   otherProps,
-  deep = true,
-  ...rests
+  ...restProps
 }) => {
-  const { value, onChange, onBlur, ...restAttrs } = attrs;
+  const { value, onChange, onBlur, ...remainingAttrs } = attrs;
 
   const cloneElement = (element: any) =>
     React.cloneElement(element, {
       ...otherProps,
-      ...restAttrs,
+      ...remainingAttrs,
       ...element?.props,
       value: element?.props?.value ?? value,
-      ...rests,
+      ...restProps,
       onChange(e: any, ...args: any[]) {
         onChange?.(e, ...args);
         element?.props?.onChange?.(e, ...args);
@@ -32,9 +30,7 @@ export const Controller: React.FC<ControlProps> = ({
         element?.props?.onBlur?.(e, ...args);
       },
     });
-  if (deep) {
-    return React.Children.map(children, cloneElement);
-  }
+
   return React.isValidElement(children) ? cloneElement(children) : children;
 };
 

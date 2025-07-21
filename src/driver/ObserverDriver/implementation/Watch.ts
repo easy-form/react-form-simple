@@ -10,45 +10,88 @@ import {
 } from '../type';
 
 export class Watch<T> extends AbstractImp {
-  private cb: CallbackType = () => {};
-  private preRet: UseWatchNamespace.SubscripeFunReturnType = null;
-  private subscribeFun: SubscripeFunType<T> = () => ({});
+  private callback: CallbackType = () => {};
+  private previousResult: UseWatchNamespace.SubscripeFunReturnType = null;
+  private subscribeFunction: SubscripeFunType<T> = () => ({});
+  private isDestroyed = false;
+  private initTimer: number | null = null;
+
   constructor(
     public key: KeyType,
     public contextProps: RequiredContextType<T>,
     public options?: UseWatchNamespace.WatchOptions,
   ) {
     super();
-    const { initialEmit } = options || {};
-    setTimeout(() => {
+    this.initializeWithDelay();
+  }
+
+  private initializeWithDelay(): void {
+    const { initialEmit } = this.options || {};
+
+    // Use requestAnimationFrame for better performance than setTimeout
+    this.initTimer = requestAnimationFrame(() => {
+      if (this.isDestroyed) return;
+
       if (initialEmit) {
         this.emit({ equal: false });
-        return;
+      } else {
+        // Only clone when necessary for initial comparison
+        this.previousResult = cloneDeep(this.getCallbackResult());
       }
-      this.preRet = cloneDeep(this.getCallbackRet());
+      this.initTimer = null;
     });
   }
 
-  private getCallbackRet() {
+  private getCallbackResult() {
+    if (this.isDestroyed) return null;
     const { model } = this.contextProps;
-    return this.subscribeFun({ model });
+    return this.subscribeFunction({ model });
   }
-  public emit(option?: { equal?: boolean }) {
+
+  public emit(option?: { equal?: boolean }): void {
+    if (this.isDestroyed) return;
+
     const { equal = true } = option || {};
-    const ret = this.getCallbackRet();
-    if (!equal || !isEqual(ret, this.preRet)) {
-      this.cb(cloneDeep(ret), this.preRet);
+    const result = this.getCallbackResult();
+
+    // Avoid unnecessary cloning by comparing first
+    const hasChanged = !equal || !isEqual(result, this.previousResult);
+
+    if (hasChanged) {
+      // Only clone when we actually need to pass the value
+      const clonedResult = cloneDeep(result);
+      const clonedPrevious = this.previousResult;
+
+      this.callback(clonedResult, clonedPrevious);
     }
-    this.preRet = cloneDeep(ret);
+
+    // Always update previous result, but only clone if changed
+    this.previousResult = hasChanged ? cloneDeep(result) : this.previousResult;
   }
-  public update(subscribeFun: SubscripeFunType<T>, cb: CallbackType) {
-    this.cb = cb;
-    this.subscribeFun = subscribeFun;
+
+  public update(
+    subscribeFunction: SubscripeFunType<T>,
+    callback: CallbackType,
+  ): void {
+    if (this.isDestroyed) return;
+
+    this.callback = callback;
+    this.subscribeFunction = subscribeFunction;
   }
-  public destroy() {
-    this.cb = () => {};
-    this.preRet = null;
-    this.subscribeFun = () => ({});
+
+  public destroy(): void {
+    this.isDestroyed = true;
+
+    // Cancel pending initialization
+    if (this.initTimer !== null) {
+      cancelAnimationFrame(this.initTimer);
+      this.initTimer = null;
+    }
+
+    // Clear references to prevent memory leaks
+    this.callback = () => {};
+    this.previousResult = null;
+    this.subscribeFunction = () => ({});
   }
 }
 

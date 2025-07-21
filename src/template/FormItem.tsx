@@ -50,14 +50,19 @@ export const FormItem = React.forwardRef<
       ...assigns,
     });
 
-  const { uid, subscribe, vaildUtil, bindId: _bindId } = globalDatas;
+  const {
+    uid,
+    subscribe,
+    validationUtil,
+    bindId: internalBindId,
+  } = globalDatas;
 
   // const { setError } = apis;
 
   useEffect(() => {
-    mounted?.({ uid, bindId: _bindId });
+    mounted?.({ uid, bindId: internalBindId });
     return () => {
-      destroy?.({ uid, bindId: _bindId });
+      destroy?.({ uid, bindId: internalBindId });
       subscribe.clear();
     };
   }, []);
@@ -118,7 +123,7 @@ export const FormItem = React.forwardRef<
       onBlur={() => {
         triggers.blur();
       }}
-      vaildUtil={vaildUtil}
+      validationUtil={validationUtil}
       getContent={(...args) => getContent?.(...args) || children}
     />
   );

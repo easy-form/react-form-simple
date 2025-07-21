@@ -11,7 +11,12 @@ import { getCssInClasses } from 'react-form-simple/utils/util';
 
 const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
   ({ children, ...restProps }, ref) => {
-    const { formStyle, direction = 'row', formClassName, ...rests } = restProps;
+    const {
+      formStyle,
+      direction = 'row',
+      formClassName,
+      ...remainingProps
+    } = restProps;
 
     const { overlayApis, contextProps } = useFormController();
 
@@ -30,8 +35,8 @@ const Form = React.forwardRef<Apis.FormApis, GlobalProps.FormProps>(
 
     return (
       <DataContainer
-        {...rests}
-        contextProps={{ ...contextProps, ...rests.contextProps }}
+        {...remainingProps}
+        contextProps={{ ...contextProps, ...remainingProps.contextProps }}
       >
         <div className={classes}>{children}</div>
       </DataContainer>
