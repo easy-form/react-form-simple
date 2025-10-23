@@ -29,7 +29,7 @@ export default function App() {
     </div>
   ));
 
-  const subscribeFirstValue = useWatch(
+  useWatch(
     ({ model }) => [model.fieldsDymic[0], model.fieldsDymic[1]],
     (value) => {
       alert(JSON.stringify(value));

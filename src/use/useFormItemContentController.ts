@@ -58,7 +58,14 @@ export function useFormItemContentController(
 
   // Simplified forceUpdate implementation
   const [, setTick] = useState(0);
-  const forceUpdate = useCallback(() => setTick((prev) => prev + 1), []);
+  const forceUpdate = useCallback(() => {
+    // Trigger subscribe and watch notifications for form item updates
+    if (contextProps?.observerFactory) {
+      contextProps.observerFactory.subscribeManager.notify();
+      contextProps.observerFactory.watchManager.notify();
+    }
+    setTick((prev) => prev + 1);
+  }, [contextProps?.observerFactory]);
 
   // Use shared model instead of independent modelValue
   const sharedModel = contextProps?.model;
