@@ -32,7 +32,12 @@ export const useFormExtraApi = <T extends DefaultRecord>({
 }) => {
   // Simplified forceUpdate implementation
   const [, setTick] = useState(0);
-  const forceUpdate = useCallback(() => setTick((prev) => prev + 1), []);
+  const forceUpdate = useCallback(() => {
+    // Trigger subscribe and watch notifications for dynamic array updates
+    contextProps.observerFactory.subscribeManager.notify();
+    contextProps.observerFactory.watchManager.notify();
+    setTick((prev) => prev + 1);
+  }, [contextProps.observerFactory]);
 
   const { model } = contextProps;
 

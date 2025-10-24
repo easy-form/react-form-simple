@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.3](https://github.com/easy-form/react-form-simple/compare/v1.6.2...v1.6.3) (2025-10-24)
+
+### Bug Fixes
+
+- fix Array changes cannot be observed ([b75b788](https://github.com/easy-form/react-form-simple/commit/b75b7886756391ca9033e4473e52c31e69d4c6f7))
+
 ## [1.6.2](https://github.com/easy-form/react-form-simple/compare/v1.5.2...v1.6.2) (2025-07-21)
 
 ### Bug Fixes
